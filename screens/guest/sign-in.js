@@ -88,7 +88,6 @@ const SignIn = () => {
 
 
 
-    console.log(user)
 
     return (
         <View style={styles.container}>

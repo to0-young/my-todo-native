@@ -93,7 +93,6 @@ function SignUp() {
         })
     }
 
-    console.log(user)
 
     const createUser = async () => {
 
@@ -104,7 +103,7 @@ function SignUp() {
         formData.append('password', user.password)
         formData.append('email', user.email)
 
-        const res = await fetch('https://192.168.1.109:3000/api/v1/users', {
+        const res = await fetch('http://192.168.1.109:3000/api/v1/users', {
             method: 'POST',
             credentials: 'include',
             // headers: {'Content-Type': 'application/json'},
