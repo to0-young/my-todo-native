@@ -7,6 +7,7 @@ import GuestNavigator from "./screens/navigations/guest-navigator";
 import UserNavigator from "./screens/navigations/user-navigator";
 import { Provider, connect } from 'react-redux';
 import store from './screens/store/store';
+import NonActivatedNavigator from "./screens/navigations/non-activatios-navigator";
 
 const App = (props) => {
     const session = useSelector((state) => state.session.details);
@@ -41,7 +42,7 @@ const App = (props) => {
             {isGuest ? (
                 <GuestNavigator />
             ) : !isConfirmedUser ? (
-                <NonActivatedRoutes />
+                <NonActivatedNavigator />
             ) : (
                 <UserNavigator />
             )}
