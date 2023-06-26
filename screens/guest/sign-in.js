@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import {View, Text, TextInput,  StyleSheet, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-// import { connect } from 'react-redux';
-// import actionCreator from '../../../services/store/action-creator';
+import { connect } from 'react-redux';
+import actionCreator from './../store/action-creator';
 
 const SignIn = () => {
 
@@ -199,4 +199,5 @@ const styles = StyleSheet.create({
     },
 });
 
-export default SignIn;
+const ConnectedSignIn = connect(null, actionCreator)(SignIn)
+export default ConnectedSignIn

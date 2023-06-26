@@ -1,8 +1,8 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import SignIn from "./sign-in";
-import SignUp from "./sing-up";
-import ForgotPassword from "./forgot-password";
+import SignIn from "../guest/sign-in";
+import SignUp from "../guest/sing-up";
+import ForgotPassword from "../guest/forgot-password";
 
 
 const Stack = createNativeStackNavigator();
