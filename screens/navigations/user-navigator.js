@@ -8,8 +8,8 @@ const Drawer = createDrawerNavigator();
 const UserNavigator = () => {
     return (
         <NavigationContainer>
-            <Drawer.Navigator>
-               <Home/>
+            <Drawer.Navigator initialRouteName="Home">
+                 <Drawer.Screen name="Home" component={Home} />
                 {/* <Drawer.Screen name="Dashboard" component={Dashboard} /> */}
                 {/* <Drawer.Screen name="NewTask" component={NewTask} /> */}
                 {/* <Drawer.Screen name="Chat" component={Chat} /> */}

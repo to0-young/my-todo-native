@@ -12,7 +12,7 @@ function ConfirmEmail(props) {
     }, []);
 
     const fetchSession = async () => {
-        const getSessions = await fetch('https://192.168.1.109:3000/api/v1/sessions', {
+        const getSessions = await fetch('https://192.168.1.110:3000/api/v1/sessions', {
             method: 'GET',
             credentials: 'include',
             headers: {

@@ -10,31 +10,32 @@ import store from './screens/store/store';
 import NonActivatedNavigator from "./screens/navigations/non-activatios-navigator";
 
 const App = (props) => {
-    const session = useSelector((state) => state.session.details);
-    const dispatch = useDispatch();
+    const session = useSelector((state) => state.session.details)
+    const dispatch = useDispatch()
 
     useEffect(() => {
-        fetchSession();
+        fetchSession()
     }, []);
 
     const fetchSession = async () => {
-        const getSessions = await fetch('http://192.168.1.109:3000/api/v1/sessions', {
+        console.log(1111111)
+        const getSessions = await fetch('http://192.168.1.110:3000/api/v1/sessions', {
             method: 'GET',
             credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
             },
-        });
-        const json = await getSessions.json();
+        })
+        const json = await getSessions.json()
         if (getSessions.status === 401) {
-            dispatch(props.getSessionError());
+            dispatch(props.getSessionError())
         } else {
-            dispatch(props.getSessionSuccess(json));
+            dispatch(props.getSessionSuccess(json))
         }
     };
 
-    const isGuest = !session;
-    const isConfirmedUser = session?.user.email_confirmed;
+    const isGuest = !session
+    const isConfirmedUser = session?.user.email_confirmed
 
     return (
         <NavigationContainer>
@@ -53,13 +54,13 @@ const App = (props) => {
 const ConnectedApp = connect(null, actionCreator)(App);
 
 export default function AppWrapper() {
-    const appName = 'my-todo-native';
+    const appName = 'my-todo-native'
 
     return (
         <Provider store={store}>
             <ConnectedApp appName={appName} />
         </Provider>
-    );
+    )
 }
 
 const styles = StyleSheet.create({

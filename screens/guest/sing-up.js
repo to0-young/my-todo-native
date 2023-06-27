@@ -1,5 +1,5 @@
 import React from 'react'
-import { TextInput, View, Button, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { TextInput, View,  StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 function SignUp() {
@@ -103,16 +103,15 @@ function SignUp() {
         formData.append('password', user.password)
         formData.append('email', user.email)
 
-        const res = await fetch('http://192.168.1.109:3000/api/v1/users', {
+        const res = await fetch('http://192.168.1.110:3000/api/v1/users', {
             method: 'POST',
             credentials: 'include',
             // headers: {'Content-Type': 'application/json'},
             body: formData,
         })
         const json = await res.json()
-
         if (res.ok) {
-            navigation.navigate('Sign-In');
+            navigation.navigate('SignIn');
         } else {
             if (json.errors) {
                 const firstError = json.errors.first_name === undefined ? '' : json.errors.first_name[0],

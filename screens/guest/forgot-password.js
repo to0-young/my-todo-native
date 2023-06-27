@@ -50,7 +50,7 @@ function ForgotPassword() {
 
 
     const onForget = async () => {
-        const res = await fetch('https://192.168.1.109:3000/api/v1/forget_password', {
+        const res = await fetch('http://192.168.1.110:3000/api/v1/forget_password', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
