@@ -7,6 +7,7 @@ import Chat from '../user/chat';
 import { connect } from 'react-redux';
 import actionCreator from '../store/action-creator';
 import { useNavigation } from "@react-navigation/native";
+import { TouchableWithoutFeedback } from 'react-native';
 
 const Drawer = createDrawerNavigator();
 
@@ -14,7 +15,6 @@ const UserNavigator = (props) => {
     const navigation = useNavigation();
 
     const onLogOut = async () => {
-        console.log(onLogOut)
         const res = await fetch('http://192.168.1.101:3000/api/v1/sessions', {
             method: 'DELETE',
             credentials: 'include',
@@ -26,7 +26,7 @@ const UserNavigator = (props) => {
             navigation.navigate('SignIn');
         }
         return json;
-    };
+    }
 
     const CustomDrawerContent = (props) => {
         return (
@@ -34,9 +34,11 @@ const UserNavigator = (props) => {
                 <DrawerContentScrollView {...props}>
                     <DrawerItemList {...props} />
                 </DrawerContentScrollView>
-                <View style={styles.logoutContainer}>
-                    <Text style={styles.logoutText} onPress={onLogOut}>Logout</Text>
-                </View>
+                <TouchableWithoutFeedback onPress={onLogOut}>
+                    <View style={styles.logoutContainer}>
+                        <Text style={styles.logoutText}>Logout</Text>
+                    </View>
+                </TouchableWithoutFeedback>
             </View>
         );
     };
@@ -48,7 +50,7 @@ const UserNavigator = (props) => {
                 component={Dashboard}
                 options={{
                     drawerLabelStyle: {
-                        fontSize: 17,
+                        fontSize: 18,
                     },
                 }}
             />
@@ -57,7 +59,7 @@ const UserNavigator = (props) => {
                 component={NewTask}
                 options={{
                     drawerLabelStyle: {
-                        fontSize: 17,
+                        fontSize: 18,
                     },
                 }}
             />
@@ -66,7 +68,7 @@ const UserNavigator = (props) => {
                 component={Chat}
                 options={{
                     drawerLabelStyle: {
-                        fontSize: 17,
+                        fontSize: 18,
                     },
                 }}
             />
@@ -93,5 +95,6 @@ const styles = StyleSheet.create({
     logoutText: {
         color: '#000000',
         fontSize: 18,
+        fontWeight: 'bold',
     },
 });

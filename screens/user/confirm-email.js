@@ -12,7 +12,7 @@ function ConfirmEmail(props) {
     }, []);
 
     const fetchSession = async () => {
-        const getSessions = await fetch('http://192.168.1.110:3000/api/v1/sessions', {
+        const getSessions = await fetch('http://192.168.1.101:3000/api/v1/sessions', {
             method: 'GET',
             credentials: 'include',
             headers: {
@@ -26,7 +26,7 @@ function ConfirmEmail(props) {
 
     const confirmEmail = async () => {
         const confirmToken = navigation.getParam('confirm_token');
-        const res = await fetch('http://192.168.1.110:3000/api/v1/users', {
+        const res = await fetch('http://192.168.1.101:3000/api/v1/users', {
             method: 'PATCH',
             credentials: 'include',
             headers: {
