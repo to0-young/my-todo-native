@@ -120,13 +120,11 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     input: {
-        width: '100%',
         height: 40,
+        width: 350,
+        borderColor: 'gray',
         borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 5,
         marginBottom: 10,
-        paddingHorizontal: 10,
     },
     error: {
         color: 'red',

@@ -103,10 +103,9 @@ function SignUp() {
         formData.append('password', user.password)
         formData.append('email', user.email)
 
-        const res = await fetch('http://192.168.1.110:3000/api/v1/users', {
+        const res = await fetch('http://192.168.1.101:3000/api/v1/users', {
             method: 'POST',
             credentials: 'include',
-            // headers: {'Content-Type': 'application/json'},
             body: formData,
         })
         const json = await res.json()
@@ -171,8 +170,13 @@ function SignUp() {
 
 
 
-            <TouchableOpacity style={styles.onSignUp} onPress={onSignUp}>
-                <Text style={styles.buttonText}>Create</Text>
+            <TouchableOpacity
+                style={styles.onSignUp}
+                onPress={onSignUp}>
+
+                <Text style={styles.buttonText}>
+                    Creates
+                </Text>
             </TouchableOpacity>
 
             <View style={styles.loginContainer}>
@@ -180,7 +184,9 @@ function SignUp() {
                     style={styles.advice}>Have an account ? {''}
                 </Text>
 
-                <TouchableOpacity onPress={() =>  navigation.navigate('SignIn')}>
+                <TouchableOpacity
+                    onPress={() =>  navigation.navigate('SignIn')}
+                >
                     <Text
                         style={styles.link}>
                         Log in
@@ -204,13 +210,11 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     input: {
-        width: '100%',
         height: 40,
+        width: 350,
+        borderColor: 'gray',
         borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 5,
         marginBottom: 10,
-        paddingHorizontal: 10,
     },
     error: {
         color: 'red',
@@ -219,7 +223,7 @@ const styles = StyleSheet.create({
     onSignUp: {
         backgroundColor: '#041431',
         borderRadius: 20,
-        width: '30%',
+        // width: '30%',
         padding: 10,
         alignItems: 'center',
     },
@@ -227,6 +231,7 @@ const styles = StyleSheet.create({
         color: 'white',
         fontWeight: 'bold',
         textAlign: 'center',
+        width: 100
     },
     loginContainer: {
         flexDirection: 'row',
@@ -238,7 +243,7 @@ const styles = StyleSheet.create({
     },
     link: {
         color: '#f10000',
-        fontSize: 16
+        fontSize: 16,
     },
 });
 

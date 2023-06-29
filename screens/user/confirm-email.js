@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-
+import { ToastAndroid } from 'react-native';
 import actionCreator from '../store/action-creator';
 
 function ConfirmEmail(props) {
@@ -12,7 +12,7 @@ function ConfirmEmail(props) {
     }, []);
 
     const fetchSession = async () => {
-        const getSessions = await fetch('https://192.168.1.110:3000/api/v1/sessions', {
+        const getSessions = await fetch('http://192.168.1.110:3000/api/v1/sessions', {
             method: 'GET',
             credentials: 'include',
             headers: {
@@ -26,7 +26,7 @@ function ConfirmEmail(props) {
 
     const confirmEmail = async () => {
         const confirmToken = navigation.getParam('confirm_token');
-        const res = await fetch('https://192.168.1.109:3000/api/v1/users', {
+        const res = await fetch('http://192.168.1.110:3000/api/v1/users', {
             method: 'PATCH',
             credentials: 'include',
             headers: {
@@ -40,8 +40,8 @@ function ConfirmEmail(props) {
         const json = await res.json();
         if (res.ok) {
             await fetchSession();
-            navigation.navigate('Login');
-            alert('Your mail has been confirmed');
+            navigation.navigate('SignIn');
+            ToastAndroid.show('Your mail has been confirmed', ToastAndroid.SHORT);
             return json;
         }
     };
