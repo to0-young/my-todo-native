@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { connect } from 'react-redux';
 import actionCreator from './../store/action-creator';
 
-const SignIn = () => {
+const SignIn = (props) => {
 
     const navigation = useNavigation();
 
@@ -68,7 +68,7 @@ const SignIn = () => {
 
 
     const onLogIn = async () => {
-        const res = await fetch('https://192.168.1.109:3000/api/v1/sessions', {
+        const res = await fetch('http://192.168.1.101:3000/api/v1/sessions', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
@@ -77,9 +77,10 @@ const SignIn = () => {
                 password: user.password,
             }),
         });
+
         const json = await res.json();
         if (res.ok) {
-            // props.getSessionSuccess(json);
+            props.getSessionSuccess(json);
         } else {
             setErrorMsg(json.message);
         }
@@ -88,7 +89,6 @@ const SignIn = () => {
 
 
 
-    console.log(user)
 
     return (
         <View style={styles.container}>

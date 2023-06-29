@@ -50,7 +50,7 @@ function ForgotPassword() {
 
 
     const onForget = async () => {
-        const res = await fetch('https://192.168.1.109:3000/api/v1/forget_password', {
+        const res = await fetch('http://192.168.1.110:3000/api/v1/forget_password', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
@@ -120,13 +120,11 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     input: {
-        width: '100%',
         height: 40,
+        width: 350,
+        borderColor: 'gray',
         borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 5,
         marginBottom: 10,
-        paddingHorizontal: 10,
     },
     error: {
         color: 'red',
