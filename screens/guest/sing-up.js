@@ -1,5 +1,5 @@
 import React from 'react'
-import { TextInput, View,  StyleSheet, TouchableOpacity, Text } from 'react-native';
+import {TextInput, View, StyleSheet, TouchableOpacity, Text, Alert} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 function SignUp() {
@@ -110,7 +110,8 @@ function SignUp() {
         })
         const json = await res.json()
         if (res.ok) {
-            navigation.navigate('SignIn');
+            Alert.alert('Please confirm your email registration')
+            navigation.navigate('SignIn')
         } else {
             if (json.errors) {
                 const firstError = json.errors.first_name === undefined ? '' : json.errors.first_name[0],

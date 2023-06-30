@@ -1,6 +1,8 @@
 import React from 'react';
-import { Text, TextInput, View, StyleSheet, TouchableOpacity } from 'react-native';
+import {Text, TextInput, View, StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import {connect} from "react-redux";
+import actionCreator from "../store/action-creator";
 
 function ForgotPassword() {
     const navigation = useNavigation();
@@ -35,7 +37,6 @@ function ForgotPassword() {
 
     const onForgot = async (e) => {
         e.preventDefault();
-
         if (onValidate()) {
             await onForget();
         }
@@ -50,7 +51,7 @@ function ForgotPassword() {
 
 
     const onForget = async () => {
-        const res = await fetch('http://192.168.1.110:3000/api/v1/forget_password', {
+        const res = await fetch('http://192.168.1.101:3000/api/v1/forget_passwords', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
@@ -58,16 +59,16 @@ function ForgotPassword() {
                 email: user.email,
             }),
         });
-
         const json = await res.json();
+        console.log(json)
 
         if (res.ok) {
-            // alert('We have sent you a password change request');
+            Alert.alert('We have sent you a password change request')
+            navigation.navigate('SignIn')
         } else {
             setErrorMsg(json.message);
         }
 
-        return json;
     };
 
     return (
@@ -84,6 +85,13 @@ function ForgotPassword() {
                 placeholder="Email"
                 keyboardType="email-address"
             />
+
+            {errorMsg ? (
+                <View style={{ width: '100%' }}>
+                    <Alert severity='error'>{errorMsg}</Alert>
+                </View>
+            ) : null}
+
 
             {error.email !== '' && <Text style={styles.error}>{error.email}</Text>}
 
@@ -159,4 +167,5 @@ const styles = StyleSheet.create({
     }
 });
 
-export default ForgotPassword;
+const ConnectedForgotPassword = connect(null, actionCreator)(ForgotPassword)
+export default ConnectedForgotPassword

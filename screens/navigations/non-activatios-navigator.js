@@ -8,7 +8,7 @@ const Stack = createStackNavigator();
 const NonActivatedNavigator = () => {
     return (
             <Stack.Navigator>
-                <Stack.Screen name="ConfirmEmail" component={ConfirmEmail} />
+                {/*<Stack.Screen name="ConfirmEmail" component={ConfirmEmail} />*/}
                 <Stack.Screen name="ActivationMessage" component={ActivationMessage} />
             </Stack.Navigator>
     );

@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
-import queryString from 'query-string';
+import { connect } from 'react-redux';
+import actionCreator from '../store/action-creator';
 
-const ConfirmEmail = () => {
+const ConfirmEmail = (props) => {
     const navigation = useNavigation();
-    const dispatch = useDispatch();
 
     useEffect(() => {
         confirmEmail();
@@ -21,12 +20,12 @@ const ConfirmEmail = () => {
             },
         });
         const json = await getSessions.json();
-        if (getSessions.status === 401) return dispatch(getSessionError());
-        dispatch(getSessionSuccess(json));
+        if (getSessions.status === 401) return props.getSessionError();
+        props.getSessionSuccess(json);
     };
 
     const confirmEmail = async () => {
-        const confirmToken = queryString.parseUrl(route.params.confirmUrl).query.confirm_token;
+        const confirmToken = props.navigation.getParam('confirmToken', '');
         const res = await fetch('http://192.168.1.101:3000/api/v1/users', {
             method: 'PATCH',
             credentials: 'include',
@@ -47,4 +46,5 @@ const ConfirmEmail = () => {
     return null;
 };
 
-export default ConfirmEmail;
+const ConnectedConfirmEmail = connect(null, actionCreator)(ConfirmEmail);
+export default ConnectedConfirmEmail;

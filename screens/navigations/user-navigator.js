@@ -21,9 +21,11 @@ const UserNavigator = (props) => {
             headers: { 'Content-Type': 'application/json' },
         });
         const json = await res.json();
+        console.log(json)
         if (res.ok) {
-            props.deleteSessionSuccess();
-            navigation.navigate('SignIn');
+            console.log('Navigating to SignIn screen')
+            props.deleteSessionSuccess()
+            navigation.navigate('SignIn')
         }
         return json;
     }
