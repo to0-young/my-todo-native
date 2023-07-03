@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
 import {View, Text, TextInput,  StyleSheet, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
 import { connect } from 'react-redux';
 import actionCreator from './../store/action-creator';
 
 const SignIn = (props) => {
-
     const navigation = useNavigation();
 
     const [user, changeUser] = useState({
-        email: '',
-        password: '',
+        email: '74.boyko@gmail.com',
+        password: '1',
     });
 
     const [error, setError] = useState({
@@ -39,16 +37,16 @@ const SignIn = (props) => {
         }
 
         if (!valid) {
-            setError(appError);
+            setError(appError)
         }
 
-        return valid;
+        return valid
     };
 
     const onSignIn = async (e) => {
-        e.preventDefault();
+        e.preventDefault()
         if (onValidate()) {
-            await onLogIn();
+            await onLogIn()
         }
     };
 
@@ -78,11 +76,11 @@ const SignIn = (props) => {
             }),
         });
 
-        const json = await res.json();
+        const json = await res.json()
         if (res.ok) {
-            props.getSessionSuccess(json);
+            props.getSessionSuccess(json)
         } else {
-            setErrorMsg(json.message);
+            setErrorMsg(json.message)
         }
         return json;
     };

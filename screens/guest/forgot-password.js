@@ -60,8 +60,6 @@ function ForgotPassword() {
             }),
         });
         const json = await res.json();
-        console.log(json)
-
         if (res.ok) {
             Alert.alert('We have sent you a password change request')
             navigation.navigate('SignIn')

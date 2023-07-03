@@ -16,7 +16,7 @@ const ActivationMessage = (props) => {
         const json = await res.json();
         if (res.ok) {
             props.deleteSessionSuccess();
-            navigation.navigate('Login');
+            navigation.navigate('Signin');
         }
         return json;
     };
