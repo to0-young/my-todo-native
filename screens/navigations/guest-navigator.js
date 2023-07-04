@@ -8,11 +8,24 @@ const Stack = createStackNavigator()
 
 const GuestNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName="SignIn">
-      <Stack.Screen name="SignIn" component={SignIn} />
-      <Stack.Screen name="SignUp" component={SignUp} />
-      <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
-    </Stack.Navigator>
+      <Stack.Navigator initialRouteName="SignIn">
+          <Stack.Screen
+              name="SignIn"
+              component={SignIn}
+              options={{ headerShown: false }}
+          />
+          <Stack.Screen
+              name="SignUp"
+              component={SignUp}
+              options={{ headerShown: false }}
+          />
+          <Stack.Screen
+              name="ForgotPassword"
+              component={ForgotPassword}
+              options={{ headerShown: false }}
+          />
+      </Stack.Navigator>
+
   )
 }
 

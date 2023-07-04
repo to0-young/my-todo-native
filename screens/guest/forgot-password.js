@@ -25,7 +25,7 @@ function ForgotPassword() {
 
         if (user.email.length < 16) {
             valid = false;
-            appError.email = 'Sorry, your email is too short';
+            appError.email = 'Sorry, your email is too short'
         }
 
         if (!valid) {
@@ -121,16 +121,18 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     description: {
-        fontSize: 16,
+        fontSize: 18,
         marginBottom: 20,
         textAlign: 'center',
     },
     input: {
-        height: 40,
+        textAlign: 'center',
+        height: 45,
         width: 350,
         borderColor: 'gray',
         borderWidth: 1,
-        marginBottom: 10,
+        marginBottom: 25,
+        fontSize: 18,
     },
     error: {
         color: 'red',
@@ -142,6 +144,7 @@ const styles = StyleSheet.create({
         width: '40%',
         padding: 10,
         alignItems: 'center',
+        marginBottom: 30,
     },
     buttonText: {
         color: 'white',
@@ -154,14 +157,14 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     linkCreate: {
-        color: 'red',
+        color: '#e10000',
         marginTop: 10,
-        fontSize: 16,
+        fontSize: 17,
     },
     linkBack: {
-        color: 'green',
+        color: '#2a910e',
         marginTop: 10,
-        fontSize: 14,
+        fontSize: 17,
     }
 });
 

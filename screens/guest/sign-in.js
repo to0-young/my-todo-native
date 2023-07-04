@@ -152,11 +152,13 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     input: {
-        height: 40,
+        textAlign: 'center',
+        height: 45,
         width: 350,
         borderColor: 'gray',
         borderWidth: 1,
-        marginBottom: 10,
+        marginBottom: 25,
+        fontSize: 18,
     },
     errorText: {
         color: 'red',
@@ -173,27 +175,31 @@ const styles = StyleSheet.create({
         width: '30%',
         padding: 10,
         alignItems: 'center',
+        top: 10,
     },
     signInText: {
         color: 'white',
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: 'bold',
     },
     dontHaveAccount: {
         color: 'black',
-        fontSize: 16,
+        fontSize: 18,
     },
     createOne: {
         color: 'red',
-        fontSize: 16,
+        fontSize: 18,
     },
     containerLink: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: 10
+        marginTop: 10,
+        top: 10,
     },
     forgotText: {
-        color: '#2c8602', // Встановлення коліру тексту
+        color: '#2c8602',
+        top: 10,
+        fontSize: 18,
     },
 });
 

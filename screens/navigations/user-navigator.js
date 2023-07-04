@@ -6,14 +6,12 @@ import NewTask from '../user/new-task';
 import Chat from '../user/chat';
 import { connect } from 'react-redux';
 import actionCreator from '../store/action-creator';
-import { useNavigation } from "@react-navigation/native";
 import { TouchableWithoutFeedback } from 'react-native';
 
 const Drawer = createDrawerNavigator();
 
 const UserNavigator = (props) => {
 
-    const navigation = useNavigation();
 
     const onLogOut = async () => {
             const res = await fetch('http://192.168.1.101:3000/api/v1/sessions', {
@@ -24,7 +22,6 @@ const UserNavigator = (props) => {
             const json = await res.json()
             if (res.ok) {
                 props.deleteSessionSuccess()
-                navigation.navigate('SignIn')
             }
             return json
     }

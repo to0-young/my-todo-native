@@ -34,12 +34,12 @@ const ConfirmEmail = (props) => {
                 email_confirmed: true,
             }),
         });
-        const json = await res.json();
+        const json = await res.json()
         if (res.ok) {
             await fetchSession();
-            navigation.navigate('SignIn');
-            Alert.alert('Your mail has been confirmed');
-            return json;
+            navigation.navigate('SignIn')
+            Alert.alert('Your mail has been confirmed')
+            return json
         }
     };
 

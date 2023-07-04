@@ -4,8 +4,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import actionCreator from "./screens/store/action-creator";
 import { GuestNavigator } from "./screens/navigations/guest-navigator";
-import UserNavigator from "./screens/navigations/user-navigator";
-import NonActivatedNavigator from "./screens/navigations/non-activatios-navigator";
+import UserNavigator  from "./screens/navigations/user-navigator";
+import { NonActivatedNavigator } from "./screens/navigations/non-activatios-navigator";
 import { Provider, connect } from 'react-redux';
 import store from './screens/store/store'
 
@@ -32,7 +32,6 @@ function App (props) {
 
     return (
       <NavigationContainer>
-          <StatusBar/>
           {isGuest ? (
             <GuestNavigator  />
           ) : !isConfirmedUser ? (
@@ -40,6 +39,7 @@ function App (props) {
           ) : (
             <UserNavigator  />
           )}
+          <StatusBar style='auto'/>
       </NavigationContainer>
     )
 }

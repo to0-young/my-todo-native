@@ -211,11 +211,13 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     input: {
-        height: 40,
+        textAlign: 'center',
+        height: 45,
         width: 350,
         borderColor: 'gray',
         borderWidth: 1,
-        marginBottom: 10,
+        marginBottom: 25,
+        fontSize: 18,
     },
     error: {
         color: 'red',
@@ -230,9 +232,10 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: 'white',
-        fontWeight: 'bold',
+        // fontWeight: 'bold',
         textAlign: 'center',
-        width: 100
+        width: 100,
+        fontSize: 16,
     },
     loginContainer: {
         flexDirection: 'row',
@@ -240,11 +243,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     advice: {
-        fontSize: 16,
+        fontSize: 18,
     },
     link: {
         color: '#f10000',
-        fontSize: 16,
+        fontSize: 18,
     },
 });
 
