@@ -1,6 +1,8 @@
 import React from 'react';
-import { Text, TextInput, View, StyleSheet, TouchableOpacity } from 'react-native';
+import {Text, TextInput, View, StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import {connect} from "react-redux";
+import actionCreator from "../store/action-creator";
 
 function ForgotPassword() {
     const navigation = useNavigation();
@@ -23,7 +25,7 @@ function ForgotPassword() {
 
         if (user.email.length < 16) {
             valid = false;
-            appError.email = 'Sorry, your email is too short';
+            appError.email = 'Sorry, your email is too short'
         }
 
         if (!valid) {
@@ -35,7 +37,6 @@ function ForgotPassword() {
 
     const onForgot = async (e) => {
         e.preventDefault();
-
         if (onValidate()) {
             await onForget();
         }
@@ -50,7 +51,7 @@ function ForgotPassword() {
 
 
     const onForget = async () => {
-        const res = await fetch('http://192.168.1.110:3000/api/v1/forget_password', {
+        const res = await fetch('http://192.168.1.101:3000/api/v1/forget_passwords', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
@@ -58,16 +59,14 @@ function ForgotPassword() {
                 email: user.email,
             }),
         });
-
         const json = await res.json();
-
         if (res.ok) {
-            // alert('We have sent you a password change request');
+            Alert.alert('We have sent you a password change request')
+            navigation.navigate('SignIn')
         } else {
             setErrorMsg(json.message);
         }
 
-        return json;
     };
 
     return (
@@ -84,6 +83,13 @@ function ForgotPassword() {
                 placeholder="Email"
                 keyboardType="email-address"
             />
+
+            {errorMsg ? (
+                <View style={{ width: '100%' }}>
+                    <Alert severity='error'>{errorMsg}</Alert>
+                </View>
+            ) : null}
+
 
             {error.email !== '' && <Text style={styles.error}>{error.email}</Text>}
 
@@ -115,16 +121,18 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     description: {
-        fontSize: 16,
+        fontSize: 18,
         marginBottom: 20,
         textAlign: 'center',
     },
     input: {
-        height: 40,
+        textAlign: 'center',
+        height: 45,
         width: 350,
         borderColor: 'gray',
         borderWidth: 1,
-        marginBottom: 10,
+        marginBottom: 25,
+        fontSize: 18,
     },
     error: {
         color: 'red',
@@ -136,6 +144,7 @@ const styles = StyleSheet.create({
         width: '40%',
         padding: 10,
         alignItems: 'center',
+        marginBottom: 30,
     },
     buttonText: {
         color: 'white',
@@ -148,15 +157,16 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     linkCreate: {
-        color: 'red',
+        color: '#e10000',
         marginTop: 10,
-        fontSize: 16,
+        fontSize: 17,
     },
     linkBack: {
-        color: 'green',
+        color: '#2a910e',
         marginTop: 10,
-        fontSize: 14,
+        fontSize: 17,
     }
 });
 
-export default ForgotPassword;
+const ConnectedForgotPassword = connect(null, actionCreator)(ForgotPassword)
+export default ConnectedForgotPassword

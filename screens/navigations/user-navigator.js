@@ -6,26 +6,24 @@ import NewTask from '../user/new-task';
 import Chat from '../user/chat';
 import { connect } from 'react-redux';
 import actionCreator from '../store/action-creator';
-import { useNavigation } from "@react-navigation/native";
 import { TouchableWithoutFeedback } from 'react-native';
 
 const Drawer = createDrawerNavigator();
 
 const UserNavigator = (props) => {
-    const navigation = useNavigation();
+
 
     const onLogOut = async () => {
-        const res = await fetch('http://192.168.1.101:3000/api/v1/sessions', {
-            method: 'DELETE',
-            credentials: 'include',
-            headers: { 'Content-Type': 'application/json' },
-        });
-        const json = await res.json();
-        if (res.ok) {
-            props.deleteSessionSuccess();
-            navigation.navigate('SignIn');
-        }
-        return json;
+            const res = await fetch('http://192.168.1.101:3000/api/v1/sessions', {
+                method: 'DELETE',
+                credentials: 'include',
+                headers: { 'Content-Type': 'application/json' },
+            })
+            const json = await res.json()
+            if (res.ok) {
+                props.deleteSessionSuccess()
+            }
+            return json
     }
 
     const CustomDrawerContent = (props) => {
