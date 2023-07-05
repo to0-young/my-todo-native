@@ -36,9 +36,9 @@ const Dashboard = (props) => {
         setFieldType('due_date')
     }
 
-    const onChangePagination = (_, page) => {
-        setPage(page)
-    }
+    // const onChangePagination = (_, page) => {
+    //     setPage(page)
+    // }
 
     useEffect(() => {
         getTasks(page)
