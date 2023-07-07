@@ -9,7 +9,7 @@ const Dashboard = (props) => {
     const tasks = useSelector((state) => state.task.list);
     const fetched = useSelector((state) => state.task.fetched);
     const [page, setPage] = useState(1);
-    const [pagesCount, setPagesCount] = useState();
+    const [pagesCount, setPagesCount] = useState(0);
 
 
     const [orderAsc, setOrderAsc] = useState('asc')
@@ -19,12 +19,12 @@ const Dashboard = (props) => {
         if (field === fieldType)
             return orderAsc === 'asc' ? <MaterialIcons name="keyboard-arrow-down" size={24} /> :
                 <MaterialIcons name="keyboard-arrow-up" size={24} />;
-        return null;
+        return null
     };
 
     const sortByTitle = () => {
         setOrderAsc(orderAsc === 'asc' ? 'desc' : 'asc');
-        setFieldType('title');
+        setFieldType('title')
     };
 
     const sortByPriority = () => {
@@ -33,34 +33,40 @@ const Dashboard = (props) => {
     };
 
     const sortByDueDate = () => {
-        setOrderAsc(orderAsc === 'asc' ? 'desc' : 'asc');
+        setOrderAsc(orderAsc === 'asc' ? 'desc' : 'asc')
         setFieldType('due_date');
     };
 
     useEffect(() => {
-        getTasks(page);
-    }, [page, fieldType, orderAsc]);
+        getTasks(page)
+    }, [page, fieldType, orderAsc])
+
+
+    const loadMoreTasks = () => {
+        if (page < pagesCount) {
+            setPage(page + 1)
+        }
+    }
 
     const getTasks = async (page) => {
-        console.log(getTasks)
         const res = await fetch(
-            `http://192.168.31.101:3000/api/v1/tasks?per_page=10&page=${page}&sort_order=${orderAsc}&sort_field=${fieldType}`,
+            `http://192.168.1.101:3000/api/v1/tasks?per_page=10&page=${page}&sort_order=${orderAsc}&sort_field=${fieldType}`,
             {
                 method: 'GET',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },
             }
-        );
+        )
         const json = await res.json();
         if (res.ok) {
-            setPagesCount(json.pagy.pages);
-            props.fetchTasksSuccess(json.tasks);
+            const fetchTask = page === 1 ? json.tasks : [...tasks, ...json.tasks];
+            props.fetchTasksSuccess(fetchTask)
         }
         return json;
     };
 
     const updateCompletedTask = (taskId) => async () => {
-        const res = await fetch(`http://192.168.31.101:3000/api/v1/tasks/${taskId}`, {
+        const res = await fetch(`http://192.168.1.101:3000/api/v1/tasks/${taskId}`, {
             method: 'PATCH',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
@@ -76,7 +82,7 @@ const Dashboard = (props) => {
     };
 
     const donCompletedTask = (taskId) => async () => {
-        const res = await fetch(`http://192.168.31.101:3000/api/v1/tasks/${taskId}`, {
+        const res = await fetch(`http://192.168.1.101:3000/api/v1/tasks/${taskId}`, {
             method: 'PATCH',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },
@@ -106,13 +112,8 @@ const Dashboard = (props) => {
         }
     };
 
-    const loadMoreTasks = () => {
-        if (page < pagesCount) {
-            setPage(page + 1)
-        }
-    };
 
-    if (fetched === false) return <Spinner />;
+    if (fetched === false) return <Spinner />
 
     return (
         <View style={styles.dashboard}>
@@ -170,9 +171,9 @@ const Dashboard = (props) => {
                             </View>
                         );
                     }}
-                    keyExtractor={(item) => item.id.toString()}
+                    keyExtractor={(item, index) => `${item.id}-${index}`}
                     onEndReached={loadMoreTasks}
-                    onEndReachedThreshold={0.1}
+
                 />
             </View>
         </View>

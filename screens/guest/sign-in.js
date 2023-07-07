@@ -66,7 +66,7 @@ const SignIn = (props) => {
 
 
     const onLogIn = async () => {
-        const res = await fetch('http://192.168.31.101:3000/api/v1/sessions', {
+        const res = await fetch('http://192.168.1.101:3000/api/v1/sessions', {
             method: 'POST',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },

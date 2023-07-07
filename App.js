@@ -17,7 +17,7 @@ function App (props) {
     },[])
 
     const fetchSession = async () => {
-        const getSessions = await fetch('http://192.168.31.101:3000/api/v1/sessions', {
+        const getSessions = await fetch('http://192.168.1.101:3000/api/v1/sessions', {
             method: 'GET',
             credentials: 'include',
             headers: { 'Content-Type': 'application/json' },

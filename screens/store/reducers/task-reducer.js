@@ -3,7 +3,7 @@ import actionTypes from '../action-types'
 const defaultState = {
     fetched: false, // for list
     received: false, // for details
-    list: null,
+    list: [],
     details: null,
 }
 
