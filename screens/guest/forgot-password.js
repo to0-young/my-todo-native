@@ -3,7 +3,7 @@ import {Text, TextInput, View, StyleSheet, TouchableOpacity, Alert } from 'react
 import { useNavigation } from '@react-navigation/native';
 import {connect} from "react-redux";
 import actionCreator from "../store/action-creator";
-import forgetPasswordRequest from '../reusable/requests/forgetPasswordRequest';
+import  { forgetPasswordRequest } from '../reusable/requests/apiRequest';
 
 function ForgotPassword() {
     const navigation = useNavigation();
@@ -78,6 +78,7 @@ function ForgotPassword() {
                 placeholder="Email"
                 keyboardType="email-address"
             />
+
 
 
 

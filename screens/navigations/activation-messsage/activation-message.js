@@ -2,21 +2,23 @@ import React from 'react'
 import { View, Text,  StyleSheet, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import actionCreator from '../../store/action-creator'
+import {logoutRequest} from "../../reusable/requests/apiRequest";
 
 const ActivationMessage = (props) => {
 
     const onExit = async () => {
-        const res = await fetch('http://192.168.1.101:3000/api/v1/sessions', {
-            method: 'DELETE',
-            credentials: 'include',
-            headers: { 'Content-Type': 'application/json' },
-        })
-        const json = await res.json();
-        if (res.ok) {
-            props.deleteSessionSuccess()
+        try {
+            const response = await logoutRequest();
+
+            if (response.ok) {
+                props.deleteSessionSuccess();
+            }
+
+            return response;
+        } catch (error) {
+            console.error(error);
         }
-        return json
-    }
+    };
 
 
     return (

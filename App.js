@@ -8,6 +8,8 @@ import UserNavigator  from "./screens/navigations/user-navigator";
 import { NonActivatedNavigator } from "./screens/navigations/non-activatios-navigator";
 import { Provider, connect } from 'react-redux';
 import store from './screens/store/store'
+import { fetchSessionRequest } from './screens/reusable/requests/apiRequest'
+
 
 function App (props) {
     const session = useSelector((state) => state.session.details)
@@ -17,20 +19,20 @@ function App (props) {
     },[])
 
 
-
     const fetchSession = async () => {
-        const getSessions = await fetch('http://192.168.1.101:3000/api/v1/sessions', {
-            method: 'GET',
-            credentials: 'include',
-            headers: {'Content-Type': 'application/json'},
-        })
-        const json = await getSessions.json()
-        if (getSessions.status === 401) return props.getSessionError()
-        props.getSessionSuccess(json)
-    }
+        const json = await fetchSessionRequest();
+
+        if (json.status === 401) {
+            props.getSessionError();
+        } else {
+            props.getSessionSuccess(json);
+        }
+    };
+
 
     const isGuest = !session
-    const isConfirmedUser = session?.user.email_confirmed
+    const isConfirmedUser = session?.user?.email_confirmed
+
 
     return (
       <NavigationContainer>
