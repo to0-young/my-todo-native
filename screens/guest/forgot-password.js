@@ -1,12 +1,12 @@
-import React from 'react';
-import {Text, TextInput, View, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import {connect} from "react-redux";
-import actionCreator from "../store/action-creator";
-import  { forgetPasswordRequest } from '../reusable/requests/apiRequest';
+import React from 'react'
+import {Text, TextInput, View, StyleSheet, TouchableOpacity, Alert } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
+import {connect} from "react-redux"
+import actionCreator from "../store/action-creator"
+import  { forgetPasswordRequest } from '../reusable/requests/apiRequest'
 
 function ForgotPassword() {
-    const navigation = useNavigation();
+    const navigation = useNavigation()
 
     const [user, setUser] = React.useState({
         email: '74.boyko@gmail.com',
@@ -16,13 +16,13 @@ function ForgotPassword() {
         email: '',
     });
 
-    const [errorMsg, setErrorMsg] = React.useState('');
+    const [errorMsg, setErrorMsg] = React.useState('')
 
     const onValidate = () => {
         let valid = true;
         const appError = {
             email: '',
-        };
+        }
 
         if (user.email.length < 16) {
             valid = false;
@@ -30,38 +30,38 @@ function ForgotPassword() {
         }
 
         if (!valid) {
-            setError(appError);
+            setError(appError)
         }
 
-        return valid;
-    };
+        return valid
+    }
 
     const onForgot = async (e) => {
-        e.preventDefault();
+        e.preventDefault()
         if (onValidate()) {
-            await onForget();
+            await onForget()
         }
-    };
+    }
 
     const onChangeEmail = (email) => {
         setUser({
             ...user,
             email: email,
-        });
-    };
+        })
+    }
 
 
     const onForget = async () => {
-        const json = await forgetPasswordRequest(user.email);
+        const json = await forgetPasswordRequest(user.email)
 
         if (json.message) {
-            Alert.alert('We have sent you a password change request');
-            navigation.navigate('SignIn');
+            Alert.alert('We have sent you a password change request')
+            navigation.navigate('SignIn')
         } else {
             setErrorMsg(json.message)
         }
         return json
-    };
+    }
 
 
     return (
@@ -96,7 +96,7 @@ function ForgotPassword() {
                 <Text style={styles.linkBack} >Back to login</Text>
             </TouchableOpacity>
         </View>
-    );
+    )
 }
 
 const styles = StyleSheet.create({
