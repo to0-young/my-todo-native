@@ -1,14 +1,15 @@
 import React from 'react';
-import {Text, TextInput, View, StyleSheet, TouchableOpacity, Alert} from 'react-native';
+import {Text, TextInput, View, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import {connect} from "react-redux";
 import actionCreator from "../store/action-creator";
+import forgetPasswordRequest from '../reusable/requests/forgetPasswordRequest';
 
 function ForgotPassword() {
     const navigation = useNavigation();
 
     const [user, setUser] = React.useState({
-        email: '',
+        email: '74.boyko@gmail.com',
     });
 
     const [error, setError] = React.useState({
@@ -51,23 +52,17 @@ function ForgotPassword() {
 
 
     const onForget = async () => {
-        const res = await fetch('http://192.168.1.101:3000/api/v1/forget_passwords', {
-            method: 'POST',
-            credentials: 'include',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                email: user.email,
-            }),
-        });
-        const json = await res.json();
-        if (res.ok) {
-            Alert.alert('We have sent you a password change request')
-            navigation.navigate('SignIn')
-        } else {
-            setErrorMsg(json.message);
-        }
+        const json = await forgetPasswordRequest(user.email);
 
+        if (json.message) {
+            Alert.alert('We have sent you a password change request');
+            navigation.navigate('SignIn');
+        } else {
+            setErrorMsg(json.message)
+        }
+        return json
     };
+
 
     return (
         <View style={styles.container}>
@@ -84,11 +79,6 @@ function ForgotPassword() {
                 keyboardType="email-address"
             />
 
-            {errorMsg ? (
-                <View style={{ width: '100%' }}>
-                    <Alert severity='error'>{errorMsg}</Alert>
-                </View>
-            ) : null}
 
 
             {error.email !== '' && <Text style={styles.error}>{error.email}</Text>}

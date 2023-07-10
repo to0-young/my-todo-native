@@ -16,11 +16,13 @@ function App (props) {
         fetchSession()
     },[])
 
+
+
     const fetchSession = async () => {
         const getSessions = await fetch('http://192.168.1.101:3000/api/v1/sessions', {
             method: 'GET',
             credentials: 'include',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {'Content-Type': 'application/json'},
         })
         const json = await getSessions.json()
         if (getSessions.status === 401) return props.getSessionError()

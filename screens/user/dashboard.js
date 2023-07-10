@@ -1,50 +1,52 @@
-import React, {useEffect, useState} from 'react'
-import {useSelector, connect} from 'react-redux'
-import {View, Text, StyleSheet, TouchableOpacity, ScrollView} from 'react-native'
-import {MaterialIcons} from '@expo/vector-icons'
-import actionCreator from "../store/action-creator"
+import React, { useEffect, useState } from 'react';
+import { useSelector, connect } from 'react-redux';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
+import actionCreator from "../store/action-creator";
 import Spinner from "../reusable/spiner";
 
 const Dashboard = (props) => {
-    const tasks = useSelector((state) => state.task.list)
-    const fetched = useSelector((state) => state.task.fetched)
-    const [page, setPage] = useState(1)
-    const [pagesCount, setPagesCount] = useState()
+    const tasks = useSelector((state) => state.task.list);
+    const fetched = useSelector((state) => state.task.fetched);
+    const [page, setPage] = useState(1);
+    const [pagesCount, setPagesCount] = useState(0);
+
 
     const [orderAsc, setOrderAsc] = useState('asc')
     const [fieldType, setFieldType] = useState('title')
 
     const buildIcon = (field) => {
         if (field === fieldType)
-            return orderAsc === 'asc' ? <MaterialIcons name="keyboard-arrow-down" size={24}/> :
-                <MaterialIcons name="keyboard-arrow-up" size={24}/>
+            return orderAsc === 'asc' ? <MaterialIcons name="keyboard-arrow-down" size={24} /> :
+                <MaterialIcons name="keyboard-arrow-up" size={24} />;
         return null
-    }
+    };
 
     const sortByTitle = () => {
-        setOrderAsc(orderAsc === 'asc' ? 'desc' : 'asc')
+        setOrderAsc(orderAsc === 'asc' ? 'desc' : 'asc');
         setFieldType('title')
-    }
+    };
 
     const sortByPriority = () => {
-        setOrderAsc(orderAsc === 'asc' ? 'desc' : 'asc')
-        setFieldType('priority')
-    }
+        setOrderAsc(orderAsc === 'asc' ? 'desc' : 'asc');
+        setFieldType('priority');
+    };
 
     const sortByDueDate = () => {
         setOrderAsc(orderAsc === 'asc' ? 'desc' : 'asc')
-        setFieldType('due_date')
-    }
-
-    // const onChangePagination = (_, page) => {
-    //     setPage(page)
-    // }
+        setFieldType('due_date');
+    };
 
     useEffect(() => {
         getTasks(page)
     }, [page, fieldType, orderAsc])
 
 
+    const loadMoreTasks = () => {
+        if (page < pagesCount) {
+            setPage(page + 1)
+        }
+    }
 
     const getTasks = async (page) => {
         const res = await fetch(
@@ -52,63 +54,64 @@ const Dashboard = (props) => {
             {
                 method: 'GET',
                 credentials: 'include',
-                headers: {'Content-Type': 'application/json'},
+                headers: { 'Content-Type': 'application/json' },
             }
         )
-        const json = await res.json()
+        const json = await res.json();
         if (res.ok) {
-            setPagesCount(json.pagy.pages)
-            props.fetchTasksSuccess(json.tasks)
+            const fetchTask = page === 1 ? json.tasks : [...tasks, ...json.tasks];
+            props.fetchTasksSuccess(fetchTask)
         }
-        return json
-    }
+        return json;
+    };
 
     const updateCompletedTask = (taskId) => async () => {
         const res = await fetch(`http://192.168.1.101:3000/api/v1/tasks/${taskId}`, {
             method: 'PATCH',
             credentials: 'include',
-            headers: {'Content-Type': 'application/json'},
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 completed: true,
             }),
-        })
-        const json = await res.json()
+        });
+        const json = await res.json();
         if (res.ok) {
-            props.updateTaskSuccess(json)
-            return json
+            props.updateTaskSuccess(json);
+            return json;
         }
-    }
+    };
 
     const donCompletedTask = (taskId) => async () => {
         const res = await fetch(`http://192.168.1.101:3000/api/v1/tasks/${taskId}`, {
             method: 'PATCH',
             credentials: 'include',
-            headers: {'Content-Type': 'application/json'},
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 completed: false,
             }),
-        })
-        const json = await res.json()
+        });
+        const json = await res.json();
         if (res.ok) {
-            props.updateTaskSuccess(json)
-            return json
+            props.updateTaskSuccess(json);
+            return json;
         }
-    }
+    };
 
     const deleteTask = (task) => async () => {
         if (window.confirm(`Are you sure you want to delete task with ID ${task.id}`)) {
             const res = await fetch(`http://192.168.1.101:3000/api/v1/tasks/${task.id}`, {
                 method: 'DELETE',
                 credentials: 'include',
-                headers: {'Content-Type': 'application/json'},
-            })
-            const json = await res.json()
+                headers: { 'Content-Type': 'application/json' },
+            });
+            const json = await res.json();
             if (res.ok) {
-                props.deleteTaskSuccess(task)
+                props.deleteTaskSuccess(task);
             }
-            return json
+            return json;
         }
-    }
+    };
+
 
     if (fetched === false) return <Spinner />
 
@@ -136,47 +139,46 @@ const Dashboard = (props) => {
                     <Text style={styles.tableHeaderText}>Actions</Text>
                 </View>
 
-                <ScrollView>
-                    <View style={styles.tableBody}>
-                        {Array.isArray(tasks) && tasks.map((row, index) => {
-                            const crossedClass = row.completed ? styles.crossedCell : '';
-                            return (
-                                <View key={index} style={styles.tableRow}>
-                                    <Text style={[styles.tableCellTitle, crossedClass]}>{row.title}</Text>
-                                    <Text style={[styles.tableCellDesk, crossedClass]}>{row.description}</Text>
-                                    <Text style={[styles.tableCellPriority, crossedClass]}>{row.priority}</Text>
-                                    <Text
-                                        style={[styles.tableCellDate, crossedClass]}>{new Date(row.due_date).toLocaleString()}</Text>
-                                    <View style={[styles.tableCell, styles.taskActions, crossedClass]}>
-                                        <TouchableOpacity style={styles.taskButton} onPress={deleteTask(row)}>
-                                            <MaterialIcons name="delete-forever" size={30}/>
+                <FlatList
+                    data={tasks}
+                    renderItem={({ item }) => {
+                        const crossedClass = item.completed ? styles.crossedCell : '';
+                        return (
+                            <View key={item.id} style={styles.tableRow}>
+                                <Text style={[styles.tableCellTitle, crossedClass]}>{item.title}</Text>
+                                <Text style={[styles.tableCellDesk, crossedClass]}>{item.description}</Text>
+                                <Text style={[styles.tableCellPriority, crossedClass]}>{item.priority}</Text>
+                                <Text style={[styles.tableCellDate, crossedClass]}>
+                                    {new Date(item.due_date).toLocaleString()}
+                                </Text>
+                                <View style={[styles.tableCell, styles.taskActions, crossedClass]}>
+                                    <TouchableOpacity style={styles.taskButton} onPress={deleteTask(item)}>
+                                        <MaterialIcons name="delete-forever" size={30} />
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={() => navigation.navigate('EditTask', { taskId: item.id })}>
+                                        <MaterialIcons name="edit" size={30} />
+                                    </TouchableOpacity>
+                                    {item.completed ? (
+                                        <TouchableOpacity style={styles.taskButton} onPress={donCompletedTask(item.id)}>
+                                            <MaterialIcons name="brightness-1" size={30} />
                                         </TouchableOpacity>
-                                        <TouchableOpacity
-                                            onPress={() => navigation.navigate('EditTask', {taskId: row.id})}>
-                                            <MaterialIcons name="edit" size={30}/>
+                                    ) : (
+                                        <TouchableOpacity style={styles.taskButton} onPress={updateCompletedTask(item.id)}>
+                                            <MaterialIcons name="check-circle-outline" size={30} />
                                         </TouchableOpacity>
-                                        {row.completed ? (
-                                            <TouchableOpacity style={styles.taskButton}
-                                                              onPress={donCompletedTask(row.id)}>
-                                                <MaterialIcons name="brightness-1" size={30}/>
-                                            </TouchableOpacity>
-                                        ) : (
-                                            <TouchableOpacity style={styles.taskButton}
-                                                              onPress={updateCompletedTask(row.id)}>
-                                                <MaterialIcons name="check-circle-outline" size={30}/>
-                                            </TouchableOpacity>
-                                        )}
-                                    </View>
+                                    )}
                                 </View>
-                            )
-                        })}
-                    </View>
-                </ScrollView>
+                            </View>
+                        );
+                    }}
+                    keyExtractor={(item, index) => `${item.id}-${index}`}
+                    onEndReached={loadMoreTasks}
+
+                />
             </View>
         </View>
     );
-}
-
+};
 
 const styles = StyleSheet.create({
     dashboard: {
@@ -203,14 +205,6 @@ const styles = StyleSheet.create({
     tableHeaderCell: {
         flexDirection: 'row',
         alignItems: 'center',
-        // backgroundColor: 'red',
-    },
-
-
-
-    tableBody: {
-        flexDirection: 'column',
-        justifyContent: 'flex-end',
     },
     tableRow: {
         flexDirection: 'column',
@@ -227,7 +221,7 @@ const styles = StyleSheet.create({
     },
     tableCellTitle: {
         fontWeight: 'bold',
-        fontSize: 18,
+        fontSize: 20,
     },
     tableCellDesk: {
         fontSize: 17,
@@ -240,7 +234,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 14,
     },
-
     taskActions: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -251,11 +244,7 @@ const styles = StyleSheet.create({
     crossedCell: {
         textDecorationLine: 'line-through',
     },
-    pagination: {
-        alignItems: 'center',
-        marginTop: 10,
-    },
-})
+});
 
-const ConnectedDashboard = connect(null, actionCreator)(Dashboard)
-export default ConnectedDashboard
+const ConnectedDashboard = connect(null, actionCreator)(Dashboard);
+export default ConnectedDashboard;
