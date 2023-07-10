@@ -1,11 +1,11 @@
 import React from 'react'
-import {TextInput, View, StyleSheet, TouchableOpacity, Text, Alert} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { createUserRequest } from '../reusable/requests/apiRequest';
+import {TextInput, View, StyleSheet, TouchableOpacity, Text, Alert} from 'react-native'
+import { useNavigation } from '@react-navigation/native'
+import { createUserRequest } from '../reusable/requests/apiRequest'
 
 function SignUp() {
 
-    const navigation = useNavigation();
+    const navigation = useNavigation()
 
     const [user, changeUser] = React.useState({
         firstName: '',
@@ -31,17 +31,17 @@ function SignUp() {
                 email: '',
                 password: '',
             }
-            if (user.firstName.length < 3 || user.firstName.length > 15) {
+            if (user.firstName.length < 3 || user.firstName.length > 15 ) {
                 valid = false
                 newError.firstName = 'Your first name should be between 3 and 15 characters'
             }
 
-            if (user.lastName.length < 3 || user.lastName.length > 15) {
+            if (user.lastName.length < 3 || user.lastName.length > 15 ) {
                 valid = false
                 newError.lastName = 'Your last name should be between 3 and 15 characters'
             }
 
-            if (user.email.length < 8 || user.email.length > 30) {
+            if (user.email.length < 8 || user.email.length > 30 ) {
                 valid = false
                 newError.email = 'Your email should be between 8 and 30 characters'
             }
@@ -96,13 +96,13 @@ function SignUp() {
 
 
     const createUser = async () => {
-        const json = await createUserRequest(user);
+        const json = await createUserRequest(user)
 
         if (json.errors) {
-            const firstError = json.errors.first_name === undefined ? '' : json.errors.first_name[0];
-            const lastError = json.errors.last_name === undefined ? '' : json.errors.last_name[0];
-            const emailError = json.errors.email === undefined ? '' : json.errors.email[0];
-            const passwordError = json.errors.password === undefined ? '' : json.errors.password[0];
+            const firstError = json.errors.first_name === undefined ? '' : json.errors.first_name[0]
+            const lastError = json.errors.last_name === undefined ? '' : json.errors.last_name[0]
+            const emailError = json.errors.email === undefined ? '' : json.errors.email[0]
+            const passwordError = json.errors.password === undefined ? '' : json.errors.password[0]
 
             changeError({
                 firstName: firstError,
@@ -111,12 +111,12 @@ function SignUp() {
                 email: emailError,
             });
         } else if (res.ok) {
-            Alert.alert('Please confirm your email registration');
-            navigation.navigate('SignIn');
+            Alert.alert('Please confirm your email registration')
+            navigation.navigate('SignIn')
         }
 
-        return json;
-    };
+        return json
+    }
 
 
     return (

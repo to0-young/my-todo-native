@@ -2,23 +2,18 @@ import React from 'react'
 import { View, Text,  StyleSheet, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import actionCreator from '../../store/action-creator'
-import {logoutRequest} from "../../reusable/requests/apiRequest";
+import { logoutRequest } from "../../reusable/requests/apiRequest"
 
 const ActivationMessage = (props) => {
 
     const onExit = async () => {
         try {
-            const response = await logoutRequest();
-
-            if (response.ok) {
-                props.deleteSessionSuccess();
-            }
-
-            return response;
+            await logoutRequest()
+            props.deleteSessionSuccess()
         } catch (error) {
-            console.error(error);
+            console.error(error)
         }
-    };
+    }
 
 
     return (

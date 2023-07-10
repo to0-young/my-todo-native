@@ -112,29 +112,24 @@ const createUserRequest = async (user) => {
         body: formData,
     });
 
-    return res.json();
+    return res.json()
 };
 
 
-//  const logoutRequest = async () => {
-//     const res = await fetch('http://192.168.1.101:3000/api/v1/sessions', {
+// const logoutRequest = async () => {
+//     await fetch('http://192.168.1.101:3000/api/v1/sessions', {
 //         method: 'DELETE',
 //         credentials: 'include',
 //         headers: { 'Content-Type': 'application/json' },
 //     });
-//
-//     return res.json();
 // };
 
-
- const logoutRequest = async () => {
-    const res = await fetch('http://192.168.31.101:3000/api/v1/sessions', {
+const logoutRequest = async () => {
+    await fetch('http://192.168.31.101:3000/api/v1/sessions', {
         method: 'DELETE',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
     });
-
-    return res.json()
 };
 
 

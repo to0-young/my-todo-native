@@ -1,40 +1,40 @@
-import React, { useState } from 'react';
-import {View, Text, TextInput,  StyleSheet, TouchableOpacity} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { connect } from 'react-redux';
-import actionCreator from './../store/action-creator';
+import React, { useState } from 'react'
+import {View, Text, TextInput,  StyleSheet, TouchableOpacity} from 'react-native'
+import { useNavigation } from '@react-navigation/native'
+import { connect } from 'react-redux'
+import actionCreator from './../store/action-creator'
 import { sendLoginRequest } from '../reusable/requests/apiRequest'
 
 const SignIn = (props) => {
-    const navigation = useNavigation();
+    const navigation = useNavigation()
 
     const [user, changeUser] = useState({
         email: '74.boyko@gmail.com',
         password: '1',
-    });
+    })
 
     const [error, setError] = useState({
         email: '',
         password: '',
-    });
+    })
 
-    const [errorMsg, setErrorMsg] = useState('');
+    const [errorMsg, setErrorMsg] = useState('')
 
     const onValidate = () => {
         let valid = true;
         const appError = {
             email: '',
             password: '',
-        };
+        }
 
         if (user.email.length < 8) {
             valid = false;
-            appError.email = 'Sorry your email is too short';
+            appError.email = 'Sorry your email is too short'
         }
 
         if (user.password.length < 1) {
             valid = false;
-            appError.password = 'Sorry your password is too short';
+            appError.password = 'Sorry your password is too short'
         }
 
         if (!valid) {
@@ -42,14 +42,14 @@ const SignIn = (props) => {
         }
 
         return valid
-    };
+    }
 
     const onSignIn = async (e) => {
         e.preventDefault()
         if (onValidate()) {
             await onLogIn()
         }
-    };
+    }
 
     const onChangeEmail = (email) => {
         changeUser({
@@ -66,16 +66,16 @@ const SignIn = (props) => {
     }
 
     const onLogIn = async () => {
-        const { response, ok } = await sendLoginRequest(user.email, user.password);
+        const { response, ok } = await sendLoginRequest(user.email, user.password)
 
         if (ok) {
-            props.getSessionSuccess(response);
+            props.getSessionSuccess(response)
         } else {
-            setErrorMsg(response.message);
+            setErrorMsg(response.message)
         }
 
-        return response;
-    };
+        return response
+    }
 
     return (
         <View style={styles.container}>
@@ -126,8 +126,8 @@ const SignIn = (props) => {
             </TouchableOpacity>
 
         </View>
-    );
-};
+    )
+}
 
 const styles = StyleSheet.create({
     container: {
