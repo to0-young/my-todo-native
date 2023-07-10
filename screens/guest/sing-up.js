@@ -1,6 +1,7 @@
 import React from 'react'
 import {TextInput, View, StyleSheet, TouchableOpacity, Text, Alert} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { createUserRequest } from '../reusable/requests/apiRequest';
 
 function SignUp() {
 
@@ -95,40 +96,28 @@ function SignUp() {
 
 
     const createUser = async () => {
+        const json = await createUserRequest(user);
 
-        const formData = new FormData()
-        // formData.append('avatar', file)
-        formData.append('first_name', user.firstName)
-        formData.append('last_name', user.lastName)
-        formData.append('password', user.password)
-        formData.append('email', user.email)
+        if (json.errors) {
+            const firstError = json.errors.first_name === undefined ? '' : json.errors.first_name[0];
+            const lastError = json.errors.last_name === undefined ? '' : json.errors.last_name[0];
+            const emailError = json.errors.email === undefined ? '' : json.errors.email[0];
+            const passwordError = json.errors.password === undefined ? '' : json.errors.password[0];
 
-        const res = await fetch('http://192.168.1.101:3000/api/v1/users', {
-            method: 'POST',
-            credentials: 'include',
-            body: formData,
-        })
-        const json = await res.json()
-        if (res.ok) {
-            Alert.alert('Please confirm your email registration')
-            navigation.navigate('SignIn')
-        } else {
-            if (json.errors) {
-                const firstError = json.errors.first_name === undefined ? '' : json.errors.first_name[0],
-                    lastError = json.errors.last_name === undefined ? '' : json.errors.last_name[0],
-                    emailError = json.errors.email === undefined ? '' : json.errors.email[0],
-                    passwordError = json.errors.password === undefined ? '' : json.errors.password[0]
-                changeError({
-                    firstName: firstError,
-                    lastName: lastError,
-                    password: passwordError,
-                    email: emailError,
-                })
-            }
-
+            changeError({
+                firstName: firstError,
+                lastName: lastError,
+                password: passwordError,
+                email: emailError,
+            });
+        } else if (res.ok) {
+            Alert.alert('Please confirm your email registration');
+            navigation.navigate('SignIn');
         }
-        return json
-    }
+
+        return json;
+    };
+
 
     return (
         <View style={styles.container}>
