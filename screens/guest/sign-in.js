@@ -10,7 +10,7 @@ const SignIn = (props) => {
 
     const [user, changeUser] = useState({
         email: '74.boyko@gmail.com',
-        password: '1',
+        password: 'Dior5580',
     })
 
     const [error, setError] = useState({
@@ -66,16 +66,19 @@ const SignIn = (props) => {
     }
 
     const onLogIn = async () => {
-        const { response, ok } = await sendLoginRequest(user.email, user.password)
+        const { response, ok } = await sendLoginRequest(user.email, user.password);
 
         if (ok) {
-            props.getSessionSuccess(response)
+            props.getSessionSuccess(response);
         } else {
-            setErrorMsg(response.message)
+            if (response && response.message) {
+                setErrorMsg(response.message);
+            }
         }
 
-        return response
-    }
+        return response;
+    };
+
 
     return (
         <View style={styles.container}>
