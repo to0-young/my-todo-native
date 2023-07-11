@@ -20,18 +20,18 @@ function App (props) {
 
 
     const fetchSession = async () => {
-        const json = await fetchSessionRequest();
+        const res = await fetchSessionRequest()
 
-        if (json.status === 401) {
-            props.getSessionError();
+        if (res.status === 401) {
+            props.getSessionError()
         } else {
-            props.getSessionSuccess(json);
+            props.getSessionSuccess()
         }
-    };
-
+    }
 
     const isGuest = !session
-    const isConfirmedUser = session?.user?.email_confirmed
+    const isConfirmedUser = session?.user.email_confirmed
+
 
 
     return (
@@ -39,6 +39,7 @@ function App (props) {
           {isGuest ? (
             <GuestNavigator  />
           ) : !isConfirmedUser ? (
+
             <NonActivatedNavigator />
           ) : (
             <UserNavigator  />

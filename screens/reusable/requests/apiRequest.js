@@ -6,10 +6,10 @@ import React from 'react';
 //     method: 'GET',
 //     credentials: 'include',
 //     headers: {'Content-Type': 'application/json'},
-//   });
+//   })
 //
-//   return getSessions.json();
-// };
+//   return getSessions.json()
+// }
 
 const fetchSessionRequest = async () => {
     const getSessions = await fetch('http://192.168.31.101:3000/api/v1/sessions', {
@@ -20,7 +20,6 @@ const fetchSessionRequest = async () => {
 
     return getSessions.json();
 };
-
 
 
 // const forgetPasswordRequest = async (email) => {
@@ -60,8 +59,8 @@ const forgetPasswordRequest = async (email) => {
 //     }),
 //   });
 //
-//   const json = await res.json();
-//   return {response: json, ok: res.ok};
+//   const json = await res.json()
+//   return {response: json, ok: res.ok}
 // };
 
 
@@ -97,7 +96,7 @@ const sendLoginRequest = async (email, password) => {
 //
 //   return res.json();
 // };
-//
+
 
 const createUserRequest = async (user) => {
     const formData = new FormData();
@@ -124,13 +123,13 @@ const createUserRequest = async (user) => {
 //     });
 // };
 
-const logoutRequest = async () => {
-    await fetch('http://192.168.31.101:3000/api/v1/sessions', {
-        method: 'DELETE',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-    });
-};
+// const logoutRequest = async () => {
+//     await fetch('http://192.168.31.101:3000/api/v1/sessions', {
+//         method: 'DELETE',
+//         credentials: 'include',
+//         headers: { 'Content-Type': 'application/json' },
+//     });
+// };
 
 
 export {
@@ -138,5 +137,5 @@ export {
     sendLoginRequest,
     createUserRequest,
     fetchSessionRequest,
-    logoutRequest
+    // logoutRequest
 }

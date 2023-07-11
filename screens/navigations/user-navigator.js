@@ -7,14 +7,24 @@ import Chat from '../user/chat';
 import { connect } from 'react-redux';
 import actionCreator from '../store/action-creator';
 import { TouchableWithoutFeedback } from 'react-native';
+import { logoutRequest } from '../reusable/requests/apiRequest';
 
 const Drawer = createDrawerNavigator();
 
 const UserNavigator = (props) => {
 
 
+    // const onLogOut = async () => {
+    //     try {
+    //         await logoutRequest();
+    //         props.deleteSessionSuccess();
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // };
+
     const onLogOut = async () => {
-            const res = await fetch('http://192.168.1.101:3000/api/v1/sessions', {
+            const res = await fetch('http://192.168.31.101:3000/api/v1/sessions', {
                 method: 'DELETE',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },
@@ -40,6 +50,8 @@ const UserNavigator = (props) => {
             </View>
         );
     };
+
+
 
     return (
         <Drawer.Navigator initialRouteName="Dashboard" drawerContent={CustomDrawerContent}>
