@@ -3,7 +3,7 @@ import {View, Text, TextInput,  StyleSheet, TouchableOpacity} from 'react-native
 import { useNavigation } from '@react-navigation/native'
 import { connect } from 'react-redux'
 import actionCreator from './../store/action-creator'
-import { sendLoginRequest } from '../reusable/requests/apiRequest'
+// import {sendLoginRequest} from "../reusable/requests/apiRequest";
 
 const SignIn = (props) => {
     const navigation = useNavigation()
@@ -65,19 +65,43 @@ const SignIn = (props) => {
         })
     }
 
-    const onLogIn = async () => {
-        const { response, ok } = await sendLoginRequest(user.email, user.password);
 
-        if (ok) {
-            props.getSessionSuccess(response);
+    // const onLogIn = async () => {
+    //         const res = await sendLoginRequest(user.email, user.password);
+    //
+    //     console.log(res)
+    //         if (res.ok) {
+    //             props.getSessionSuccess()
+    //         } else {
+    //             setErrorMsg(res.message)
+    //         }
+    //
+    //         return res;
+    //
+    // };
+
+    const onLogIn = async () => {
+        const res = await fetch('http://192.168.1.101:3000/api/v1/sessions', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                email: user.email,
+                password: user.password,
+            }),
+        })
+
+        const json = await res.json()
+        if (res.ok) {
+            props.getSessionSuccess(json)
         } else {
-            if (response && response.message) {
-                setErrorMsg(response.message);
-            }
+            setErrorMsg(json.message)
         }
 
-        return response;
-    };
+        return json
+    }
+
+
 
 
     return (
