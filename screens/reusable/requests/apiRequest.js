@@ -22,18 +22,62 @@ const fetchSessionRequest = () => {
 // }
 
 
+
  const forgetPasswordRequest = async (email) => {
    return fetch('http://192.168.1.101:3000/api/v1/forget_passwords', {
     method: 'POST',
     credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email }),
+    body: JSON.stringify({
+      email
+    }),
+  })
+}
+
+
+// const forgetPasswordRequest = async (email) => {
+//   return fetch('http://192.168.31.101:3000/api/v1/forget_passwords', {
+//     method: 'POST',
+//     credentials: 'include',
+//     headers: { 'Content-Type': 'application/json' },
+//     body: JSON.stringify({
+//     email
+//     }),
+//   })
+// }
+
+
+
+const loginRequest = async (email, password) => {
+  return  fetch('http://192.168.1.101:3000/api/v1/sessions', {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      email: email,
+      password: password,
+    }),
   })
 }
 
 
 
+// const loginRequest = async (email, password) => {
+//   return  fetch('http://192.168.31.101:3000/api/v1/sessions', {
+//     method: 'POST',
+//     credentials: 'include',
+//     headers: { 'Content-Type': 'application/json' },
+//     body: JSON.stringify({
+//       email: email,
+//       password: password,
+//     }),
+//   });
+// };
+
+
+
 export {
-    forgetPasswordRequest,
-    fetchSessionRequest,
+  fetchSessionRequest,
+  forgetPasswordRequest,
+  loginRequest,
 }

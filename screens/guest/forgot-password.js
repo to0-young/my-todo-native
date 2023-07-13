@@ -50,10 +50,11 @@ function ForgotPassword() {
 
 
     const onForget = async () => {
-        const res = await forgetPasswordRequest(user.email);
+        const res = await forgetPasswordRequest(user.email)
+
         if (res.ok) {
             Alert.alert('We have sent you a password change request');
-            navigation.navigate('SignIn');
+            navigation.navigate('SignIn')
         }
     };
 
@@ -72,8 +73,6 @@ function ForgotPassword() {
                 placeholder="Email"
                 keyboardType="email-address"
             />
-
-
 
 
             {error.email !== '' && <Text style={styles.error}>{error.email}</Text>}

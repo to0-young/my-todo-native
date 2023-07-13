@@ -3,6 +3,7 @@ import {View, Text, TextInput,  StyleSheet, TouchableOpacity} from 'react-native
 import { useNavigation } from '@react-navigation/native'
 import { connect } from 'react-redux'
 import actionCreator from './../store/action-creator'
+import {loginRequest} from "../reusable/requests/apiRequest";
 
 const SignIn = (props) => {
     const navigation = useNavigation()
@@ -66,26 +67,13 @@ const SignIn = (props) => {
 
 
     const onLogIn = async () => {
-        const res = await fetch('http://192.168.1.101:3000/api/v1/sessions', {
-            method: 'POST',
-            credentials: 'include',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                email: user.email,
-                password: user.password,
-            }),
-        })
+        const res = await loginRequest(user.email, user.password);
 
-        const json = await res.json()
         if (res.ok) {
-            props.getSessionSuccess(json)
-        } else {
-            setErrorMsg(json.message)
+            const data = await res.json()
+            props.getSessionSuccess(data)
         }
-
-        return json
-    }
-
+    };
 
 
     return (
