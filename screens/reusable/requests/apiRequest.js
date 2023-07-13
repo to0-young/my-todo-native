@@ -75,9 +75,27 @@ const loginRequest = async (email, password) => {
 // };
 
 
+const createUserRequest = async (formData) => {
+  return fetch('http://192.168.1.101:3000/api/v1/users', {
+    method: 'POST',
+    credentials: 'include',
+    body: formData,
+  })
+}
+
+
+// const createUserRequest = async (formData) => {
+//   return fetch('http://192.168.31.101:3000/api/v1/users', {
+//     method: 'POST',
+//     credentials: 'include',
+//     body: formData,
+//   })
+// }
+
 
 export {
   fetchSessionRequest,
   forgetPasswordRequest,
   loginRequest,
+  createUserRequest
 }
