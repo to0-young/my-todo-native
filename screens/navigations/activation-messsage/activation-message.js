@@ -3,14 +3,14 @@ import { View, Text,  StyleSheet, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import actionCreator from '../../store/action-creator'
 import { useNavigation } from '@react-navigation/native'
-import {exitRequest} from "../../reusable/requests/apiRequest";
+import {logoutRequest} from "../../reusable/requests/session/sessionRequest";
 
 const ActivationMessage = (props) => {
 
     const navigation = useNavigation()
 
     const onExit = async () => {
-        const res = await exitRequest();
+        const res = await logoutRequest();
         const json = await res.json();
 
         if (res.ok) {

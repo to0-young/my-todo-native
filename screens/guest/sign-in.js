@@ -3,7 +3,7 @@ import {View, Text, TextInput,  StyleSheet, TouchableOpacity} from 'react-native
 import { useNavigation } from '@react-navigation/native'
 import { connect } from 'react-redux'
 import actionCreator from './../store/action-creator'
-import {loginRequest} from "../reusable/requests/apiRequest";
+import {loginRequest} from "../reusable/requests/session/sessionRequest";
 
 const SignIn = (props) => {
     const navigation = useNavigation()

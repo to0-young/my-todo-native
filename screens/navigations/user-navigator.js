@@ -7,7 +7,7 @@ import Chat from '../user/chat';
 import {connect} from 'react-redux';
 import actionCreator from '../store/action-creator';
 import {TouchableWithoutFeedback} from 'react-native';
-import {logoutRequest} from "../reusable/requests/apiRequest";
+import {logoutRequest} from "../reusable/requests/session/sessionRequest";
 
 const Drawer = createDrawerNavigator();
 
