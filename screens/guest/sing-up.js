@@ -96,27 +96,37 @@ function SignUp() {
 
 
     const createUser = async () => {
-        const json = await createUserRequest(user)
+        const formData = new FormData()
 
-        if (json.errors) {
-            const firstError = json.errors.first_name === undefined ? '' : json.errors.first_name[0]
-            const lastError = json.errors.last_name === undefined ? '' : json.errors.last_name[0]
-            const emailError = json.errors.email === undefined ? '' : json.errors.email[0]
-            const passwordError = json.errors.password === undefined ? '' : json.errors.password[0]
+        // formData.append('avatar', file)
+        formData.append('first_name', user.firstName);
+        formData.append('last_name', user.lastName);
+        formData.append('password', user.password);
+        formData.append('email', user.email);
 
-            changeError({
-                firstName: firstError,
-                lastName: lastError,
-                password: passwordError,
-                email: emailError,
-            });
-        } else if (res.ok) {
-            Alert.alert('Please confirm your email registration')
-            navigation.navigate('SignIn')
+        const res = await createUserRequest(formData);
+        const json = await res.json();
+
+        if (res.ok) {
+            Alert.alert('Please confirm your email registration');
+            navigation.navigate('SignIn');
+        } else {
+            if (json.errors) {
+                const firstError = json.errors.first_name === undefined ? '' : json.errors.first_name[0],
+                  lastError = json.errors.last_name === undefined ? '' : json.errors.last_name[0],
+                  emailError = json.errors.email === undefined ? '' : json.errors.email[0],
+                  passwordError = json.errors.password === undefined ? '' : json.errors.password[0];
+                changeError({
+                    firstName: firstError,
+                    lastName: lastError,
+                    password: passwordError,
+                    email: emailError,
+                });
+            }
         }
 
-        return json
-    }
+        return json;
+    };
 
 
     return (
