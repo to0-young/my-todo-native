@@ -103,7 +103,6 @@ const SignIn = (props) => {
 
 
 
-
     return (
         <View style={styles.container}>
             <Text style={styles.heading}>Sign In</Text>
