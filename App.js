@@ -32,7 +32,7 @@ function App (props) {
     }
 
     const isGuest = !session
-    const isConfirmedUser = session?.user.email_confirmed
+    const isConfirmedUser = session?.user?.email_confirmed
 
 
     return (

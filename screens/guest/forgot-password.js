@@ -16,8 +16,6 @@ function ForgotPassword() {
         email: '',
     });
 
-    const [errorMsg, setErrorMsg] = React.useState('')
-
     const onValidate = () => {
         let valid = true;
         const appError = {
@@ -52,16 +50,13 @@ function ForgotPassword() {
 
 
     const onForget = async () => {
-        const json = await forgetPasswordRequest(user.email)
+        const res = await forgetPasswordRequest(user.email)
 
-        if (json.message) {
-            Alert.alert('We have sent you a password change request')
+        if (res.ok) {
+            Alert.alert('We have sent you a password change request');
             navigation.navigate('SignIn')
-        } else {
-            setErrorMsg(json.message)
         }
-        return json
-    }
+    };
 
 
     return (
@@ -78,8 +73,6 @@ function ForgotPassword() {
                 placeholder="Email"
                 keyboardType="email-address"
             />
-
-
 
 
             {error.email !== '' && <Text style={styles.error}>{error.email}</Text>}
