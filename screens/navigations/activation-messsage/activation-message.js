@@ -3,25 +3,23 @@ import { View, Text,  StyleSheet, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import actionCreator from '../../store/action-creator'
 import { useNavigation } from '@react-navigation/native'
+import {logoutRequest} from "../../reusable/requests/session/sessionRequest";
 
 const ActivationMessage = (props) => {
 
     const navigation = useNavigation()
 
     const onExit = async () => {
-        const res = await fetch('http://192.168.1.101:3000/api/v1/sessions', {
-            method: 'DELETE',
-            credentials: 'include',
-            headers: { 'Content-Type': 'application/json' },
-        })
+        const res = await logoutRequest();
         const json = await res.json();
 
-        if (res.json) {
-            props.deleteSessionSuccess()
-            navigation.navigate('SignIn')
+        if (res.ok) {
+            props.deleteSessionSuccess();
+            navigation.navigate('SignIn');
         }
-        return json
-    }
+
+        return json;
+    };
 
     return (
         <View style={styles.activationMessage}>

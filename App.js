@@ -8,7 +8,7 @@ import UserNavigator  from "./screens/navigations/user-navigator";
 import { NonActivatedNavigator } from "./screens/navigations/non-activatios-navigator";
 import { Provider, connect } from 'react-redux';
 import store from './screens/store/store'
-import { fetchSessionRequest } from './screens/reusable/requests/apiRequest'
+import { fetchSessionRequest } from './screens/reusable/requests/session/sessionRequest'
 
 
 function App (props) {

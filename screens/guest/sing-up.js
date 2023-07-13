@@ -1,7 +1,7 @@
 import React from 'react'
 import {TextInput, View, StyleSheet, TouchableOpacity, Text, Alert} from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-import { createUserRequest } from '../reusable/requests/apiRequest'
+import { createUserRequest } from '../reusable/requests/user/userRequest'
 
 function SignUp() {
 

@@ -3,7 +3,7 @@ import {Text, TextInput, View, StyleSheet, TouchableOpacity, Alert } from 'react
 import { useNavigation } from '@react-navigation/native'
 import {connect} from "react-redux"
 import actionCreator from "../store/action-creator"
-import  { forgetPasswordRequest } from '../reusable/requests/apiRequest'
+import  { forgetPasswordRequest } from '../reusable/requests/user/userRequest'
 
 function ForgotPassword() {
     const navigation = useNavigation()
@@ -47,7 +47,6 @@ function ForgotPassword() {
             email: email,
         })
     }
-
 
     const onForget = async () => {
         const res = await forgetPasswordRequest(user.email)
