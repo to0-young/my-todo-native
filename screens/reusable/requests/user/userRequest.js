@@ -41,7 +41,40 @@ const forgetPasswordRequest = async (email) => {
 // }
 
 
+
+const getTasksRequest = async (page, orderAsc, fieldType) => {
+ return  await fetch(
+    `http://192.168.1.101:3000/api/v1/tasks?per_page=10&page=${page}&sort_order=${orderAsc}&sort_field=${fieldType}`,
+    {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+  );
+}
+
+
+//
+// const getTasksRequest = async (page, orderAsc, fieldType) => {
+//     return  await fetch(
+//         `http://192.168.31.101:3000/api/v1/tasks?per_page=10&page=${page}&sort_order=${orderAsc}&sort_field=${fieldType}`,
+//         {
+//             method: 'GET',
+//             credentials: 'include',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//         }
+//     );
+// }
+
+
+
+
 export {
   createUserRequest,
-  forgetPasswordRequest
+  forgetPasswordRequest,
+  getTasksRequest,
 }

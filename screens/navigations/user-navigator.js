@@ -13,7 +13,6 @@ const Drawer = createDrawerNavigator();
 
 const UserNavigator = (props) => {
 
-
   const onLogOut = async () => {
     const res = await logoutRequest()
     const json = await res.json()

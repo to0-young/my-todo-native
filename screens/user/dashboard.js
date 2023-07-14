@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native
 import { MaterialIcons } from '@expo/vector-icons';
 import actionCreator from "../store/action-creator";
 import Spinner from "../reusable/spiner";
+import {getTasksRequest} from "../reusable/requests/user/userRequest";
 
 const Dashboard = (props) => {
     const tasks = useSelector((state) => state.task.list);
@@ -38,8 +39,8 @@ const Dashboard = (props) => {
     };
 
     useEffect(() => {
-        getTasks(page)
-    }, [page, fieldType, orderAsc])
+        getTasks(page, orderAsc, fieldType);
+    }, [page, fieldType, orderAsc]);
 
 
     const loadMoreTasks = () => {
@@ -48,22 +49,16 @@ const Dashboard = (props) => {
         }
     }
 
-    const getTasks = async (page) => {
-        const res = await fetch(
-            `http://192.168.1.101:3000/api/v1/tasks?per_page=10&page=${page}&sort_order=${orderAsc}&sort_field=${fieldType}`,
-            {
-                method: 'GET',
-                credentials: 'include',
-                headers: { 'Content-Type': 'application/json' },
-            }
-        )
-        const json = await res.json();
+
+    const getTasks = async (page, orderAsc, fieldType) => {
+        const res = await getTasksRequest(page, orderAsc, fieldType);
         if (res.ok) {
-            const fetchTask = page === 1 ? json.tasks : [...tasks, ...json.tasks];
-            props.fetchTasksSuccess(fetchTask)
+            const json = await res.json();
+            const tasks = page === 1 ? json.tasks : [...props.tasks, ...json.tasks];
+            props.fetchTasksSuccess(tasks);
         }
-        return json;
-    }
+    };
+
 
     const updateCompletedTask = (taskId) => async () => {
         const res = await fetch(`http://192.168.1.101:3000/api/v1/tasks/${taskId}`, {

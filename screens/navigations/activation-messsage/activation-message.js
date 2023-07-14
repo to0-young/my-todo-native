@@ -2,12 +2,10 @@ import React from 'react'
 import { View, Text,  StyleSheet, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import actionCreator from '../../store/action-creator'
-import { useNavigation } from '@react-navigation/native'
 import {logoutRequest} from "../../reusable/requests/session/sessionRequest";
 
 const ActivationMessage = (props) => {
 
-    const navigation = useNavigation()
 
     const onExit = async () => {
         const res = await logoutRequest();
@@ -15,7 +13,6 @@ const ActivationMessage = (props) => {
 
         if (res.ok) {
             props.deleteSessionSuccess();
-            navigation.navigate('SignIn');
         }
 
         return json;
