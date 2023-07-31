@@ -4,7 +4,11 @@ import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native
 import { MaterialIcons } from '@expo/vector-icons';
 import actionCreator from "../store/action-creator";
 import Spinner from "../reusable/spiner";
-import {getTasksRequest} from "../reusable/requests/user/userRequest";
+import {
+    donCompletedTaskRequest,
+    getTasksRequest,
+    updateCompletedTaskRequest,
+} from "../reusable/requests/user/userRequest";
 
 const Dashboard = (props) => {
     const tasks = useSelector((state) => state.task.list);
@@ -39,8 +43,8 @@ const Dashboard = (props) => {
     };
 
     useEffect(() => {
-        getTasks(page, orderAsc, fieldType);
-    }, [page, fieldType, orderAsc]);
+        getTasks(page, orderAsc, fieldType)
+    }, [page, fieldType, orderAsc])
 
 
     const loadMoreTasks = () => {
@@ -51,46 +55,31 @@ const Dashboard = (props) => {
 
 
     const getTasks = async (page, orderAsc, fieldType) => {
-        const res = await getTasksRequest(page, orderAsc, fieldType);
+        const res = await getTasksRequest(page, orderAsc, fieldType)
         if (res.ok) {
-            const json = await res.json();
-            const tasks = page === 1 ? json.tasks : [...props.tasks, ...json.tasks];
-            props.fetchTasksSuccess(tasks);
+            const json = await res.json()
+            const updatedTasks = page === 1 ? json.tasks : [...tasks, ...json.tasks]
+            props.fetchTasksSuccess(updatedTasks)
         }
+    }
+
+
+
+    const updateCompletedTask = (taskId) => {
+        const updatedTasks = tasks.map((task) =>
+            task.id === taskId ? { ...task, completed: true } : task
+        );
+        props.fetchTasksSuccess(updatedTasks);
+    };
+
+    const donCompletedTask = (taskId) => {
+        const updatedTasks = tasks.map((task) =>
+            task.id === taskId ? { ...task, completed: false } : task
+        );
+        props.fetchTasksSuccess(updatedTasks);
     };
 
 
-    const updateCompletedTask = (taskId) => async () => {
-        const res = await fetch(`http://192.168.1.101:3000/api/v1/tasks/${taskId}`, {
-            method: 'PATCH',
-            credentials: 'include',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                completed: true,
-            }),
-        });
-        const json = await res.json();
-        if (res.ok) {
-            props.updateTaskSuccess(json);
-            return json;
-        }
-    };
-
-    const donCompletedTask = (taskId) => async () => {
-        const res = await fetch(`http://192.168.1.101:3000/api/v1/tasks/${taskId}`, {
-            method: 'PATCH',
-            credentials: 'include',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                completed: false,
-            }),
-        });
-        const json = await res.json();
-        if (res.ok) {
-            props.updateTaskSuccess(json);
-            return json;
-        }
-    };
 
     const deleteTask = (task) => async () => {
         if (window.confirm(`Are you sure you want to delete task with ID ${task.id}`)) {
@@ -105,7 +94,8 @@ const Dashboard = (props) => {
             }
             return json;
         }
-    };
+    }
+
 
 
     if (fetched === false) return <Spinner />
@@ -134,34 +124,46 @@ const Dashboard = (props) => {
                     <Text style={styles.tableHeaderText}>Actions</Text>
                 </View>
 
+
                 <FlatList
                     data={tasks}
                     renderItem={({ item }) => {
-                        const crossedClass = item.completed ? styles.crossedCell : '';
+                        const crossedClass = item.completed ? styles.crossedCell : ''
+
                         return (
                             <View key={item.id} style={styles.tableRow}>
                                 <Text style={[styles.tableCellTitle, crossedClass]}>{item.title}</Text>
                                 <Text style={[styles.tableCellDesk, crossedClass]}>{item.description}</Text>
                                 <Text style={[styles.tableCellPriority, crossedClass]}>{item.priority}</Text>
+
                                 <Text style={[styles.tableCellDate, crossedClass]}>
                                     {new Date(item.due_date).toLocaleString()}
                                 </Text>
+
                                 <View style={[styles.tableCell, styles.taskActions, crossedClass]}>
+
                                     <TouchableOpacity style={styles.taskButton} onPress={deleteTask(item)}>
                                         <MaterialIcons name="delete-forever" size={30} />
                                     </TouchableOpacity>
+
                                     <TouchableOpacity onPress={() => navigation.navigate('EditTask', { taskId: item.id })}>
                                         <MaterialIcons name="edit" size={30} />
                                     </TouchableOpacity>
+
+
+
                                     {item.completed ? (
-                                        <TouchableOpacity style={styles.taskButton} onPress={donCompletedTask(item.id)}>
+                                        <TouchableOpacity style={styles.taskButton} onPress={() => donCompletedTask(item.id)}>
                                             <MaterialIcons name="brightness-1" size={30} />
                                         </TouchableOpacity>
+
                                     ) : (
-                                        <TouchableOpacity style={styles.taskButton} onPress={updateCompletedTask(item.id)}>
+                                        <TouchableOpacity style={styles.taskButton} onPress={() => updateCompletedTask(item.id)}>
                                             <MaterialIcons name="check-circle-outline" size={30} />
                                         </TouchableOpacity>
+
                                     )}
+
                                 </View>
                             </View>
                         );
