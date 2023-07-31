@@ -72,56 +72,52 @@ const getTasksRequest = async (page, orderAsc, fieldType) => {
 
 
 
-
-const updateCompletedTaskRequest = async (taskId) => {
-   return await fetch(`http://192.168.1.101:3000/api/v1/tasks/${taskId}`, {
+const updateTaskRequest = async (taskId, completed) => {
+    const res = await fetch(`http://192.168.1.101:3000/api/v1/tasks/${taskId}`, {
         method: 'PATCH',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            completed: true,
+            completed: completed,
         }),
     });
-
+    return await res.json();
 };
 
-// const updateCompletedTaskRequest = async (taskId) => {
-//     return await fetch(`http://192.168.31.101:3000/api/v1/tasks/${taskId}`, {
+
+// const updateTaskRequest = async (taskId, completed) => {
+//     const res = await fetch(`http://192.168.31.101:3000/api/v1/tasks/${taskId}`, {
 //         method: 'PATCH',
 //         credentials: 'include',
 //         headers: { 'Content-Type': 'application/json' },
 //         body: JSON.stringify({
-//             completed: true,
+//             completed: completed,
 //         }),
 //     });
+//     return await res.json();
 // };
 
 
 
 
-
-const donCompletedTaskRequest = async (taskId) => {
-    return await fetch(`http://192.168.1.101:3000/api/v1/tasks/${taskId}`, {
-        method: 'PATCH',
+const deleteTaskRequest = async (taskId) => {
+    const res = await fetch(`http://192.168.1.101:3000/api/v1/tasks/${taskId}`, {
+        method: 'DELETE',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            completed: false,
-        }),
     });
+    return await res.json();
 };
 
 
 
-// const donCompletedTaskRequest = async (taskId) => {
-//     return await fetch(`http://192.168.31.101:3000/api/v1/tasks/${taskId}`, {
-//         method: 'PATCH',
+// const deleteTaskRequest = async (taskId) => {
+//     const res = await fetch(`http://192.168.31.101:3000/api/v1/tasks/${taskId}`, {
+//         method: 'DELETE',
 //         credentials: 'include',
 //         headers: { 'Content-Type': 'application/json' },
-//         body: JSON.stringify({
-//             completed: false,
-//         }),
 //     });
+//     return await res.json();
 // };
 
 
@@ -130,6 +126,8 @@ export {
   createUserRequest,
   forgetPasswordRequest,
   getTasksRequest,
-    updateCompletedTaskRequest,
-    donCompletedTaskRequest
+    updateTaskRequest,
+    // donCompletedTaskRequest,
+    deleteTaskRequest,
+
 }

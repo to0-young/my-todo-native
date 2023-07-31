@@ -5,9 +5,10 @@ import { MaterialIcons } from '@expo/vector-icons';
 import actionCreator from "../store/action-creator";
 import Spinner from "../reusable/spiner";
 import {
+    deleteTaskRequest,
     donCompletedTaskRequest,
-    getTasksRequest,
-    updateCompletedTaskRequest,
+    getTasksRequest, updateTaskRequest,
+    // updateCompletedTaskRequest,
 } from "../reusable/requests/user/userRequest";
 
 const Dashboard = (props) => {
@@ -15,6 +16,8 @@ const Dashboard = (props) => {
     const fetched = useSelector((state) => state.task.fetched);
     const [page, setPage] = useState(1);
     const [pagesCount, setPagesCount] = useState(0);
+    const [upd , setUpd] = useState(false)
+
 
 
     const [orderAsc, setOrderAsc] = useState('asc')
@@ -64,38 +67,31 @@ const Dashboard = (props) => {
     }
 
 
-
-    const updateCompletedTask = (taskId) => {
-        const updatedTasks = tasks.map((task) =>
-            task.id === taskId ? { ...task, completed: true } : task
-        );
-        props.fetchTasksSuccess(updatedTasks);
+    const updateCompletedTask = (taskId) => async () => {
+        const json = await updateTaskRequest(taskId, true);
+        if (json) {
+            props.updateTaskSuccess(json);
+            return json;
+        }
     };
 
-    const donCompletedTask = (taskId) => {
-        const updatedTasks = tasks.map((task) =>
-            task.id === taskId ? { ...task, completed: false } : task
-        );
-        props.fetchTasksSuccess(updatedTasks);
+    const donCompletedTask = (taskId) => async () => {
+        const json = await updateTaskRequest(taskId, false);
+        if (json) {
+            props.updateTaskSuccess(json);
+            return json;
+        }
     };
-
-
 
     const deleteTask = (task) => async () => {
         if (window.confirm(`Are you sure you want to delete task with ID ${task.id}`)) {
-            const res = await fetch(`http://192.168.1.101:3000/api/v1/tasks/${task.id}`, {
-                method: 'DELETE',
-                credentials: 'include',
-                headers: { 'Content-Type': 'application/json' },
-            });
-            const json = await res.json();
-            if (res.ok) {
+            const json = await deleteTaskRequest(task.id);
+            if (json) {
                 props.deleteTaskSuccess(task);
             }
             return json;
         }
-    }
-
+    };
 
 
     if (fetched === false) return <Spinner />
@@ -153,12 +149,12 @@ const Dashboard = (props) => {
 
 
                                     {item.completed ? (
-                                        <TouchableOpacity style={styles.taskButton} onPress={() => donCompletedTask(item.id)}>
+                                        <TouchableOpacity style={styles.taskButton} onPress={ donCompletedTask(item.id)}>
                                             <MaterialIcons name="brightness-1" size={30} />
                                         </TouchableOpacity>
 
                                     ) : (
-                                        <TouchableOpacity style={styles.taskButton} onPress={() => updateCompletedTask(item.id)}>
+                                        <TouchableOpacity style={styles.taskButton} onPress={ updateCompletedTask(item.id)}>
                                             <MaterialIcons name="check-circle-outline" size={30} />
                                         </TouchableOpacity>
 
