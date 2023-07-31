@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, connect } from 'react-redux';
-import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList,Alert } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import actionCreator from "../store/action-creator";
 import Spinner from "../reusable/spiner";
 import {
     deleteTaskRequest,
-    donCompletedTaskRequest,
-    getTasksRequest, updateTaskRequest,
-    // updateCompletedTaskRequest,
+    getTasksRequest,
+    updateTaskRequest,
 } from "../reusable/requests/user/userRequest";
 
 const Dashboard = (props) => {
@@ -16,7 +15,6 @@ const Dashboard = (props) => {
     const fetched = useSelector((state) => state.task.fetched);
     const [page, setPage] = useState(1);
     const [pagesCount, setPagesCount] = useState(0);
-    const [upd , setUpd] = useState(false)
 
 
 
@@ -71,7 +69,6 @@ const Dashboard = (props) => {
         const json = await updateTaskRequest(taskId, true);
         if (json) {
             props.updateTaskSuccess(json);
-            return json;
         }
     };
 
@@ -79,18 +76,32 @@ const Dashboard = (props) => {
         const json = await updateTaskRequest(taskId, false);
         if (json) {
             props.updateTaskSuccess(json);
-            return json;
         }
     };
 
-    const deleteTask = (task) => async () => {
-        if (window.confirm(`Are you sure you want to delete task with ID ${task.id}`)) {
-            const json = await deleteTaskRequest(task.id);
-            if (json) {
-                props.deleteTaskSuccess(task);
-            }
-            return json;
-        }
+
+    const deleteTask = async (task) => {
+        Alert.alert(
+            `Confirm Delete`,
+            'Are you sure you want to delete this task?',
+            [
+                {
+                    text: 'Cancel',
+                    style: 'cancel',
+                },
+                {
+                    text: 'Delete',
+                    style: 'destructive',
+                    onPress: async () => {
+                        const json = await deleteTaskRequest(task.id);
+                        if (json) {
+                            props.deleteTaskSuccess(task);
+                        }
+                    },
+                },
+            ],
+            { cancelable: false }
+        );
     };
 
 
@@ -138,9 +149,10 @@ const Dashboard = (props) => {
 
                                 <View style={[styles.tableCell, styles.taskActions, crossedClass]}>
 
-                                    <TouchableOpacity style={styles.taskButton} onPress={deleteTask(item)}>
+                                    <TouchableOpacity style={styles.taskButton} onPress={() => deleteTask(item)}>
                                         <MaterialIcons name="delete-forever" size={30} />
                                     </TouchableOpacity>
+
 
                                     <TouchableOpacity onPress={() => navigation.navigate('EditTask', { taskId: item.id })}>
                                         <MaterialIcons name="edit" size={30} />
