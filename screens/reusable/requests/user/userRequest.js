@@ -73,8 +73,63 @@ const getTasksRequest = async (page, orderAsc, fieldType) => {
 
 
 
+const updateCompletedTaskRequest = async (taskId) => {
+   return await fetch(`http://192.168.1.101:3000/api/v1/tasks/${taskId}`, {
+        method: 'PATCH',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            completed: true,
+        }),
+    });
+
+};
+
+// const updateCompletedTaskRequest = async (taskId) => {
+//     return await fetch(`http://192.168.31.101:3000/api/v1/tasks/${taskId}`, {
+//         method: 'PATCH',
+//         credentials: 'include',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify({
+//             completed: true,
+//         }),
+//     });
+// };
+
+
+
+
+
+const donCompletedTaskRequest = async (taskId) => {
+    return await fetch(`http://192.168.1.101:3000/api/v1/tasks/${taskId}`, {
+        method: 'PATCH',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            completed: false,
+        }),
+    });
+};
+
+
+
+// const donCompletedTaskRequest = async (taskId) => {
+//     return await fetch(`http://192.168.31.101:3000/api/v1/tasks/${taskId}`, {
+//         method: 'PATCH',
+//         credentials: 'include',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify({
+//             completed: false,
+//         }),
+//     });
+// };
+
+
+
 export {
   createUserRequest,
   forgetPasswordRequest,
   getTasksRequest,
+    updateCompletedTaskRequest,
+    donCompletedTaskRequest
 }
