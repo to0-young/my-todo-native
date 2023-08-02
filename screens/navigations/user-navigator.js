@@ -8,8 +8,24 @@ import {connect} from 'react-redux';
 import actionCreator from '../store/action-creator';
 import {TouchableWithoutFeedback} from 'react-native';
 import {logoutRequest} from "../reusable/requests/session/sessionRequest";
+import EditTask from "../user/edit-task";
+import {createStackNavigator} from "@react-navigation/stack";
 
 const Drawer = createDrawerNavigator();
+const Stack = createStackNavigator();
+
+
+const EditTaskNavigator = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="EditTask" component={EditTask} />
+    </Stack.Navigator>
+  )
+}
+
+
+export default EditTaskNavigator
+
 
 const UserNavigator = (props) => {
 
@@ -36,9 +52,8 @@ const UserNavigator = (props) => {
           </View>
         </TouchableWithoutFeedback>
       </View>
-    );
-  };
-
+    )
+  }
 
   return (
     <Drawer.Navigator initialRouteName="Dashboard" drawerContent={CustomDrawerContent}>
@@ -69,6 +84,11 @@ const UserNavigator = (props) => {
           },
         }}
       />
+      {/*<Stack.Screen*/}
+      {/*  name="EditTaskNavigator"*/}
+      {/*  component={EditTaskNavigator}*/}
+      {/*  options={{ headerShown: false }}*/}
+      {/*/>*/}
     </Drawer.Navigator>
   );
 };
