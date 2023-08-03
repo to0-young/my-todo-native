@@ -24,7 +24,6 @@ const EditTaskNavigator = () => {
 }
 
 
-export default EditTaskNavigator
 
 
 const UserNavigator = (props) => {
@@ -84,11 +83,11 @@ const UserNavigator = (props) => {
           },
         }}
       />
-      {/*<Stack.Screen*/}
-      {/*  name="EditTaskNavigator"*/}
-      {/*  component={EditTaskNavigator}*/}
-      {/*  options={{ headerShown: false }}*/}
-      {/*/>*/}
+      <Stack.Screen
+        name="EditTaskNavigator"
+        component={EditTaskNavigator}
+        options={{ headerShown: false }}
+      />
     </Drawer.Navigator>
   );
 };

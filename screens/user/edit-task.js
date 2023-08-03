@@ -14,21 +14,21 @@ const EditTask = () => {
     priority: '',
   });
 
-  const onValidation = () => {
-    let valid = true;
-    const appError = {
-      title: '',
-      priority: '',
-    };
-    if (task.title.length < 3) {
-      valid = false;
-      appError.title = 'Sorry, your title is missing';
-    }
-    if (!valid) {
-      setError(appError);
-    }
-    return valid;
-  };
+  // const onValidation = () => {
+  //   let valid = true;
+  //   const appError = {
+  //     title: '',
+  //     priority: '',
+  //   };
+  //   if (task.title.length < 3) {
+  //     valid = false;
+  //     appError.title = 'Sorry, your title is missing';
+  //   }
+  //   if (!valid) {
+  //     setError(appError);
+  //   }
+  //   return valid;
+  // };
 
   const onEditTask = (e) => {
     e.preventDefault();
@@ -62,9 +62,9 @@ const EditTask = () => {
   const getTask = async () => {
 
     const taskData = {
-      title: 'Title',
-      description: 'Description',
-      priority: 1,
+      title: '',
+      description: '',
+      priority: '',
       dueDate: new Date(),
     };
     setTask(taskData);
@@ -73,43 +73,30 @@ const EditTask = () => {
   return (
     <View style={styles.editTask}>
       <View style={styles.form}>
-        <Text>Edit Task</Text>
 
         <TextInput
           value={task.title}
           error={!!error.title}
           helperText={error.title}
+          placeholder='Title'
           onChangeText={changeTitle}
-          label='Title'
-          mode='outlined'
           style={styles.input}
         />
 
         <TextInput
           value={task.description}
           onChangeText={changeDescription}
-          label='Description'
-          mode='outlined'
+          placeholder='Description'
           style={styles.input}
         />
 
         <TextInput
-          value={task.priority.toString()}
-          error={!!error.priority}
-          helperText={error.priority}
+          style={[styles.input, styles.priorityInput]}
+          keyboardType={'numeric'}
           onChangeText={changePriority}
-          label='Priority'
-          keyboardType='number-pad'
-          mode='outlined'
-          style={styles.input}
+          placeholder="Priority"
         />
 
-        {/*<DateTimePicker*/}
-        {/*  value={task.dueDate}*/}
-        {/*  mode='date'*/}
-        {/*  onChange={changeDate}*/}
-        {/*  style={styles.datePicker}*/}
-        {/*/>*/}
 
         <TouchableOpacity onPress={onEditTask} style={styles.button}>
           <Text style={styles.buttonText}>Save</Text>
@@ -126,9 +113,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   form: {
-    width: '80%',
-    maxWidth: 400,
+    width: 350,
   },
+
   input: {
     textAlign: 'center',
     height: 45,
@@ -140,6 +127,9 @@ const styles = StyleSheet.create({
   },
   datePicker: {
     marginBottom: 16,
+  },
+  priorityInput: {
+    marginBottom: 53,
   },
   button: {
     backgroundColor: '#007AFF',
