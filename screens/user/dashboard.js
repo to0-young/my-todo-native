@@ -106,8 +106,9 @@ const Dashboard = (props) => {
         );
     };
 
-
     if (fetched === false) return <Spinner />
+
+
 
     return (
         <View style={styles.dashboard}>

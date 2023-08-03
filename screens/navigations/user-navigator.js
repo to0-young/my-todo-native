@@ -23,9 +23,6 @@ const EditTaskNavigator = () => {
   )
 }
 
-
-
-
 const UserNavigator = (props) => {
 
   const onLogOut = async () => {

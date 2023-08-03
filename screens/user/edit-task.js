@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { connect, useSelector } from "react-redux";
+import actionCreator from "../store/action-creator";
+import Spinner from "../reusable/spiner";
 
 const EditTask = () => {
+
+  // const received = useSelector((state) => state.task.received)
+
   const [task, setTask] = useState({
     title: '',
     description: '',
@@ -9,66 +15,93 @@ const EditTask = () => {
     dueDate: new Date(),
   });
 
-  const [error, setError] = useState({
-    title: '',
-    priority: '',
-  });
 
-  // const onValidation = () => {
-  //   let valid = true;
-  //   const appError = {
-  //     title: '',
-  //     priority: '',
-  //   };
-  //   if (task.title.length < 3) {
-  //     valid = false;
-  //     appError.title = 'Sorry, your title is missing';
-  //   }
-  //   if (!valid) {
-  //     setError(appError);
-  //   }
-  //   return valid;
-  // };
 
-  const onEditTask = (e) => {
+  const onEditTask = async (e) => {
     e.preventDefault();
     if (onValidation()) {
-      updateTask();
+      await updateTask();
     }
   };
 
-  const changeTitle = (value) => {
-    setTask((task) => ({ ...task, title: value }));
-  };
 
-  const changeDescription = (value) => {
-    setTask((task) => ({ ...task, description: value }));
-  };
+  const changeTitle = (e) => {
+    setTask({
+      ...task,
+      title: e.target.value,
+    })
+  }
 
-  const changePriority = (value) => {
-    setTask((task) => ({ ...task, priority: value }));
-  };
+  const changeDescription = (e) => {
+    setTask({
+      ...task,
+      description: e.target.value
+    })
+  }
 
-  const changeDate = (_, selectedDate) => {
-    setTask((task) => ({ ...task, dueDate: selectedDate || task.dueDate }));
-  };
+  const changePriority = (e) => {
+    setTask({
+      ...task,
+      priority: e.target.value
+    })
+  }
 
-
+  const changeDate = (value) => {
+    setTask({
+      ...task,
+      dueDate: value
+    })
+  }
 
   useEffect(() => {
     getTask();
   }, []);
 
+  const updateTask = async () => {
+    const res = await fetch(`http://192.168.1.101:3000/api/v1/tasks/${task}`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title: task.title,
+        description: task.description,
+        priority: task.priority,
+        due_date: task.dueDate,
+      }),
+    });
+    const json = await res.json();
+
+    if (res.ok) {
+      Alert.alert("Task updated");
+      props.navigation.navigate("Dashboard");
+      return json;
+    }
+  }
+
   const getTask = async () => {
 
-    const taskData = {
-      title: '',
-      description: '',
-      priority: '',
-      dueDate: new Date(),
-    };
-    setTask(taskData);
-  };
+    console.log(task)
+
+    const res = await fetch(`http://192.168.1.101:3000/api/v1/tasks/${task}`, {
+      method: "GET",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    const json = await res.json();
+    if (res.ok) {
+      props.getTaskSuccess(json);
+      setTask((task) => ({
+        ...json,
+        dueDate: json.due_date,
+      }));
+    }
+  }
+
+
+
+  // if (received === false) return <Spinner/>
+
 
   return (
     <View style={styles.editTask}>
@@ -76,8 +109,6 @@ const EditTask = () => {
 
         <TextInput
           value={task.title}
-          error={!!error.title}
-          helperText={error.title}
           placeholder='Title'
           onChangeText={changeTitle}
           style={styles.input}
@@ -97,7 +128,6 @@ const EditTask = () => {
           placeholder="Priority"
         />
 
-
         <TouchableOpacity onPress={onEditTask} style={styles.button}>
           <Text style={styles.buttonText}>Save</Text>
         </TouchableOpacity>
@@ -115,7 +145,6 @@ const styles = StyleSheet.create({
   form: {
     width: 350,
   },
-
   input: {
     textAlign: 'center',
     height: 45,
@@ -125,14 +154,11 @@ const styles = StyleSheet.create({
     marginBottom: 25,
     fontSize: 18,
   },
-  datePicker: {
-    marginBottom: 16,
-  },
   priorityInput: {
     marginBottom: 53,
   },
   button: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#02080e',
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 4,
@@ -145,4 +171,5 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EditTask;
+const ConnectedEditTask = connect(null, actionCreator)(EditTask);
+export default ConnectedEditTask;
