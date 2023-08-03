@@ -8,9 +8,11 @@ import {
     deleteTaskRequest,
     getTasksRequest,
     updateTaskRequest,
-} from "../reusable/requests/user/userRequest";
+} from "../reusable/requests/user/userRequest"
+import { useNavigation } from '@react-navigation/native';
 
 const Dashboard = (props) => {
+    const navigation = useNavigation();
     const tasks = useSelector((state) => state.task.list);
     const fetched = useSelector((state) => state.task.fetched);
     const [page, setPage] = useState(1);
@@ -104,8 +106,9 @@ const Dashboard = (props) => {
         );
     };
 
-
     if (fetched === false) return <Spinner />
+
+
 
     return (
         <View style={styles.dashboard}>
@@ -153,12 +156,9 @@ const Dashboard = (props) => {
                                         <MaterialIcons name="delete-forever" size={30} />
                                     </TouchableOpacity>
 
-
-                                    <TouchableOpacity onPress={() => navigation.navigate('EditTask', { taskId: item.id })}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('EditTaskNavigator', { taskId: item.id })}>
                                         <MaterialIcons name="edit" size={30} />
                                     </TouchableOpacity>
-
-
 
                                     {item.completed ? (
                                         <TouchableOpacity style={styles.taskButton} onPress={ donCompletedTask(item.id)}>
