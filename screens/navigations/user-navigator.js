@@ -22,7 +22,6 @@ const CustomDrawerContent = (props) => {
     if (res.ok) {
       props.deleteSessionSuccess()
     }
-
     return json
   }
 

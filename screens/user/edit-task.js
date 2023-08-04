@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
-import { connect, useSelector } from "react-redux";
+import {connect, useSelector} from "react-redux";
 import actionCreator from "../store/action-creator";
 import Spinner from "../reusable/spiner";
+import {useRoute} from "@react-navigation/native";
 
-const EditTask = () => {
+const EditTask = (props) => {
 
-  // const received = useSelector((state) => state.task.received)
+  const route = useRoute();
+  const { taskId } = route.params;
+  const received = useSelector((state) => state.task.received)
 
+  
   const [task, setTask] = useState({
     title: '',
     description: '',
@@ -15,6 +19,34 @@ const EditTask = () => {
     dueDate: new Date(),
   });
 
+
+  const [error, changeError] = React.useState({
+    title: '',
+    description: '',
+    priority: '',
+    dueDate: '',
+  })
+
+  const onValidation =  () => {
+    let valid = true
+    const appError = {
+      title: "",
+      priority: "",
+      dueDate: "",
+    }
+    if (task.title.length < 3) {
+      valid = false
+      appError.title = "Sorry, your title is missing"
+    }
+    if (task.priority.length < 1) {
+      valid = false
+      appError.priority = "Sorry your priority is missing"
+    }
+    if (!valid) {
+      changeError(appError)
+    }
+    return valid
+  }
 
 
   const onEditTask = async (e) => {
@@ -25,40 +57,41 @@ const EditTask = () => {
   };
 
 
-  const changeTitle = (e) => {
+  const changeTitle = (title) => {
     setTask({
       ...task,
-      title: e.target.value,
+      title: title,
+    });
+  };
+
+
+  const changeDescription = (description) => {
+    setTask({
+      ...task,
+      description: description
     })
   }
 
-  const changeDescription = (e) => {
+  const changePriority = (priority) => {
     setTask({
       ...task,
-      description: e.target.value
+      priority: priority
     })
   }
 
-  const changePriority = (e) => {
-    setTask({
-      ...task,
-      priority: e.target.value
-    })
-  }
-
-  const changeDate = (value) => {
-    setTask({
-      ...task,
-      dueDate: value
-    })
-  }
+  // const changeDate = (value) => {
+  //   setTask({
+  //     ...task,
+  //     dueDate: value
+  //   })
+  // }
 
   useEffect(() => {
     getTask();
   }, []);
 
   const updateTask = async () => {
-    const res = await fetch(`http://192.168.1.101:3000/api/v1/tasks/${task}`, {
+    const res = await fetch(`http://192.168.1.101:3000/api/v1/tasks/${task.id}`, {
       method: "PATCH",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
@@ -79,28 +112,20 @@ const EditTask = () => {
   }
 
   const getTask = async () => {
-
-    console.log(task)
-
-    const res = await fetch(`http://192.168.1.101:3000/api/v1/tasks/${task}`, {
+    const res = await fetch(`http://192.168.1.101:3000/api/v1/tasks/${taskId}`, {
       method: "GET",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
     });
-
     const json = await res.json();
     if (res.ok) {
       props.getTaskSuccess(json);
-      setTask((task) => ({
-        ...json,
-        dueDate: json.due_date,
-      }));
+      setTask(json)
     }
   }
 
 
-
-  // if (received === false) return <Spinner/>
+  if (received === false) return <Spinner/>
 
 
   return (
@@ -113,6 +138,7 @@ const EditTask = () => {
           onChangeText={changeTitle}
           style={styles.input}
         />
+        {error.title ? <Text style={styles.error}>{error.title}</Text> : null}
 
         <TextInput
           value={task.description}
