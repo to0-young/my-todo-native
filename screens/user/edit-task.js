@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
+import {View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, Button, SafeAreaView} from 'react-native';
 import {connect, useSelector} from "react-redux";
 import actionCreator from "../store/action-creator";
 import Spinner from "../reusable/spiner";
 import {useRoute} from "@react-navigation/native";
+import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
+
 
 const EditTask = (props) => {
 
@@ -11,7 +13,34 @@ const EditTask = (props) => {
   const { taskId } = route.params;
   const received = useSelector((state) => state.task.received)
 
-  
+
+  const [date, setDate] = useState(new Date(1598051730000));
+
+  const onChange = (value) => {
+    setTask({
+      ...task,
+      dueDate: value
+    })
+    setDate(value)
+  }
+
+  const showMode = (currentMode) => {
+    DateTimePickerAndroid.open({
+      value: date,
+      onChange,
+      mode: currentMode,
+      is24Hour: true,
+    });
+  };
+
+  const showDatepicker = () => {
+    showMode('date');
+  };
+
+  const showTimepicker = () => {
+    showMode('time');
+  };
+
   const [task, setTask] = useState({
     title: '',
     description: '',
@@ -26,6 +55,8 @@ const EditTask = (props) => {
     priority: '',
     dueDate: '',
   })
+
+
 
   const onValidation =  () => {
     let valid = true
@@ -79,12 +110,9 @@ const EditTask = (props) => {
     })
   }
 
-  // const changeDate = (value) => {
-  //   setTask({
-  //     ...task,
-  //     dueDate: value
-  //   })
-  // }
+
+
+
 
   useEffect(() => {
     getTask();
@@ -112,6 +140,7 @@ const EditTask = (props) => {
   }
 
   const getTask = async () => {
+    console.log(task)
     const res = await fetch(`http://192.168.1.101:3000/api/v1/tasks/${taskId}`, {
       method: "GET",
       credentials: "include",
@@ -154,9 +183,16 @@ const EditTask = (props) => {
           placeholder="Priority"
         />
 
+        <SafeAreaView>
+          <Button style={styles.buttonPick}onPress={showDatepicker} title="Show date picker!" />
+          <Button onPress={showTimepicker} title="Show time picker!" />
+          <Text>Selected: {date.toLocaleString()}</Text>
+        </SafeAreaView>
+
         <TouchableOpacity onPress={onEditTask} style={styles.button}>
           <Text style={styles.buttonText}>Save</Text>
         </TouchableOpacity>
+
       </View>
     </View>
   );
