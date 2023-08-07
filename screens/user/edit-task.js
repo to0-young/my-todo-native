@@ -6,7 +6,6 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
-  Button,
   SafeAreaView,
   ScrollView
 } from 'react-native';
@@ -158,6 +157,7 @@ const EditTask = (props) => {
   }
 
   const getTask = async () => {
+    console.log(task)
     const res = await fetch(`http://192.168.1.101:3000/api/v1/tasks/${taskId}`, {
       method: "GET",
       credentials: "include",
@@ -170,7 +170,6 @@ const EditTask = (props) => {
         ...json,
         dueDate: new Date(json.due_date),
       })
-
     }
   }
 
@@ -199,10 +198,11 @@ const EditTask = (props) => {
           />
 
           <TextInput
+            value={task.priority.toString()}
             style={[styles.input, styles.priorityInput]}
             keyboardType={'numeric'}
             onChangeText={changePriority}
-            placeholder="Priority"
+            type={'number'}
           />
 
           <SafeAreaView>
