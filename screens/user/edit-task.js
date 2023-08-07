@@ -31,33 +31,7 @@ const EditTask = (props) => {
   })
 
 
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || task.dueDate;
-    setShowDatePicker(false);
-    changeDate(currentDate);
-    setTask({
-      ...task,
-      dueDate: currentDate,
-    });
-  };
 
-
-  const showMode = (currentMode) => {
-    DateTimePickerAndroid.open({
-      value: task.dueDate,
-      onChange,
-      mode: currentMode,
-      is24Hour: true,
-    });
-  };
-
-  const showDatepicker = () => {
-    showMode('date');
-  };
-
-  const showTimepicker = () => {
-    showMode('time');
-  };
 
 
   const changeDate = (value) => {
@@ -119,6 +93,36 @@ const EditTask = (props) => {
       priority: priority
     })
   }
+
+
+  const showDatepicker = () => {
+    showMode('date');
+  };
+
+  const showTimepicker = () => {
+    showMode('time');
+  };
+
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || task.dueDate;
+    setShowDatePicker(false);
+    changeDate(currentDate);
+    setTask({
+      ...task,
+      dueDate: currentDate,
+    });
+  };
+
+
+  const showMode = (currentMode) => {
+    DateTimePickerAndroid.open({
+      value: task.dueDate,
+      onChange,
+      mode: currentMode,
+      is24Hour: true,
+    });
+  };
 
   useEffect(() => {
     getTask();
@@ -192,9 +196,23 @@ const EditTask = (props) => {
         />
 
         <SafeAreaView>
-          <Button onPress={showDatepicker} title="Show date picker!" />
-          <Button onPress={showTimepicker} title="Show time picker!" />
-          <Text> {task.dueDate.toLocaleString()}</Text>
+          {/*<Button style={styles.showDate} onPress={showDatepicker} title="Show date picker!" />*/}
+
+          <TouchableOpacity
+            style={[styles.button, styles.showPickerButton]}
+            onPress={showDatepicker}
+          >
+            <Text style={styles.showPickerText}>Show date picker!</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.button, styles.showPickerButton]}
+            onPress={showTimepicker}
+          >
+            <Text style={styles.showPickerText}>Show time picker!</Text>
+          </TouchableOpacity>
+
+          <Text style={styles.dateText}>{task.dueDate.toLocaleString()}</Text>
 
           {showDatePicker && (
             <DateTimePickerAndroid
@@ -207,7 +225,7 @@ const EditTask = (props) => {
           )}
         </SafeAreaView>
 
-        <TouchableOpacity onPress={onEditTask} style={styles.button}>
+        <TouchableOpacity onPress={onEditTask} style={styles.buttonSave}>
           <Text style={styles.buttonText}>Save</Text>
         </TouchableOpacity>
 
@@ -239,14 +257,49 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: '#02080e',
+    width: 200,
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 4,
     alignItems: 'center',
+    alignSelf: 'center',
+    top: -20,
+  },
+  buttonSave: {
+    backgroundColor: '#02080e',
+    width: 200,
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 4,
+    alignItems: 'center',
+    alignSelf: 'center',
+    top: 22,
   },
   buttonText: {
     color: '#FFFFFF',
     fontSize: 16,
+    fontWeight: 'bold',
+  },
+  dateText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginTop: 10,
+    textAlign: 'center',
+    top: -15
+  },
+  showPickerButton: {
+    backgroundColor: '#31d0bb',
+    width: 200,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 4,
+    alignItems: 'center',
+    alignSelf: 'center',
+    marginBottom: 10,
+  },
+  showPickerText: {
+    color: '#0c0c0c',
+    fontSize: 18,
     fontWeight: 'bold',
   },
 });
