@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import {View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, Button, SafeAreaView} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+  Button,
+  SafeAreaView,
+  ScrollView
+} from 'react-native';
 import {connect, useSelector} from "react-redux";
 import actionCreator from "../store/action-creator";
 import Spinner from "../reusable/spiner";
@@ -10,7 +20,7 @@ import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 const EditTask = (props) => {
 
   const route = useRoute();
-  const { taskId } = route.params;
+  const {taskId} = route.params;
   const received = useSelector((state) => state.task.received)
   const [currentMode, setCurrentMode] = useState('date')
 
@@ -31,9 +41,6 @@ const EditTask = (props) => {
   })
 
 
-
-
-
   const changeDate = (value) => {
     setTask({
       ...task,
@@ -42,7 +49,7 @@ const EditTask = (props) => {
   };
 
 
-  const onValidation =  () => {
+  const onValidation = () => {
     let valid = true
     const appError = {
       title: "",
@@ -132,7 +139,7 @@ const EditTask = (props) => {
     const res = await fetch(`http://192.168.1.101:3000/api/v1/tasks/${task.id}`, {
       method: "PATCH",
       credentials: "include",
-      headers: { "Content-Type": "application/json" },
+      headers: {"Content-Type": "application/json"},
       body: JSON.stringify({
         title: task.title,
         description: task.description,
@@ -154,12 +161,13 @@ const EditTask = (props) => {
     const res = await fetch(`http://192.168.1.101:3000/api/v1/tasks/${taskId}`, {
       method: "GET",
       credentials: "include",
-      headers: { "Content-Type": "application/json" },
+      headers: {"Content-Type": "application/json"},
     });
     const json = await res.json();
     if (res.ok) {
       props.getTaskSuccess(json)
-      setTask({...json,
+      setTask({
+        ...json,
         dueDate: new Date(json.due_date),
       })
 
@@ -170,72 +178,75 @@ const EditTask = (props) => {
 
 
   return (
-    <View style={styles.editTask}>
-      <View style={styles.form}>
+    <ScrollView contentContainerStyle={styles.scrollViewContent}>
+      <View>
+        <View style={styles.form}>
 
-        <TextInput
-          value={task.title}
-          placeholder='Title'
-          onChangeText={changeTitle}
-          style={styles.input}
-        />
-        {error.title ? <Text style={styles.error}>{error.title}</Text> : null}
+          {error.title ? <Text style={styles.error}>{error.title}</Text> : null}
 
-        <TextInput
-          value={task.description}
-          onChangeText={changeDescription}
-          placeholder='Description'
-          style={styles.input}
-        />
+          <TextInput
+            value={task.title}
+            placeholder='Title'
+            onChangeText={changeTitle}
+            style={styles.input}
+          />
 
-        <TextInput
-          style={[styles.input, styles.priorityInput]}
-          keyboardType={'numeric'}
-          onChangeText={changePriority}
-          placeholder="Priority"
-        />
+          <TextInput
+            value={task.description}
+            onChangeText={changeDescription}
+            placeholder='Description'
+            style={styles.input}
+          />
 
-        <SafeAreaView>
-          {/*<Button style={styles.showDate} onPress={showDatepicker} title="Show date picker!" />*/}
+          <TextInput
+            style={[styles.input, styles.priorityInput]}
+            keyboardType={'numeric'}
+            onChangeText={changePriority}
+            placeholder="Priority"
+          />
 
-          <TouchableOpacity
-            style={[styles.button, styles.showPickerButton]}
-            onPress={showDatepicker}
-          >
-            <Text style={styles.showPickerText}>Show date picker!</Text>
+          <SafeAreaView>
+            {/*<Button style={styles.showDate} onPress={showDatepicker} title="Show date picker!" />*/}
+
+            <TouchableOpacity
+              style={[styles.button, styles.showPickerButton]}
+              onPress={showDatepicker}
+            >
+              <Text style={styles.showPickerText}>Show date picker!</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.button, styles.showPickerButton]}
+              onPress={showTimepicker}
+            >
+              <Text style={styles.showPickerText}>Show time picker!</Text>
+            </TouchableOpacity>
+
+            <Text style={styles.dateText}>{task.dueDate.toLocaleString()}</Text>
+
+            {showDatePicker && (
+              <DateTimePickerAndroid
+                value={task.dueDate}
+                mode={currentMode}
+                is24Hour={true}
+                display="default"
+                onChange={onChange}
+              />
+            )}
+          </SafeAreaView>
+
+          <TouchableOpacity onPress={onEditTask} style={styles.buttonSave}>
+            <Text style={styles.buttonText}>Save</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            style={[styles.button, styles.showPickerButton]}
-            onPress={showTimepicker}
-          >
-            <Text style={styles.showPickerText}>Show time picker!</Text>
-          </TouchableOpacity>
-
-          <Text style={styles.dateText}>{task.dueDate.toLocaleString()}</Text>
-
-          {showDatePicker && (
-            <DateTimePickerAndroid
-              value={task.dueDate}
-              mode={currentMode}
-              is24Hour={true}
-              display="default"
-              onChange={onChange}
-            />
-          )}
-        </SafeAreaView>
-
-        <TouchableOpacity onPress={onEditTask} style={styles.buttonSave}>
-          <Text style={styles.buttonText}>Save</Text>
-        </TouchableOpacity>
-
+        </View>
       </View>
-    </View>
-  );
-};
+    </ScrollView>
+  )
+}
 
 const styles = StyleSheet.create({
-  editTask: {
+  scrollViewContent: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
