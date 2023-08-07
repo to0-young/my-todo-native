@@ -12,21 +12,39 @@ const EditTask = (props) => {
   const route = useRoute();
   const { taskId } = route.params;
   const received = useSelector((state) => state.task.received)
+  const [currentMode, setCurrentMode] = useState('date')
+
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
+  const [task, setTask] = useState({
+    title: '',
+    description: '',
+    priority: 1,
+    dueDate: new Date().toISOString(),
+  });
+
+  const [error, changeError] = React.useState({
+    title: '',
+    description: '',
+    priority: '',
+    dueDate: '',
+  })
 
 
-  const [date, setDate] = useState(new Date(1598051730000));
-
-  const onChange = (value) => {
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || task.dueDate;
+    setShowDatePicker(false);
+    changeDate(currentDate);
     setTask({
       ...task,
-      dueDate: value
-    })
-    setDate(value)
-  }
+      dueDate: currentDate,
+    });
+  };
+
 
   const showMode = (currentMode) => {
     DateTimePickerAndroid.open({
-      value: date,
+      value: task.dueDate,
       onChange,
       mode: currentMode,
       is24Hour: true,
@@ -41,21 +59,13 @@ const EditTask = (props) => {
     showMode('time');
   };
 
-  const [task, setTask] = useState({
-    title: '',
-    description: '',
-    priority: 1,
-    dueDate: new Date(),
-  });
 
-
-  const [error, changeError] = React.useState({
-    title: '',
-    description: '',
-    priority: '',
-    dueDate: '',
-  })
-
+  const changeDate = (newDate) => {
+    setTask({
+      ...task,
+      dueDate: newDate,
+    });
+  };
 
 
   const onValidation =  () => {
@@ -112,8 +122,6 @@ const EditTask = (props) => {
 
 
 
-
-
   useEffect(() => {
     getTask();
   }, []);
@@ -140,7 +148,6 @@ const EditTask = (props) => {
   }
 
   const getTask = async () => {
-    console.log(task)
     const res = await fetch(`http://192.168.1.101:3000/api/v1/tasks/${taskId}`, {
       method: "GET",
       credentials: "include",
@@ -148,8 +155,12 @@ const EditTask = (props) => {
     });
     const json = await res.json();
     if (res.ok) {
-      props.getTaskSuccess(json);
-      setTask(json)
+      props.getTaskSuccess(json)
+      setTask((task) => ({
+        ...json,
+        dueDate: new Date(json.due_date),
+      }))
+
     }
   }
 
@@ -184,9 +195,19 @@ const EditTask = (props) => {
         />
 
         <SafeAreaView>
-          <Button style={styles.buttonPick}onPress={showDatepicker} title="Show date picker!" />
+          <Button onPress={showDatepicker} title="Show date picker!" />
           <Button onPress={showTimepicker} title="Show time picker!" />
-          <Text>Selected: {date.toLocaleString()}</Text>
+          <Text> {task.dueDate.toLocaleString()}</Text>
+
+          {showDatePicker && (
+            <DateTimePickerAndroid
+              value={task.dueDate}
+              mode={currentMode}
+              is24Hour={true}
+              display="default"
+              onChange={onChange}
+            />
+          )}
         </SafeAreaView>
 
         <TouchableOpacity onPress={onEditTask} style={styles.button}>
