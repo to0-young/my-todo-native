@@ -156,7 +156,7 @@ const Dashboard = (props) => {
                                         <MaterialIcons name="delete-forever" size={30} />
                                     </TouchableOpacity>
 
-                                    <TouchableOpacity onPress={() => navigation.navigate('EditTaskNavigator', { taskId: item.id })}>
+                                    <TouchableOpacity onPress={() => navigation.navigate('EditTask', { taskId: item.id })}>
                                         <MaterialIcons name="edit" size={30} />
                                     </TouchableOpacity>
 

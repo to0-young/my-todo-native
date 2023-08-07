@@ -14,17 +14,7 @@ import {createStackNavigator} from "@react-navigation/stack";
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
-
-const EditTaskNavigator = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="EditTask" component={EditTask} />
-    </Stack.Navigator>
-  )
-}
-
-const UserNavigator = (props) => {
-
+const CustomDrawerContent = (props) => {
   const onLogOut = async () => {
     const res = await logoutRequest()
     const json = await res.json()
@@ -32,25 +22,24 @@ const UserNavigator = (props) => {
     if (res.ok) {
       props.deleteSessionSuccess()
     }
-
     return json
   }
 
-  const CustomDrawerContent = (props) => {
-    return (
-      <View style={styles.container}>
-        <DrawerContentScrollView {...props}>
-          <DrawerItemList {...props} />
-        </DrawerContentScrollView>
-        <TouchableWithoutFeedback onPress={onLogOut}>
-          <View style={styles.logoutContainer}>
-            <Text style={styles.logoutText}>Logout</Text>
-          </View>
-        </TouchableWithoutFeedback>
-      </View>
-    )
-  }
+  return (
+    <View style={styles.container}>
+      <DrawerContentScrollView {...props}>
+        <DrawerItemList {...props} />
+      </DrawerContentScrollView>
+      <TouchableWithoutFeedback onPress={onLogOut}>
+        <View style={styles.logoutContainer}>
+          <Text style={styles.logoutText}>Logout</Text>
+        </View>
+      </TouchableWithoutFeedback>
+    </View>
+  )
+}
 
+const Root = () => {
   return (
     <Drawer.Navigator initialRouteName="Dashboard" drawerContent={CustomDrawerContent}>
       <Drawer.Screen
@@ -80,13 +69,25 @@ const UserNavigator = (props) => {
           },
         }}
       />
-      <Stack.Screen
-        name="EditTaskNavigator"
-        component={EditTaskNavigator}
-        options={{ headerShown: false }}
-      />
     </Drawer.Navigator>
   );
+}
+
+const UserNavigator = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Drawer"
+        component={Root}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="EditTask"
+        component={EditTask}
+      />
+    </Stack.Navigator>
+  )
 };
 
 const ConnectedUserNavigator = connect(null, actionCreator)(UserNavigator);

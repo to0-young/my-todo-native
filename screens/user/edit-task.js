@@ -1,20 +1,93 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
-import { connect, useSelector } from "react-redux";
+import {View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, Button, SafeAreaView} from 'react-native';
+import {connect, useSelector} from "react-redux";
 import actionCreator from "../store/action-creator";
 import Spinner from "../reusable/spiner";
+import {useRoute} from "@react-navigation/native";
+import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 
-const EditTask = () => {
 
-  // const received = useSelector((state) => state.task.received)
+const EditTask = (props) => {
+
+  const route = useRoute();
+  const { taskId } = route.params;
+  const received = useSelector((state) => state.task.received)
+  const [currentMode, setCurrentMode] = useState('date')
+
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
   const [task, setTask] = useState({
     title: '',
     description: '',
     priority: 1,
-    dueDate: new Date(),
+    dueDate: new Date().toISOString(),
   });
 
+  const [error, changeError] = React.useState({
+    title: '',
+    description: '',
+    priority: '',
+    dueDate: '',
+  })
+
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || task.dueDate;
+    setShowDatePicker(false);
+    changeDate(currentDate);
+    setTask({
+      ...task,
+      dueDate: currentDate,
+    });
+  };
+
+
+  const showMode = (currentMode) => {
+    DateTimePickerAndroid.open({
+      value: task.dueDate,
+      onChange,
+      mode: currentMode,
+      is24Hour: true,
+    });
+  };
+
+  const showDatepicker = () => {
+    showMode('date');
+  };
+
+  const showTimepicker = () => {
+    showMode('time');
+  };
+
+
+  const changeDate = (newDate) => {
+    setTask({
+      ...task,
+      dueDate: newDate,
+    });
+  };
+
+
+  const onValidation =  () => {
+    let valid = true
+    const appError = {
+      title: "",
+      priority: "",
+      dueDate: "",
+    }
+    if (task.title.length < 3) {
+      valid = false
+      appError.title = "Sorry, your title is missing"
+    }
+    if (task.priority.length < 1) {
+      valid = false
+      appError.priority = "Sorry your priority is missing"
+    }
+    if (!valid) {
+      changeError(appError)
+    }
+    return valid
+  }
 
 
   const onEditTask = async (e) => {
@@ -25,40 +98,36 @@ const EditTask = () => {
   };
 
 
-  const changeTitle = (e) => {
+  const changeTitle = (title) => {
     setTask({
       ...task,
-      title: e.target.value,
+      title: title,
+    });
+  };
+
+
+  const changeDescription = (description) => {
+    setTask({
+      ...task,
+      description: description
     })
   }
 
-  const changeDescription = (e) => {
+  const changePriority = (priority) => {
     setTask({
       ...task,
-      description: e.target.value
+      priority: priority
     })
   }
 
-  const changePriority = (e) => {
-    setTask({
-      ...task,
-      priority: e.target.value
-    })
-  }
 
-  const changeDate = (value) => {
-    setTask({
-      ...task,
-      dueDate: value
-    })
-  }
 
   useEffect(() => {
     getTask();
   }, []);
 
   const updateTask = async () => {
-    const res = await fetch(`http://192.168.1.101:3000/api/v1/tasks/${task}`, {
+    const res = await fetch(`http://192.168.1.101:3000/api/v1/tasks/${task.id}`, {
       method: "PATCH",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
@@ -79,28 +148,24 @@ const EditTask = () => {
   }
 
   const getTask = async () => {
-
-    console.log(task)
-
-    const res = await fetch(`http://192.168.1.101:3000/api/v1/tasks/${task}`, {
+    const res = await fetch(`http://192.168.1.101:3000/api/v1/tasks/${taskId}`, {
       method: "GET",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
     });
-
     const json = await res.json();
     if (res.ok) {
-      props.getTaskSuccess(json);
+      props.getTaskSuccess(json)
       setTask((task) => ({
         ...json,
-        dueDate: json.due_date,
-      }));
+        dueDate: new Date(json.due_date),
+      }))
+
     }
   }
 
 
-
-  // if (received === false) return <Spinner/>
+  if (received === false) return <Spinner/>
 
 
   return (
@@ -113,6 +178,7 @@ const EditTask = () => {
           onChangeText={changeTitle}
           style={styles.input}
         />
+        {error.title ? <Text style={styles.error}>{error.title}</Text> : null}
 
         <TextInput
           value={task.description}
@@ -128,9 +194,26 @@ const EditTask = () => {
           placeholder="Priority"
         />
 
+        <SafeAreaView>
+          <Button onPress={showDatepicker} title="Show date picker!" />
+          <Button onPress={showTimepicker} title="Show time picker!" />
+          <Text> {task.dueDate.toLocaleString()}</Text>
+
+          {showDatePicker && (
+            <DateTimePickerAndroid
+              value={task.dueDate}
+              mode={currentMode}
+              is24Hour={true}
+              display="default"
+              onChange={onChange}
+            />
+          )}
+        </SafeAreaView>
+
         <TouchableOpacity onPress={onEditTask} style={styles.button}>
           <Text style={styles.buttonText}>Save</Text>
         </TouchableOpacity>
+
       </View>
     </View>
   );
