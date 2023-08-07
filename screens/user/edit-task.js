@@ -13,7 +13,9 @@ import {connect, useSelector} from "react-redux";
 import actionCreator from "../store/action-creator";
 import Spinner from "../reusable/spiner";
 import {useRoute} from "@react-navigation/native";
-import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
+import { DateTimePickerAndroid } from '@react-native-community/datetimepicker'
+import {fetchEditTask, updateEditTask} from "../reusable/requests/user/userRequest";
+
 
 
 const EditTask = (props) => {
@@ -73,7 +75,7 @@ const EditTask = (props) => {
   const onEditTask = async (e) => {
     e.preventDefault();
     if (onValidation()) {
-      await updateTask();
+      await handleUpdateTask();
     }
   };
 
@@ -134,44 +136,26 @@ const EditTask = (props) => {
     getTask();
   }, []);
 
-  const updateTask = async () => {
-    const res = await fetch(`http://192.168.1.101:3000/api/v1/tasks/${task.id}`, {
-      method: "PATCH",
-      credentials: "include",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({
-        title: task.title,
-        description: task.description,
-        priority: task.priority,
-        due_date: task.dueDate,
-      }),
-    });
-    const json = await res.json();
 
-    if (res.ok) {
-      Alert.alert("Task updated");
-      props.navigation.navigate("Dashboard");
-      props.updateTaskSuccess(json)
-      return json;
+  const handleUpdateTask = async () => {
+    const updatedTask = await updateEditTask(task);
+    if (updatedTask) {
+      Alert.alert('Task updated');
+      props.navigation.navigate('Dashboard');
+      props.updateTaskSuccess(updatedTask);
     }
-  }
+  };
 
   const getTask = async () => {
-    console.log(task)
-    const res = await fetch(`http://192.168.1.101:3000/api/v1/tasks/${taskId}`, {
-      method: "GET",
-      credentials: "include",
-      headers: {"Content-Type": "application/json"},
-    });
-    const json = await res.json();
-    if (res.ok) {
-      props.getTaskSuccess(json)
+    const taskData = await fetchEditTask(taskId);
+    if (taskData) {
+      props.getTaskSuccess(taskData)
       setTask({
-        ...json,
-        dueDate: new Date(json.due_date),
-      })
+        ...taskData,
+        dueDate: new Date(taskData.due_date),
+      });
     }
-  }
+  };
 
   if (received === false) return <Spinner/>
 
@@ -212,14 +196,14 @@ const EditTask = (props) => {
               style={[styles.button, styles.showPickerButton]}
               onPress={showDatepicker}
             >
-              <Text style={styles.showPickerText}>Show date picker!</Text>
+              <Text style={styles.showPickerText}>Show date </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={[styles.button, styles.showPickerButton]}
               onPress={showTimepicker}
             >
-              <Text style={styles.showPickerText}>Show time picker!</Text>
+              <Text style={styles.showPickerText}>Show time </Text>
             </TouchableOpacity>
 
             <Text style={styles.dateText}>{task.dueDate.toLocaleString()}</Text>

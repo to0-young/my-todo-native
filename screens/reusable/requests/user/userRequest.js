@@ -120,6 +120,56 @@ const deleteTaskRequest = async (taskId) => {
 //     return await res.json();
 // };
 
+const fetchEditTask = async (taskId) => {
+  const res = await fetch(`http://192.168.1.101:3000/api/v1/tasks/${taskId}`, {
+    method: "GET",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+  });
+  return await res.json();
+};
+
+// const fetchEditTask = async (taskId) => {
+//   const res = await fetch(`http://192.168.31.101:3000/api/v1/tasks/${taskId}`, {
+//     method: "GET",
+//     credentials: "include",
+//     headers: { "Content-Type": "application/json" },
+//   });
+//   return await res.json();
+// };
+
+
+const updateEditTask = async (task) => {
+  const res = await fetch(`http://192.168.1.101:3000/api/v1/tasks/${task.id}`, {
+    method: "PATCH",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      title: task.title,
+      description: task.description,
+      priority: task.priority,
+      due_date: task.dueDate,
+    }),
+  });
+  return await res.json();
+}
+
+
+// const updateEditTask = async (task) => {
+//   const res = await fetch(`http://192.168.31.101:3000/api/v1/tasks/${task.id}`, {
+//     method: "PATCH",
+//     credentials: "include",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify({
+//       title: task.title,
+//       description: task.description,
+//       priority: task.priority,
+//       due_date: task.dueDate,
+//     }),
+//   });
+//   return await res.json();
+// };
+
 
 
 export {
@@ -128,5 +178,6 @@ export {
   getTasksRequest,
     updateTaskRequest,
     deleteTaskRequest,
-
+  fetchEditTask,
+  updateEditTask,
 }
