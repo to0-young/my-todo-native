@@ -20,7 +20,7 @@ const EditTask = (props) => {
     title: '',
     description: '',
     priority: 1,
-    dueDate: new Date().toISOString(),
+    dueDate: new Date().toISOString()
   });
 
   const [error, changeError] = React.useState({
@@ -60,10 +60,10 @@ const EditTask = (props) => {
   };
 
 
-  const changeDate = (newDate) => {
+  const changeDate = (value) => {
     setTask({
       ...task,
-      dueDate: newDate,
+      dueDate: value,
     });
   };
 
@@ -120,8 +120,6 @@ const EditTask = (props) => {
     })
   }
 
-
-
   useEffect(() => {
     getTask();
   }, []);
@@ -143,6 +141,7 @@ const EditTask = (props) => {
     if (res.ok) {
       Alert.alert("Task updated");
       props.navigation.navigate("Dashboard");
+      props.updateTaskSuccess(json)
       return json;
     }
   }
@@ -156,14 +155,12 @@ const EditTask = (props) => {
     const json = await res.json();
     if (res.ok) {
       props.getTaskSuccess(json)
-      setTask((task) => ({
-        ...json,
+      setTask({...json,
         dueDate: new Date(json.due_date),
-      }))
+      })
 
     }
   }
-
 
   if (received === false) return <Spinner/>
 
