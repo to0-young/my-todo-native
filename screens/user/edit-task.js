@@ -22,9 +22,9 @@ const EditTask = (props) => {
 
   const route = useRoute();
   const {taskId} = route.params;
+
   const received = useSelector((state) => state.task.received)
   const [currentMode, setCurrentMode] = useState('date')
-
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const [task, setTask] = useState({
@@ -190,20 +190,18 @@ const EditTask = (props) => {
           />
 
           <SafeAreaView>
-            {/*<Button style={styles.showDate} onPress={showDatepicker} title="Show date picker!" />*/}
+            <TouchableOpacity
+              style={[styles.button, styles.showPickerButton]}
+              onPress={showTimepicker}
+            >
+              <Text style={styles.showPickerText}>Show time </Text>
+            </TouchableOpacity>
 
             <TouchableOpacity
               style={[styles.button, styles.showPickerButton]}
               onPress={showDatepicker}
             >
               <Text style={styles.showPickerText}>Show date </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={[styles.button, styles.showPickerButton]}
-              onPress={showTimepicker}
-            >
-              <Text style={styles.showPickerText}>Show time </Text>
             </TouchableOpacity>
 
             <Text style={styles.dateText}>{task.dueDate.toLocaleString()}</Text>
