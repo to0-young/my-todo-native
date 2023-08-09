@@ -6,7 +6,6 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
-  SafeAreaView,
   ScrollView
 } from 'react-native';
 import {connect, useSelector} from "react-redux";
@@ -42,14 +41,6 @@ const EditTask = (props) => {
   })
 
 
-  const changeDate = (value) => {
-    setTask({
-      ...task,
-      dueDate: value,
-    });
-  };
-
-
   const onValidation = () => {
     let valid = true
     const appError = {
@@ -79,14 +70,12 @@ const EditTask = (props) => {
     }
   };
 
-
   const changeTitle = (title) => {
     setTask({
       ...task,
       title: title,
     });
   };
-
 
   const changeDescription = (description) => {
     setTask({
@@ -102,6 +91,21 @@ const EditTask = (props) => {
     })
   }
 
+  const changeDate = (value) => {
+    setTask({
+      ...task,
+      dueDate: value,
+    });
+  };
+
+  const showMode = (currentMode) => {
+    DateTimePickerAndroid.open({
+      value: task.dueDate,
+      onChange,
+      mode: currentMode,
+      is24Hour: true,
+    });
+  };
 
   const showDatepicker = () => {
     showMode('date');
@@ -110,6 +114,11 @@ const EditTask = (props) => {
   const showTimepicker = () => {
     showMode('time');
   };
+
+
+  useEffect(() => {
+    getTask();
+  }, []);
 
 
   const onChange = (event, selectedDate) => {
@@ -121,21 +130,6 @@ const EditTask = (props) => {
       dueDate: currentDate,
     });
   };
-
-
-  const showMode = (currentMode) => {
-    DateTimePickerAndroid.open({
-      value: task.dueDate,
-      onChange,
-      mode: currentMode,
-      is24Hour: true,
-    });
-  };
-
-  useEffect(() => {
-    getTask();
-  }, []);
-
 
   const handleUpdateTask = async () => {
     const updatedTask = await updateEditTask(task);
@@ -189,7 +183,6 @@ const EditTask = (props) => {
             type={'number'}
           />
 
-          <SafeAreaView>
             <TouchableOpacity
               style={[styles.button, styles.showPickerButton]}
               onPress={showTimepicker}
@@ -215,8 +208,6 @@ const EditTask = (props) => {
                 onChange={onChange}
               />
             )}
-          </SafeAreaView>
-
           <TouchableOpacity onPress={onEditTask} style={styles.buttonSave}>
             <Text style={styles.buttonText}>Save</Text>
           </TouchableOpacity>

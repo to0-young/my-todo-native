@@ -41,7 +41,7 @@ const CustomDrawerContent = (props) => {
 
 const Root = () => {
   return (
-    <Drawer.Navigator initialRouteName="Dashboard" drawerContent={CustomDrawerContent}>
+    <Drawer.Navigator initialRouteName="NewTask" drawerContent={CustomDrawerContent}>
       <Drawer.Screen
         name="Dashboard"
         component={Dashboard}
