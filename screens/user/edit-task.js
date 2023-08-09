@@ -6,7 +6,6 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
-  SafeAreaView,
   ScrollView
 } from 'react-native';
 import {connect, useSelector} from "react-redux";
@@ -22,9 +21,9 @@ const EditTask = (props) => {
 
   const route = useRoute();
   const {taskId} = route.params;
+
   const received = useSelector((state) => state.task.received)
   const [currentMode, setCurrentMode] = useState('date')
-
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const [task, setTask] = useState({
@@ -40,14 +39,6 @@ const EditTask = (props) => {
     priority: '',
     dueDate: '',
   })
-
-
-  const changeDate = (value) => {
-    setTask({
-      ...task,
-      dueDate: value,
-    });
-  };
 
 
   const onValidation = () => {
@@ -79,14 +70,12 @@ const EditTask = (props) => {
     }
   };
 
-
   const changeTitle = (title) => {
     setTask({
       ...task,
       title: title,
     });
   };
-
 
   const changeDescription = (description) => {
     setTask({
@@ -102,6 +91,21 @@ const EditTask = (props) => {
     })
   }
 
+  const changeDate = (value) => {
+    setTask({
+      ...task,
+      dueDate: value,
+    });
+  };
+
+  const showMode = (currentMode) => {
+    DateTimePickerAndroid.open({
+      value: task.dueDate,
+      onChange,
+      mode: currentMode,
+      is24Hour: true,
+    });
+  };
 
   const showDatepicker = () => {
     showMode('date');
@@ -110,6 +114,11 @@ const EditTask = (props) => {
   const showTimepicker = () => {
     showMode('time');
   };
+
+
+  useEffect(() => {
+    getTask();
+  }, []);
 
 
   const onChange = (event, selectedDate) => {
@@ -121,21 +130,6 @@ const EditTask = (props) => {
       dueDate: currentDate,
     });
   };
-
-
-  const showMode = (currentMode) => {
-    DateTimePickerAndroid.open({
-      value: task.dueDate,
-      onChange,
-      mode: currentMode,
-      is24Hour: true,
-    });
-  };
-
-  useEffect(() => {
-    getTask();
-  }, []);
-
 
   const handleUpdateTask = async () => {
     const updatedTask = await updateEditTask(task);
@@ -189,21 +183,18 @@ const EditTask = (props) => {
             type={'number'}
           />
 
-          <SafeAreaView>
-            {/*<Button style={styles.showDate} onPress={showDatepicker} title="Show date picker!" />*/}
+            <TouchableOpacity
+              style={[styles.button, styles.showPickerButton]}
+              onPress={showTimepicker}
+            >
+              <Text style={styles.showPickerText}>Show time </Text>
+            </TouchableOpacity>
 
             <TouchableOpacity
               style={[styles.button, styles.showPickerButton]}
               onPress={showDatepicker}
             >
               <Text style={styles.showPickerText}>Show date </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={[styles.button, styles.showPickerButton]}
-              onPress={showTimepicker}
-            >
-              <Text style={styles.showPickerText}>Show time </Text>
             </TouchableOpacity>
 
             <Text style={styles.dateText}>{task.dueDate.toLocaleString()}</Text>
@@ -217,8 +208,6 @@ const EditTask = (props) => {
                 onChange={onChange}
               />
             )}
-          </SafeAreaView>
-
           <TouchableOpacity onPress={onEditTask} style={styles.buttonSave}>
             <Text style={styles.buttonText}>Save</Text>
           </TouchableOpacity>
