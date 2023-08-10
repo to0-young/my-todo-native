@@ -4,23 +4,25 @@ import {Text, View, StyleSheet} from 'react-native';
 import Dashboard from '../user/dashboard';
 import NewTask from '../user/new-task';
 import Chat from '../user/chat';
-import {connect} from 'react-redux';
-import actionCreator from '../store/action-creator';
 import {TouchableWithoutFeedback} from 'react-native';
 import {logoutRequest} from "../reusable/requests/session/sessionRequest";
 import EditTask from "../user/edit-task";
 import {createStackNavigator} from "@react-navigation/stack";
+import {useDispatch} from "react-redux";
+import actionCreator from "../store/action-creator";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
 const CustomDrawerContent = (props) => {
+  const dispatch = useDispatch()
+
   const onLogOut = async () => {
     const res = await logoutRequest()
     const json = await res.json()
 
     if (res.ok) {
-      props.deleteSessionSuccess()
+      dispatch(actionCreator.deleteSessionSuccess())
     }
     return json
   }
@@ -39,9 +41,10 @@ const CustomDrawerContent = (props) => {
   )
 }
 
+
 const Root = () => {
   return (
-    <Drawer.Navigator initialRouteName="NewTask" drawerContent={CustomDrawerContent}>
+    <Drawer.Navigator initialRouteName="Dashboard" drawerContent={CustomDrawerContent}>
       <Drawer.Screen
         name="Dashboard"
         component={Dashboard}
@@ -90,8 +93,8 @@ const UserNavigator = () => {
   )
 };
 
-const ConnectedUserNavigator = connect(null, actionCreator)(UserNavigator);
-export default ConnectedUserNavigator;
+
+export default UserNavigator;
 
 const styles = StyleSheet.create({
   container: {
