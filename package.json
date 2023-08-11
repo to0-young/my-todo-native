@@ -38,7 +38,8 @@
     "react-navigation": "^4.4.4",
     "react-redux": "^8.1.1",
     "redux": "^4.2.1",
-    "redux-logger": "^3.0.6"
+    "redux-logger": "^3.0.6",
+    "expo-image-picker": "~14.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

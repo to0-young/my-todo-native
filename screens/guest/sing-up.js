@@ -2,10 +2,14 @@ import React from 'react'
 import {TextInput, View, StyleSheet, TouchableOpacity, Text, Alert} from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { createUserRequest } from '../reusable/requests/user/userRequest'
+import * as ImagePicker from 'expo-image-picker';
+
 
 function SignUp() {
 
     const navigation = useNavigation()
+    const [selectedImage, setSelectedImage] = React.useState(null);
+
 
     const [user, changeUser] = React.useState({
         firstName: '',
@@ -95,10 +99,28 @@ function SignUp() {
     }
 
 
+    const selectImage = async () => {
+        try {
+            const result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                allowsEditing: true,
+                aspect: [4, 3],
+                quality: 1,
+            });
+
+            if (!result.canceled) {
+                setSelectedImage(result)
+            }
+        } catch (error) {
+            console.error('Error selecting image:', error)
+        }
+    }
+
+
     const createUser = async () => {
         const formData = new FormData()
 
-        // formData.append('avatar', file)
+        formData.append('avatar', selectedImage)
         formData.append('first_name', user.firstName);
         formData.append('last_name', user.lastName);
         formData.append('password', user.password);
@@ -108,7 +130,7 @@ function SignUp() {
         const json = await res.json();
 
         if (res.ok) {
-            Alert.alert('Please confirm your email registration');
+            Alert.alert('Please confirm your email registration')
             navigation.navigate('SignIn');
         } else {
             if (json.errors) {
@@ -132,6 +154,15 @@ function SignUp() {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Sign up</Text>
+
+
+            <TouchableOpacity style={styles.imagePickerButton} onPress={selectImage}>
+                <Text style={styles.buttonText}>Avatar</Text>
+            </TouchableOpacity>
+
+            {selectedImage && (
+              <Image source={{ uri: selectedImage.uri }} style={styles.selectedImage} />
+            )}
 
             <TextInput
                 style={styles.input}
@@ -247,6 +278,19 @@ const styles = StyleSheet.create({
     link: {
         color: '#f10000',
         fontSize: 18,
+    },
+    imagePickerButton: {
+        backgroundColor: '#7208da',
+        borderRadius: 20,
+        padding: 10,
+        alignItems: 'center',
+        marginBottom: 20,
+    },
+    selectedImage: {
+        width: 150,
+        height: 150,
+        resizeMode: 'cover',
+        marginBottom: 20,
     },
 });
 
