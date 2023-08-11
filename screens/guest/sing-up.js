@@ -100,9 +100,8 @@ function SignUp() {
 
 
     const selectImage = async () => {
-        try {
             const result = await ImagePicker.launchImageLibraryAsync({
-                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                mediaTypes: ImagePicker.MediaTypeOptions.All,
                 allowsEditing: true,
                 aspect: [4, 3],
                 quality: 1,
@@ -111,9 +110,6 @@ function SignUp() {
             if (!result.canceled) {
                 setSelectedImage(result)
             }
-        } catch (error) {
-            console.error('Error selecting image:', error)
-        }
     }
 
 
@@ -256,13 +252,12 @@ const styles = StyleSheet.create({
     onSignUp: {
         backgroundColor: '#041431',
         borderRadius: 20,
-        // width: '30%',
         padding: 10,
         alignItems: 'center',
     },
     buttonText: {
         color: 'white',
-        // fontWeight: 'bold',
+        fontWeight: 'bold',
         textAlign: 'center',
         width: 100,
         fontSize: 16,
@@ -278,6 +273,7 @@ const styles = StyleSheet.create({
     link: {
         color: '#f10000',
         fontSize: 18,
+        fontWeight: 'bold',
     },
     imagePickerButton: {
         backgroundColor: '#7208da',
