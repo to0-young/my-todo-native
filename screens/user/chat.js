@@ -1,138 +1,203 @@
-import React, { useEffect } from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput, Button,} from 'react-native'
-import { connect, useSelector } from 'react-redux'
-import actionCreator from '../store/action-creator'
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, TextInput, Button, Image, TouchableOpacity } from 'react-native';
+import {useSelector,  connect} from 'react-redux';
+import DeleteIcon from 'react-native-vector-icons/MaterialIcons';
+import actionCreator from "../store/action-creator";
+
 
 const Messages = () => {
-  const [messages, setMessages] = React.useState([]);
-  const [msg, setMsg] = React.useState('');
+  const [msg, setMsg] = useState('');
+  const [messages, setMessages] = useState([]);
+  const bottomRef = useRef(null);
   const session = useSelector((state) => state.session.details);
   const user = useSelector((state) => state.session.details.user);
-  const ws = React.useRef(null);
-
-  // useEffect(() => {
-  //   const fetchMessages = async () => {
-  //     const res = await fetch('http://192.168.1.101:3000/messages', {
-  //       method: 'GET',
-  //       credentials: 'include',
-  //       headers: { 'Content-Type': 'application/json' },
-  //     });
-  //     if (res.ok) {
-  //       const data = await res.json();
-  //       setMessages(data);
-  //     }
-  //   };
-  //
-  //   fetchMessages();
-  // }, []);
 
 
-  // const handleMessageChange = (value) => {
-  //   setMsg(value)
-  // }
+  const ws = useRef(null);
+
+  useEffect(() => {
+    const fetchMessages = async () => {
+      const res = await fetch(`http://192.168.1.101:3000/messages`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+      });
+      if (res.ok) {
+        // const data = await res.json();
+        setMessages();
+      }
+    };
+
+    fetchMessages();
+
+    ws.current = new WebSocket(`http://192.168.1.101:3000/cable`);
+    ws.current.onopen = () => {
+      ws.current.send(
+        JSON.stringify({
+          command: 'subscribe',
+          identifier: JSON.stringify({
+            channel: 'MessagesChannel',
+          }),
+        })
+      );
+    };
+
+    ws.current.onmessage = (e) => {
+      const data = JSON.parse(e.data);
+
+      if (data.type === 'ping' || data.type === 'welcome' || data.type === 'confirm_subscription') {
+        return;
+      }
+      if (data.message.type === 'message_deleted') {
+        setMessages((Messages) => Messages.filter((message) => message.id !== data.message.id));
+        if (data.message.user_id === session.user.id) {
+
+        }
+      } else {
+        setMessages((messages) => [...messages, data.message]);
+        if (data.message.user_id !== user.id) {
+        }
+      }
+    };
+
+    return () => {
+      ws.current.send(
+        JSON.stringify({
+          command: 'unsubscribe',
+          identifier: JSON.stringify({
+            channel: 'MessagesChannel',
+          }),
+        })
+      );
+    };
+  }, []);
+
+  const handleMessageChange = (text) => {
+    setMsg(text);
+  };
+
+  const handleSubmit = async () => {
+    const res = await fetch(`http://192.168.1.101:3000/messages`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        body: msg,
+        first_name: session.user.first_name,
+      }),
+    });
+    setMsg('');
+  }
 
 
-  // const handleMessageDelete = async (message) => {
-  //   const res = await fetch(`http://192.168.1.101:3000//messages/${message}`, {
-  //     method: 'DELETE',
-  //     credentials: 'include',
-  //     headers: { 'Content-Type': 'application/json' },
-  //   })
-  // }
+
+  const handleMessageDelete = async (messageId) => {
+    const res = await fetch(`http://192.168.1.101:3000/messages/${messageId}`, {
+      method: 'DELETE',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+    });
+  };
+
+  // const formattedTime = (timestamp) => {
+  //   const time = new Date(timestamp);
+  //   return `${time.toLocaleDateString()} ${time.toLocaleTimeString()}`;
+  // };
+
+
+  useEffect(() => {
+    // const timer = setTimeout(() => {
+    //   const endElement = bottomRef.current
+    //   if (!endElement) return
+    //   endElement.scrollIntoView({ block: 'start', behavior: 'auto' })
+    // }, 100)
+    // return () => clearTimeout(timer)
+  }, [messages])
+
 
 
   return (
-    <View style={styles.container}>
-      <View style={styles.messageHeader}>
+    <View style={{ flex: 1 }}>
+      <View style={styles.chatHeader}>
         <Text style={styles.headerText}>Messages</Text>
       </View>
 
-      {/*<ScrollView style={styles.messagesContainer}>*/}
-      {/*  {messages.map((message, index) => (*/}
-      {/*    <View*/}
-      {/*      key={`chat__apt-message-${index}`}*/}
-      {/*      style={[*/}
-      {/*        styles.messageItem,*/}
-      {/*        message.user_id === session.user.id && styles.myMessageItem,*/}
-      {/*      ]}*/}
-      {/*    >*/}
-            {/*{message.user_id === session.user.id && (*/}
-            {/*  <TouchableOpacity*/}
-            {/*    style={styles.deleteButton}*/}
-            {/*    onPress={() => handleMessageDelete(message.id)}*/}
-            {/*  >*/}
-            {/*    <Text>Delete</Text>*/}
-            {/*  </TouchableOpacity>*/}
-            {/*)}*/}
+      <View style={styles.messagesContainer}>
+        {messages.map((message, index) => (
+          <View
+            key={`chat__apt-message-${index}`}
+            style={[
+              styles.message,
+              { alignSelf: message.user_id === session.user.id ? 'flex-end' : 'flex-start' },
+            ]}
+          >
+            {message.user_id === session.user.id && (
+              <TouchableOpacity onPress={() => handleMessageDelete(message.id)}>
+                <DeleteIcon name="delete" size={20} color="red" />
+              </TouchableOpacity>
+            )}
 
-            {/*<View style={styles.avatarContainer}>*/}
-              {/*<Image*/}
-              {/*  source={{ uri: message.user.avatar.url }}*/}
-              {/*  style={styles.userAvatar}*/}
-              {/*/>*/}
-              {/*<Text style={styles.userName}>{message.user.first_name}</Text>*/}
-            {/*</View>*/}
+            <View style={styles.avatarContainer}>
+              {/*<Image source={{ uri: message.user.avatar.url }} style={styles.userAvatar} />*/}
+              <Text style={styles.userName}>{message.user.first_name}</Text>
+            </View>
 
-            {/*<Text>{message.body}</Text>*/}
-            {/*<Text style={styles.messageTime}>*/}
-            {/*  {formattedTime(message.created_at)}*/}
-            {/*</Text>*/}
-          {/*</View>*/}
-        {/*))}*/}
-        {/*<View ref={bottomRef} />*/}
-      {/*</ScrollView>*/}
+
+            <View style={[styles.message]}>
+              {/*<Text style={styles.messageTime}>{(message.created_at)}</Text>*/}
+              <Text>{message.body}</Text>
+            </View>
+
+          </View>
+        ))}
+        <View ref={bottomRef} />
+      </View>
 
       <View style={styles.messageForm}>
         <TextInput
           style={styles.messageInput}
-          // onChangeText={handleMessageChange}
           value={msg}
+          onChangeText={handleMessageChange}
           placeholder="Write a message..."
         />
 
         <Button
           title="Send"
-          // onPress={handleSubmit}
+          onPress={handleSubmit}
           disabled={!msg.trim()}
-          color="info"
         />
       </View>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-  },
-  messageHeader: {
+const ConnectedMessages = connect(null, actionCreator)(Messages)
+export default ConnectedMessages
+
+
+const styles = {
+  chatHeader: {
     alignItems: 'center',
-    padding: 10,
+    justifyContent: 'center',
+    paddingVertical: 16,
+    backgroundColor: '#10d6dc',
   },
   headerText: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
   },
   messagesContainer: {
     flex: 1,
+    padding: 12,
   },
-  messageItem: {
+  message: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 10,
-    borderBottomWidth: 1,
-    borderColor: 'lightgrey',
-  },
-  myMessageItem: {
-    alignSelf: 'flex-end',
-    backgroundColor: 'lightblue',
-  },
-  deleteButton: {
-    marginRight: 10,
+    marginBottom: 12,
+    flexWrap: 'wrap',
   },
   avatarContainer: {
-    marginRight: 10,
+    marginRight: 8,
   },
   userAvatar: {
     width: 40,
@@ -140,28 +205,26 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   userName: {
-    marginTop: 5,
     textAlign: 'center',
   },
   messageTime: {
-    marginLeft: 'auto',
+    fontSize: 12,
+    color: '#ce1111',
   },
   messageForm: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderTopWidth: 1,
-    borderColor: 'lightgrey',
-    padding: 10,
+    // borderTopWidth: 1,
+    color: '#ce1111',
+    padding: 8,
   },
   messageInput: {
     flex: 1,
-    marginRight: 10,
-    padding: 5,
+    marginRight: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
     borderWidth: 1,
-    borderColor: 'lightgrey',
-    borderRadius: 5,
+    borderColor: '#0745e3',
+    borderRadius: 4,
   },
-});
-
-const ConnectedMessages = connect(null, actionCreator)(Messages);
-export default ConnectedMessages;
+};

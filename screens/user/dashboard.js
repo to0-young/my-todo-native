@@ -161,7 +161,9 @@ const Dashboard = (props) => {
                                     </TouchableOpacity>
 
                                     {item.completed ? (
-                                        <TouchableOpacity style={styles.taskButton} onPress={ donCompletedTask(item.id)}>
+                                        <TouchableOpacity
+                                          style={styles.taskButton}
+                                          onPress={ donCompletedTask(item.id)}>
                                             <MaterialIcons name="brightness-1" size={30} />
                                         </TouchableOpacity>
 
