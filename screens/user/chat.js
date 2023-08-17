@@ -1,36 +1,36 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TextInput, Button, Image, TouchableOpacity } from 'react-native';
-import {useSelector, useDispatch, connect} from 'react-redux';
-import {MaterialIcons} from "@expo/vector-icons";
+import {useSelector,  connect} from 'react-redux';
+import DeleteIcon from 'react-native-vector-icons/MaterialIcons';
 import actionCreator from "../store/action-creator";
-// import DeleteIcon from 'react-native-vector-icons/MaterialIcons';
+
 
 const Messages = () => {
-  const [messages, setMessages] = useState([]);
   const [msg, setMsg] = useState('');
+  const [messages, setMessages] = useState([]);
   const bottomRef = useRef(null);
   const session = useSelector((state) => state.session.details);
   const user = useSelector((state) => state.session.details.user);
-  const dispatch = useDispatch();
+
 
   const ws = useRef(null);
 
   useEffect(() => {
     const fetchMessages = async () => {
-      const res = await fetch(`http://192.168.31.101:3000/messages`, {
+      const res = await fetch(`http://192.168.1.101:3000/messages`, {
         method: 'GET',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
       });
       if (res.ok) {
-        const data = await res.json();
-        setMessages(data);
+        // const data = await res.json();
+        setMessages();
       }
     };
 
     fetchMessages();
 
-    ws.current = new WebSocket(`http://192.168.31.101:3000/cable`);
+    ws.current = new WebSocket(`http://192.168.1.101:3000/cable`);
     ws.current.onopen = () => {
       ws.current.send(
         JSON.stringify({
@@ -49,14 +49,13 @@ const Messages = () => {
         return;
       }
       if (data.message.type === 'message_deleted') {
-        setMessages((prevMessages) => prevMessages.filter((message) => message.id !== data.message.id));
+        setMessages((Messages) => Messages.filter((message) => message.id !== data.message.id));
         if (data.message.user_id === session.user.id) {
-          // handle user's own message deletion
+
         }
       } else {
-        setMessages((prevMessages) => [...prevMessages, data.message]);
+        setMessages((messages) => [...messages, data.message]);
         if (data.message.user_id !== user.id) {
-          clickNotify(data.message.body);
         }
       }
     };
@@ -71,16 +70,14 @@ const Messages = () => {
         })
       );
     };
-  }, [])
-
-
+  }, []);
 
   const handleMessageChange = (text) => {
     setMsg(text);
   };
 
   const handleSubmit = async () => {
-    const res = await fetch(`http://192.168.31.101:3000/messages`, {
+    const res = await fetch(`http://192.168.1.101:3000/messages`, {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
@@ -90,50 +87,34 @@ const Messages = () => {
       }),
     });
     setMsg('');
-  };
+  }
+
+
 
   const handleMessageDelete = async (messageId) => {
-    const res = await fetch(`http://192.168.31.101:3000/messages/${messageId}`, {
+    const res = await fetch(`http://192.168.1.101:3000/messages/${messageId}`, {
       method: 'DELETE',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
     });
   };
 
-  const formattedTime = (timestamp) => {
-    const time = new Date(timestamp);
-    return `${time.toLocaleDateString()} ${time.toLocaleTimeString()}`;
-  };
+  // const formattedTime = (timestamp) => {
+  //   const time = new Date(timestamp);
+  //   return `${time.toLocaleDateString()} ${time.toLocaleTimeString()}`;
+  // };
 
-  const clickNotify = (msg) => {
-    if (Notification.permission === 'granted') {
-      new Notification('New Message', {
-        body: msg,
-        // icon: logo,
-        duration: 4000,
-        onClick: () => (window.location = '/chat'),
-      })
-    } else if (Notification.permission !== 'denied') {
-      Notification.requestPermission().then((permission) => {
-        if (permission === 'granted') {
-          new Notification('New Message', {
-            body: msg,
-            // icon: logo,
-            duration: 4000,
-            onClick: () => (window.location = '/chat'),
-          })
-        }
-      })
-    }
-  }
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     if (bottomRef.current) {
-  //       bottomRef.current.scrollIntoView({ behavior: 'auto' });
-  //     }
-  //   }, 100);
-  //   return () => clearTimeout(timer);
-  // }, [messages]);
+
+  useEffect(() => {
+    // const timer = setTimeout(() => {
+    //   const endElement = bottomRef.current
+    //   if (!endElement) return
+    //   endElement.scrollIntoView({ block: 'start', behavior: 'auto' })
+    // }, 100)
+    // return () => clearTimeout(timer)
+  }, [messages])
+
+
 
   return (
     <View style={{ flex: 1 }}>
@@ -151,20 +132,22 @@ const Messages = () => {
             ]}
           >
             {message.user_id === session.user.id && (
-            <TouchableOpacity style={styles.taskButton} onPress={() => handleMessageDelete(item)}>
-              <MaterialIcons name="delete-forever" size={20} />
-            </TouchableOpacity>
+              <TouchableOpacity onPress={() => handleMessageDelete(message.id)}>
+                <DeleteIcon name="delete" size={20} color="red" />
+              </TouchableOpacity>
             )}
 
             <View style={styles.avatarContainer}>
-              <Image source={{ uri: message.user.avatar.url }} style={styles.userAvatar} />
+              {/*<Image source={{ uri: message.user.avatar.url }} style={styles.userAvatar} />*/}
               <Text style={styles.userName}>{message.user.first_name}</Text>
             </View>
 
-            <View>
+
+            <View style={[styles.message]}>
+              {/*<Text style={styles.messageTime}>{(message.created_at)}</Text>*/}
               <Text>{message.body}</Text>
-              <Text style={styles.messageTime}>{formattedTime(message.created_at)}</Text>
             </View>
+
           </View>
         ))}
         <View ref={bottomRef} />
@@ -188,13 +171,16 @@ const Messages = () => {
   );
 };
 
+const ConnectedMessages = connect(null, actionCreator)(Messages)
+export default ConnectedMessages
+
 
 const styles = {
   chatHeader: {
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 16,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#10d6dc',
   },
   headerText: {
     fontSize: 20,
@@ -202,12 +188,13 @@ const styles = {
   },
   messagesContainer: {
     flex: 1,
-    padding: 16,
+    padding: 12,
   },
   message: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 12,
+    flexWrap: 'wrap',
   },
   avatarContainer: {
     marginRight: 8,
@@ -222,13 +209,13 @@ const styles = {
   },
   messageTime: {
     fontSize: 12,
-    color: 'gray',
+    color: '#ce1111',
   },
   messageForm: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderTopWidth: 1,
-    borderColor: 'gray',
+    // borderTopWidth: 1,
+    color: '#ce1111',
     padding: 8,
   },
   messageInput: {
@@ -237,10 +224,7 @@ const styles = {
     paddingVertical: 8,
     paddingHorizontal: 12,
     borderWidth: 1,
-    borderColor: 'gray',
+    borderColor: '#0745e3',
     borderRadius: 4,
   },
 };
-
-const ConnectedMessages = connect(null, actionCreator)(Messages)
-export default ConnectedMessages
