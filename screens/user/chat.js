@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, TextInput, Button, Image, TouchableOpacity } from 'react-native';
+import {View, Text, TextInput, Button, Image, TouchableOpacity, FlatList} from 'react-native';
 import {useSelector,  connect} from 'react-redux';
 import DeleteIcon from 'react-native-vector-icons/MaterialIcons';
 import actionCreator from "../store/action-creator";
@@ -20,7 +20,7 @@ const Messages = () => {
       const res = await fetch(`http://192.168.1.101:3000/messages`, {
         method: 'GET',
         credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {'Content-Type': 'application/json'},
       });
       if (res.ok) {
         // const data = await res.json();
@@ -80,7 +80,7 @@ const Messages = () => {
     const res = await fetch(`http://192.168.1.101:3000/messages`, {
       method: 'POST',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
         body: msg,
         first_name: session.user.first_name,
@@ -90,12 +90,11 @@ const Messages = () => {
   }
 
 
-
   const handleMessageDelete = async (messageId) => {
     const res = await fetch(`http://192.168.1.101:3000/messages/${messageId}`, {
       method: 'DELETE',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {'Content-Type': 'application/json'},
     });
   };
 
@@ -115,25 +114,27 @@ const Messages = () => {
   }, [messages])
 
 
-
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{flex: 1}}>
       <View style={styles.chatHeader}>
         <Text style={styles.headerText}>Messages</Text>
       </View>
 
-      <View style={styles.messagesContainer}>
-        {messages.map((message, index) => (
+      <FlatList
+        style={styles.messagesContainer}
+        data={messages}
+        keyExtractor={(message) => `chat__apt-message-${message.id}`}
+        renderItem={({item: message}) => (
+
           <View
-            key={`chat__apt-message-${index}`}
             style={[
               styles.message,
-              { alignSelf: message.user_id === session.user.id ? 'flex-end' : 'flex-start' },
+              {alignSelf: message.user_id === session.user.id ? 'flex-end' : 'flex-start'},
             ]}
           >
             {message.user_id === session.user.id && (
               <TouchableOpacity onPress={() => handleMessageDelete(message.id)}>
-                <DeleteIcon name="delete" size={20} color="red" />
+                <DeleteIcon name="delete" size={20} color="red"/>
               </TouchableOpacity>
             )}
 
@@ -142,16 +143,15 @@ const Messages = () => {
               <Text style={styles.userName}>{message.user.first_name}</Text>
             </View>
 
-
             <View style={[styles.message]}>
               {/*<Text style={styles.messageTime}>{(message.created_at)}</Text>*/}
               <Text>{message.body}</Text>
             </View>
-
           </View>
-        ))}
-        <View ref={bottomRef} />
-      </View>
+
+        )}
+        ref={bottomRef}
+      />
 
       <View style={styles.messageForm}>
         <TextInput
@@ -169,7 +169,7 @@ const Messages = () => {
       </View>
     </View>
   );
-};
+}
 
 const ConnectedMessages = connect(null, actionCreator)(Messages)
 export default ConnectedMessages
