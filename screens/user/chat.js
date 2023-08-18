@@ -1,36 +1,33 @@
 import React, { useState, useEffect, useRef } from 'react';
-import {View, Text, TextInput, Button, Image, TouchableOpacity, FlatList} from 'react-native';
+import {View, Text, TextInput, Button,  TouchableOpacity, FlatList} from 'react-native';
 import {useSelector,  connect} from 'react-redux';
 import DeleteIcon from 'react-native-vector-icons/MaterialIcons';
 import actionCreator from "../store/action-creator";
+import {deleteMessageRequest, fetchMessagesApi, sendMessageRequest} from "../reusable/requests/user/userRequest";
 
 
 const Messages = () => {
-  const [msg, setMsg] = useState('');
-  const [messages, setMessages] = useState([]);
-  const bottomRef = useRef(null);
-  const session = useSelector((state) => state.session.details);
-  const user = useSelector((state) => state.session.details.user);
-
+  const [msg, setMsg] = useState('')
+  const [messages, setMessages] = useState([])
+  const bottomRef = useRef(null)
+  const session = useSelector((state) => state.session.details)
+  const user = useSelector((state) => state.session.details.user)
 
   const ws = useRef(null);
 
   useEffect(() => {
     const fetchMessages = async () => {
-      const res = await fetch(`http://192.168.1.101:3000/messages`, {
-        method: 'GET',
-        credentials: 'include',
-        headers: {'Content-Type': 'application/json'},
-      });
+      const res = await fetchMessagesApi()
       if (res.ok) {
-        // const data = await res.json();
-        setMessages();
+        setMessages()
       }
-    };
+    }
 
     fetchMessages();
 
-    ws.current = new WebSocket(`http://192.168.1.101:3000/cable`);
+    // ws.current = new WebSocket(`http://192.168.1.101:3000/cable`)
+    ws.current = new WebSocket(`http://192.168.31.101:3000/cable`)
+
     ws.current.onopen = () => {
       ws.current.send(
         JSON.stringify({
@@ -74,43 +71,25 @@ const Messages = () => {
 
   const handleMessageChange = (text) => {
     setMsg(text);
-  };
+  }
+
 
   const handleSubmit = async () => {
-    const res = await fetch(`http://192.168.1.101:3000/messages`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        body: msg,
-        first_name: session.user.first_name,
-      }),
-    });
-    setMsg('');
+    const res = await sendMessageRequest(msg, session.user.first_name);
+    if (res.ok) {
+      setMsg('');
+    }
   }
 
 
   const handleMessageDelete = async (messageId) => {
-    const res = await fetch(`http://192.168.1.101:3000/messages/${messageId}`, {
-      method: 'DELETE',
-      credentials: 'include',
-      headers: {'Content-Type': 'application/json'},
-    });
+    const res = await deleteMessageRequest(messageId);
+    if (res.ok) {
+    }
   };
-
-  // const formattedTime = (timestamp) => {
-  //   const time = new Date(timestamp);
-  //   return `${time.toLocaleDateString()} ${time.toLocaleTimeString()}`;
-  // };
 
 
   useEffect(() => {
-    // const timer = setTimeout(() => {
-    //   const endElement = bottomRef.current
-    //   if (!endElement) return
-    //   endElement.scrollIntoView({ block: 'start', behavior: 'auto' })
-    // }, 100)
-    // return () => clearTimeout(timer)
   }, [messages])
 
 
@@ -134,7 +113,7 @@ const Messages = () => {
           >
             {message.user_id === session.user.id && (
               <TouchableOpacity onPress={() => handleMessageDelete(message.id)}>
-                <DeleteIcon name="delete" size={20} color="red"/>
+                <DeleteIcon name="delete" size={20} color="black"/>
               </TouchableOpacity>
             )}
 
@@ -191,31 +170,31 @@ const styles = {
     padding: 12,
   },
   message: {
+    marginBottom: 12,
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
     flexWrap: 'wrap',
+
   },
   avatarContainer: {
     marginRight: 8,
   },
-  userAvatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-  },
+  // userAvatar: {
+  //   width: 40,
+  //   height: 40,
+  //   borderRadius: 20,
+  // },
   userName: {
     textAlign: 'center',
   },
   messageTime: {
     fontSize: 12,
-    color: '#ce1111',
+    color: '#d51b0d',
   },
   messageForm: {
     flexDirection: 'row',
     alignItems: 'center',
-    // borderTopWidth: 1,
-    color: '#ce1111',
+    color: '#02e523',
     padding: 8,
   },
   messageInput: {
@@ -224,7 +203,7 @@ const styles = {
     paddingVertical: 8,
     paddingHorizontal: 12,
     borderWidth: 1,
-    borderColor: '#0745e3',
+    borderColor: '#0000f3',
     borderRadius: 4,
   },
 };
