@@ -25,8 +25,8 @@ const Messages = () => {
 
     fetchMessages();
 
-    // ws.current = new WebSocket(`http://192.168.1.101:3000/cable`)
-    ws.current = new WebSocket(`http://192.168.31.101:3000/cable`)
+    ws.current = new WebSocket(`http://192.168.1.101:3000/cable`)
+    // ws.current = new WebSocket(`http://192.168.31.101:3000/cable`)
 
     ws.current.onopen = () => {
       ws.current.send(
@@ -169,12 +169,16 @@ const styles = {
     flex: 1,
     padding: 12,
   },
+
   message: {
     marginBottom: 12,
     flexDirection: 'row',
     alignItems: 'center',
     flexWrap: 'wrap',
-
+    backgroundColor: 'lightgray',
+    borderRadius: 22,
+    padding: 4,
+    color: '#d51b0d',
   },
   avatarContainer: {
     marginRight: 8,
