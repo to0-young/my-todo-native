@@ -1,5 +1,5 @@
 const fetchSessionRequest = () => {
-  return fetch('http://192.168.1.101:3000/api/v1/sessions', {
+  return fetch('http://192.168.1.112:3000/api/v1/sessions', {
     method: 'GET',
     credentials: 'include',
     headers: {
@@ -8,7 +8,7 @@ const fetchSessionRequest = () => {
   });
 }
 
-
+//
 // const fetchSessionRequest = () => {
 //   return fetch('http://192.168.31.101:3000/api/v1/sessions', {
 //     method: 'GET',
@@ -22,7 +22,7 @@ const fetchSessionRequest = () => {
 
 
 const loginRequest = async (email, password) => {
-  return  fetch('http://192.168.1.101:3000/api/v1/sessions', {
+  return  fetch('http://192.168.1.112:3000/api/v1/sessions', {
     method: 'POST',
     credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
@@ -34,7 +34,7 @@ const loginRequest = async (email, password) => {
 }
 
 
-// //
+
 // const loginRequest = async (email, password) => {
 //   return  fetch('http://192.168.31.101:3000/api/v1/sessions', {
 //     method: 'POST',
@@ -49,7 +49,7 @@ const loginRequest = async (email, password) => {
 
 
 const logoutRequest = async () => {
-  return fetch('http://192.168.1.101:3000/api/v1/sessions', {
+  return fetch('http://192.168.1.112:3000/api/v1/sessions', {
     method: 'DELETE',
     credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
