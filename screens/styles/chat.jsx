@@ -1,5 +1,5 @@
 import styled from "styled-components/native";
-import { View, Text, TextInput, Button, TouchableOpacity, Image,FlatList } from 'react-native';
+import { View, Text, TextInput,  TouchableOpacity, FlatList } from 'react-native';
 
 export const Container = styled(View)`
   flex: 1;
@@ -34,7 +34,7 @@ export const MessageContainer = styled(View)`
   flex-wrap: wrap;
   background-color: ${({ userMessage }) => (userMessage ? '#943b86' : '#333cb4')};
   border-radius: 22px;
-  padding: 5px;
+  padding: 8px;
 `;
 
 export const DeleteButton = styled(TouchableOpacity)`
@@ -45,11 +45,7 @@ export const AvatarContainer = styled(View)`
   margin-right: 8px;
 `;
 
-export const Avatar = styled(Image)`
-  width: 40px;
-  height: 40px;
-  border-radius: 20px;
-`;
+
 
 export const UserName = styled(Text)`
   text-align: center;
@@ -73,16 +69,12 @@ export const MessageFormContainer = styled(View)`
 export const MessageInput = styled(TextInput)`
   flex: 1;
   margin-right: 8px;
-  padding-vertical: 8px;
-  padding-horizontal: 12px;
+  padding: 8px;
   border-width: 1px;
   border-color: #0000f3;
   border-radius: 4px;
 `;
 
-export const SendButton = styled(Button)`
-  color: #02e523;
-`;
 
 export const MessageText = styled(Text)`
   color: #dad9d9;

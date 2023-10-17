@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, connect } from 'react-redux';
 import DeleteIcon from 'react-native-vector-icons/MaterialIcons';
 import actionCreator from "../store/action-creator";
+import { Button } from 'react-native'
 import { deleteMessageRequest, fetchMessagesApi, sendMessageRequest } from "../reusable/requests/user/userRequest";
 import {
   MessageForm,
@@ -11,13 +12,11 @@ import {
   MessageContainer,
   DeleteButton,
   AvatarContainer,
-  Avatar,
   UserName,
   MessageContent,
   MessageTime,
   MessageFormContainer,
   MessageInput,
-  SendButton,
   MessageText,
   Container,
 } from '../styles/chat';
@@ -114,7 +113,7 @@ const Messages = () => {
             )}
 
             <AvatarContainer>
-              <Avatar source={{ uri: message.user.avatar.url }} />
+              {/*<Avatar source={{ uri: message.user.avatar.url }} />*/}
               <UserName>{message.user.first_name}</UserName>
             </AvatarContainer>
 
@@ -133,7 +132,7 @@ const Messages = () => {
           onChangeText={handleMessageChange}
           placeholder="Write a message..."
         />
-        <SendButton
+        <Button
           title="Send"
           onPress={handleSubmit}
           disabled={!msg.trim()}
