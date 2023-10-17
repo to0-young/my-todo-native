@@ -24,47 +24,38 @@ export const HeaderText = styled(Text)`
 
 export const MessageList = styled(FlatList)`
   flex: 1;
-  padding: 12px;
+  padding: 8px;
+  flex-direction: column;
 `;
 
 export const MessageContainer = styled(View)`
-  margin-bottom: 12px;
-  flex-direction: row;
+  align-self: flex-start;
   align-items: center;
   flex-wrap: wrap;
-  background-color: ${({ userMessage }) => (userMessage ? '#943b86' : '#333cb4')};
-  border-radius: 22px;
-  padding: 8px;
+  background-color: #943b86;
+  border-radius: 10px;
+  padding: 5px 5px 5px 5px;
+  margin-bottom: 10px;
+`;
+
+export const MessageContent = styled(View)`
+  flex-direction: row;
+  width: 80%;
+`;
+
+export const MessageText = styled(Text)`
+  color: #dad9d9;
+  padding-left: 5px;
 `;
 
 export const DeleteButton = styled(TouchableOpacity)`
   margin-right: 8px;
 `;
 
-export const AvatarContainer = styled(View)`
-  margin-right: 8px;
-`;
-
-
-
 export const UserName = styled(Text)`
-  text-align: center;
+  padding: 1px;
 `;
 
-export const MessageContent = styled(View)`
-  flex: 1;
-`;
-
-export const MessageTime = styled(Text)`
-  font-size: 12px;
-  color: #000000;
-`;
-
-export const MessageFormContainer = styled(View)`
-  flex-direction: row;
-  align-items: center;
-  padding: 8px;
-`;
 
 export const MessageInput = styled(TextInput)`
   flex: 1;
@@ -76,6 +67,3 @@ export const MessageInput = styled(TextInput)`
 `;
 
 
-export const MessageText = styled(Text)`
-  color: #dad9d9;
-`;

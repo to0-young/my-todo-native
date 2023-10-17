@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useSelector, connect } from 'react-redux';
+import React, {useState, useEffect, useRef} from 'react';
+import {useSelector, connect} from 'react-redux';
 import DeleteIcon from 'react-native-vector-icons/MaterialIcons';
 import actionCreator from "../store/action-creator";
-import { Button } from 'react-native'
-import { deleteMessageRequest, fetchMessagesApi, sendMessageRequest } from "../reusable/requests/user/userRequest";
+import {Button} from 'react-native'
+import {deleteMessageRequest, fetchMessagesApi, sendMessageRequest} from "../reusable/requests/user/userRequest";
 import {
   MessageForm,
   ChatHeader,
@@ -104,22 +104,21 @@ const Messages = () => {
       <MessageList
         data={messages}
         keyExtractor={(message) => `chat__apt-message-${message.id}`}
-        renderItem={({ item: message }) => (
+        renderItem={({item: message}) => (
           <MessageContainer userMessage={message.user_id === session.user.id}>
-            {message.user_id === session.user.id && (
-              <DeleteButton onPress={() => handleMessageDelete(message.id)}>
-                <DeleteIcon name="delete" size={20} color="black" />
-              </DeleteButton>
-            )}
 
-            <AvatarContainer>
-              {/*<Avatar source={{ uri: message.user.avatar.url }} />*/}
-              <UserName>{message.user.first_name}</UserName>
-            </AvatarContainer>
+            {/*<Avatar source={{ uri: message.user.avatar.url }} />*/}
 
             <MessageContent>
-              {/*<MessageTime>{message.created_at}</MessageTime>*/}
+              {message.user_id === session.user.id && (
+                <DeleteButton onPress={() => handleMessageDelete(message.id)}>
+                  <DeleteIcon name="delete" size={20} color="black"/>
+                </DeleteButton>
+              )}
+
+              <UserName>{message.user.first_name}</UserName>
               <MessageText>{message.body}</MessageText>
+
             </MessageContent>
           </MessageContainer>
         )}
@@ -141,7 +140,6 @@ const Messages = () => {
     </Container>
   );
 }
-
 
 
 const ConnectedMessages = connect(null, actionCreator)(Messages);
