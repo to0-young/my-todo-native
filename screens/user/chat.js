@@ -32,13 +32,15 @@ const Messages = () => {
     const fetchMessages = async () => {
       const res = await fetchMessagesApi();
       if (res.ok) {
-        setMessages(res.data);
+        const data = await res.json()
+        setMessages(data)
       }
     }
 
     fetchMessages();
 
     ws.current = new WebSocket(`http://192.168.1.112:3000/cable`);
+    // ws.current = new WebSocket(`http://192.168.1.112:3000/cable`);
 
     ws.current.onopen = () => {
       ws.current.send(
@@ -58,9 +60,14 @@ const Messages = () => {
         return;
       }
       if (data.message.type === 'message_deleted') {
-        setMessages((messages) => messages.filter((message) => message.id !== data.message.id));
+        setMessages((Messages) => Messages.filter((message) => message.id !== data.message.id));
+        if (data.message.user_id === session.user.id) {
+
+        }
       } else {
         setMessages((messages) => [...messages, data.message]);
+        if (data.message.user_id !== user.id) {
+        }
       }
     };
 

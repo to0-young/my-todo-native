@@ -10,7 +10,7 @@ const SignIn = (props) => {
 
     const [user, changeUser] = useState({
         email: '74.boyko@gmail.com',
-        password: '1',
+        password: 'Dior5580',
     })
 
     const [error, setError] = useState({
