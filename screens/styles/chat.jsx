@@ -14,7 +14,7 @@ export const ChatHeader = styled(View)`
   align-items: center;
   justify-content: center;
   padding: 16px;
-  background-color: #333cb4;
+  background-color: #68f8e1;
 `;
 
 export const HeaderText = styled(Text)`
@@ -29,31 +29,31 @@ export const MessageList = styled(FlatList)`
 `;
 
 export const MessageContainer = styled(View)`
-  align-self: flex-start;
-  align-items: center;
+  align-self: flex-end;
+  align-items: flex-end;
   flex-wrap: wrap;
-  background-color: #943b86;
-  border-radius: 10px;
-  padding: 5px 5px 5px 5px;
+  background-color: #9f5a5a;
+  border-radius: 10px 10px 0px 10px;
+  padding: 5px 4px 5px 4px;
   margin-bottom: 10px;
 `;
 
 export const MessageContent = styled(View)`
   flex-direction: row;
-  width: 80%;
+  width: 82%;
 `;
 
 export const MessageText = styled(Text)`
   color: #dad9d9;
-  padding-left: 5px;
+  padding-left: 10px;
 `;
 
 export const DeleteButton = styled(TouchableOpacity)`
-  margin-right: 8px;
+  margin-right: 3px;
 `;
 
 export const UserName = styled(Text)`
-  padding: 1px;
+  padding-left: 8px;
 `;
 
 
@@ -62,8 +62,8 @@ export const MessageInput = styled(TextInput)`
   margin-right: 8px;
   padding: 8px;
   border-width: 1px;
-  border-color: #0000f3;
-  border-radius: 4px;
+  border-color: #000000;
+  border-radius: 10px;
 `;
 
 
