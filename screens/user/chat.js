@@ -100,7 +100,7 @@ const Messages = () => {
     }
   };
 
-
+  const reversedMessages = [...messages].reverse();
 
   return (
     <Container>
@@ -109,8 +109,8 @@ const Messages = () => {
       </ChatHeader>
 
       <MessageList
-        data={messages}
-        keyExtractor={(message) => `chat__apt-message-${message.id}`}
+        data={reversedMessages}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={({item: message}) => (
 
           <MessageContainer

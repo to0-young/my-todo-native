@@ -22,7 +22,9 @@ export const HeaderText = styled(Text)`
   font-weight: bold;
 `;
 
-export const MessageList = styled(FlatList)`
+export const MessageList = styled(FlatList).attrs({
+  inverted: true,
+})`
   flex: 1;
   padding: 8px;
   flex-direction: column;
@@ -34,11 +36,10 @@ export const MessageContainer = styled(View)`
   background-color: ${props => props.message.user.id === props.session.user.id ? '#6a726c' : '#b44e4e'};
   border-radius: ${props => props.message.user.id === props.session.user.id ? '10px 10px 0px 10px' : '10px 10px 10px 0px'};
   padding: 5px 4px 5px 4px;
-  margin-bottom: 10px;
+  margin-top: 10px;
 `;
 
-
-export const MessageContent = styled(View)`
+export const MessageContent = styled(View)` 
   flex-direction: row;
   width: 82%;
 `;
