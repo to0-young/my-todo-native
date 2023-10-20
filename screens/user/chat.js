@@ -60,13 +60,13 @@ const Messages = () => {
         return;
       }
       if (data.message.type === 'message_deleted') {
-        setMessages((Messages) => Messages.filter((message) => message.id !== data.message.id));
-        if (data.message.user_id === session.user.id) {
+        setMessages((messages) => messages.filter((message) => message.id !== data.message.id));
+        if (data.message.user === session.user.id) {
 
         }
       } else {
         setMessages((messages) => [...messages, data.message]);
-        if (data.message.user_id !== user.id) {
+        if (data.message.user !== user.id) {
         }
       }
     };
@@ -100,6 +100,8 @@ const Messages = () => {
     }
   };
 
+
+
   return (
     <Container>
       <ChatHeader>
@@ -110,12 +112,16 @@ const Messages = () => {
         data={messages}
         keyExtractor={(message) => `chat__apt-message-${message.id}`}
         renderItem={({item: message}) => (
-          <MessageContainer userMessage={message.user_id === session.user.id}>
 
+          <MessageContainer
+            message={message}
+            session={session}
+          >
             {/*<Avatar source={{ uri: message.user.avatar.url }} />*/}
 
             <MessageContent>
-              {message.user_id === session.user.id && (
+              {message.user.id === session.user.id && (
+
                 <DeleteButton onPress={() => handleMessageDelete(message.id)}>
                   <DeleteIcon name="delete" size={20} color="black"/>
                 </DeleteButton>
@@ -123,9 +129,10 @@ const Messages = () => {
 
               <UserName>{message.user.first_name}</UserName>
               <MessageText>{message.body}</MessageText>
-
             </MessageContent>
           </MessageContainer>
+
+
         )}
         ref={bottomRef}
       />

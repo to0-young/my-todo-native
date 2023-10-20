@@ -29,14 +29,14 @@ export const MessageList = styled(FlatList)`
 `;
 
 export const MessageContainer = styled(View)`
-  align-self: flex-end;
-  align-items: flex-end;
   flex-wrap: wrap;
-  background-color: #9f5a5a;
-  border-radius: 10px 10px 0px 10px;
+  align-self: ${props => props.message.user.id === props.session.user.id ? 'flex-end' : 'flex-start'};
+  background-color: ${props => props.message.user.id === props.session.user.id ? '#6a726c' : '#b44e4e'};
+  border-radius: ${props => props.message.user.id === props.session.user.id ? '10px 10px 0px 10px' : '10px 10px 10px 0px'};
   padding: 5px 4px 5px 4px;
   margin-bottom: 10px;
 `;
+
 
 export const MessageContent = styled(View)`
   flex-direction: row;
@@ -44,7 +44,7 @@ export const MessageContent = styled(View)`
 `;
 
 export const MessageText = styled(Text)`
-  color: #dad9d9;
+  color: #eadbdb;
   padding-left: 10px;
 `;
 
