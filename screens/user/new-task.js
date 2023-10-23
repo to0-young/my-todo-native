@@ -116,7 +116,7 @@ const NewTask = (props) => {
 
 
   const postTask = async () => {
-    const res = await fetch('http://192.168.1.112:3000/api/v1/tasks', {
+    const res = await fetch('http://192.168.1.101:3000/api/v1/tasks', {
     // const res = await fetch('http://192.168.1.112:3000/api/v1/tasks', {
       method: 'POST',
       credentials: 'include',

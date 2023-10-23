@@ -31,7 +31,7 @@ export const MessageList = styled(FlatList).attrs({
 `;
 
 export const MessageContainer = styled(View)`
-  flex-wrap: wrap;
+  //flex-wrap: wrap;
   align-self: ${props => props.message.user.id === props.session.user.id ? 'flex-end' : 'flex-start'};
   background-color: ${props => props.message.user.id === props.session.user.id ? '#6a726c' : '#b44e4e'};
   border-radius: ${props => props.message.user.id === props.session.user.id ? '10px 10px 0px 10px' : '10px 10px 10px 0px'};
@@ -39,9 +39,10 @@ export const MessageContainer = styled(View)`
   margin-top: 10px;
 `;
 
+
 export const MessageContent = styled(View)` 
   flex-direction: row;
-  width: 82%;
+  width: 74%;
 `;
 
 export const MessageText = styled(Text)`
@@ -51,10 +52,11 @@ export const MessageText = styled(Text)`
 
 export const DeleteButton = styled(TouchableOpacity)`
   margin-right: 3px;
+  padding-top: 10px;
 `;
 
 export const UserName = styled(Text)`
-  padding-left: 8px;
+  padding: 10px 0px 0px 10px;
 `;
 
 
