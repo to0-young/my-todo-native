@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef} from 'react';
 import {useSelector, connect} from 'react-redux';
 import DeleteIcon from 'react-native-vector-icons/MaterialIcons';
 import actionCreator from "../store/action-creator";
-import {Button} from 'react-native'
+import {Button, Image} from 'react-native'
 import {deleteMessageRequest, fetchMessagesApi, sendMessageRequest} from "../reusable/requests/user/userRequest";
 import {
   MessageForm,
@@ -11,7 +11,6 @@ import {
   MessageList,
   MessageContainer,
   DeleteButton,
-  // AvatarContainer,
   UserName,
   MessageContent,
   MessageInput,
@@ -39,7 +38,7 @@ const Messages = () => {
 
     fetchMessages();
 
-    ws.current = new WebSocket(`http://192.168.1.112:3000/cable`);
+    ws.current = new WebSocket(`http://192.168.1.101:3000/cable`);
     // ws.current = new WebSocket(`http://192.168.1.112:3000/cable`);
 
     ws.current.onopen = () => {
@@ -52,6 +51,8 @@ const Messages = () => {
         })
       );
     };
+
+
 
     ws.current.onmessage = (e) => {
       const data = JSON.parse(e.data);
@@ -102,6 +103,8 @@ const Messages = () => {
 
   const reversedMessages = [...messages].reverse();
 
+
+
   return (
     <Container>
       <ChatHeader>
@@ -117,8 +120,6 @@ const Messages = () => {
             message={message}
             session={session}
           >
-            {/*<Avatar source={{ uri: message.user.avatar.url }} />*/}
-
             <MessageContent>
               {message.user.id === session.user.id && (
 
@@ -126,13 +127,17 @@ const Messages = () => {
                   <DeleteIcon name="delete" size={20} color="black"/>
                 </DeleteButton>
               )}
-
+              <Image source={{ uri: user.avatar.url }}
+                     style={{
+                       width: 40,
+                       height: 40,
+                       borderRadius: 20,
+                     }}
+              />
               <UserName>{message.user.first_name}</UserName>
               <MessageText>{message.body}</MessageText>
             </MessageContent>
           </MessageContainer>
-
-
         )}
         ref={bottomRef}
       />
