@@ -3,7 +3,7 @@ import {View, Text, StyleSheet} from "react-native";
 import {connect} from "react-redux";
 import actionCreator from "../store/action-creator";
 
-function Settings(props) {
+function Map(props) {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Coming soon...</Text>
@@ -25,5 +25,5 @@ const styles = StyleSheet.create({
 });
 
 
-const ConnectedSettings = connect(null, actionCreator)(Settings);
-export default ConnectedSettings;
+const ConnectedMap = connect(null, actionCreator)(Map);
+export default ConnectedMap;

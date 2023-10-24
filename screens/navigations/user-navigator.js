@@ -12,6 +12,7 @@ import {useDispatch, useSelector} from "react-redux";
 import actionCreator from "../store/action-creator";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Settings from "../user/settings";
+import Map from "../user/Map";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -33,7 +34,7 @@ const CustomDrawerContent = (props) => {
 
   return (
     <View style={styles.container}>
-      <DrawerContentScrollView {...props}>
+      <DrawerContentScrollView {...props} >
         <View style={styles.userContainer}>
           <Image
             source={{ uri: user.avatar.url }}
@@ -59,13 +60,12 @@ const CustomDrawerContent = (props) => {
 }
 
 
-
 const Root = () => {
   return (
     <Drawer.Navigator initialRouteName="Chat" drawerContent={CustomDrawerContent}>
 
       <Drawer.Screen
-        name="Home"
+        name="Dashboard"
         component={Dashboard}
         options={{
           drawerLabelStyle: {
@@ -115,7 +115,24 @@ const Root = () => {
       />
 
       <Drawer.Screen
-        name="settings"
+        name="Map"
+        component={Map}
+        options={{
+          drawerLabelStyle: {
+            fontSize: 16,
+          },
+          drawerIcon: ({ color, size }) => (
+            <MaterialIcons
+              name="map"
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+
+      <Drawer.Screen
+        name="Settings"
         component={Settings}
         options={{
           drawerLabelStyle: {
@@ -131,22 +148,6 @@ const Root = () => {
         }}
       />
 
-      <Drawer.Screen
-        name="Contact"
-        component={Chat}
-        options={{
-          drawerLabelStyle: {
-            fontSize: 16,
-          },
-          drawerIcon: ({ color, size }) => (
-            <MaterialIcons
-              name="contacts"
-              size={size}
-              color={color}
-            />
-          ),
-        }}
-      />
     </Drawer.Navigator>
   );
 }
@@ -174,16 +175,17 @@ export default UserNavigator;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgb(255,255,255)'
+    marginTop: -5,
+    backgroundColor: 'rgb(255,255,255)',
   },
+
   userContainer: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
     paddingVertical: 16,
-    backgroundColor: '#20c2c7',
-
+    backgroundColor: '#347b7c',
   },
+
   logoutContainer: {
     borderTopColor: 'lightgray',
     paddingVertical: 16,
@@ -191,8 +193,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#20c2c7',
     alignItems: 'center',
     justifyContent: 'center',
-
   },
+
   logoutText: {
     color: '#000000',
     fontSize: 18,
