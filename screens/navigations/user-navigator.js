@@ -11,7 +11,7 @@ import {createStackNavigator} from "@react-navigation/stack";
 import {useDispatch, useSelector} from "react-redux";
 import actionCreator from "../store/action-creator";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Settings from "../user/settings";
+import Map from "../user/Map";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -115,15 +115,15 @@ const Root = () => {
       />
 
       <Drawer.Screen
-        name="settings"
-        component={Settings}
+        name="Map"
+        component={Map}
         options={{
           drawerLabelStyle: {
             fontSize: 16,
           },
           drawerIcon: ({ color, size }) => (
             <MaterialIcons
-              name="settings"
+              name="map"
               size={size}
               color={color}
             />
@@ -131,22 +131,7 @@ const Root = () => {
         }}
       />
 
-      <Drawer.Screen
-        name="Contact"
-        component={Chat}
-        options={{
-          drawerLabelStyle: {
-            fontSize: 16,
-          },
-          drawerIcon: ({ color, size }) => (
-            <MaterialIcons
-              name="contacts"
-              size={size}
-              color={color}
-            />
-          ),
-        }}
-      />
+
     </Drawer.Navigator>
   );
 }
@@ -182,6 +167,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 16,
     backgroundColor: '#20c2c7',
+    marginTop: -10
 
   },
   logoutContainer: {

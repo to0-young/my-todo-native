@@ -41,7 +41,8 @@
     "react-redux": "^8.1.1",
     "redux": "^4.2.1",
     "redux-logger": "^3.0.6",
-    "styled-components": "^6.1.0"
+    "styled-components": "^6.1.0",
+    "expo-location": "~16.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
