@@ -1,4 +1,5 @@
-const fetchSessionRequest = () => {
+
+const fetchSessionRequest = () => {  // #work
   return fetch('http://192.168.1.101:3000/api/v1/sessions', {
     method: 'GET',
     credentials: 'include',
@@ -22,7 +23,7 @@ const fetchSessionRequest = () => {
 
 
 
-const loginRequest = async (email, password) => {
+const loginRequest = async (email, password) => {  // #work
   return  fetch('http://192.168.1.101:3000/api/v1/sessions', {
     method: 'POST',
     credentials: 'include',
@@ -49,7 +50,7 @@ const loginRequest = async (email, password) => {
 // };
 
 
-const logoutRequest = async () => {
+const logoutRequest = async () => {  // #work
   return fetch('http://192.168.1.101:3000/api/v1/sessions', {
     method: 'DELETE',
     credentials: 'include',
