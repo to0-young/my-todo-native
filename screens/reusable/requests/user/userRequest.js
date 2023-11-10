@@ -1,5 +1,5 @@
 
-const createUserRequest = async (formData) => {
+const createUserRequest = async (formData) => {  // #work
   return fetch('http://192.168.1.101:3000/api/v1/users', {
     method: 'POST',
     credentials: 'include',
@@ -17,7 +17,7 @@ const createUserRequest = async (formData) => {
 // }
 
 
-const forgetPasswordRequest = async (email) => {
+const forgetPasswordRequest = async (email) => {  // #work
   return fetch('http://192.168.1.101:3000/api/v1/forget_passwords', {
     method: 'POST',
     credentials: 'include',
@@ -42,7 +42,7 @@ const forgetPasswordRequest = async (email) => {
 
 
 
-const getTasksRequest = async (page, orderAsc, fieldType) => {
+const getTasksRequest = async (page, orderAsc, fieldType) => {  // #work
  return  await fetch(
     `http://192.168.1.101:3000/api/v1/tasks?per_page=10&page=${page}&sort_order=${orderAsc}&sort_field=${fieldType}`,
     {
@@ -72,7 +72,7 @@ const getTasksRequest = async (page, orderAsc, fieldType) => {
 
 
 
-const updateTaskRequest = async (taskId, completed) => {
+const updateTaskRequest = async (taskId, completed) => {  // #work
     const res = await fetch(`http://192.168.1.101:3000/api/v1/tasks/${taskId}`, {
         method: 'PATCH',
         credentials: 'include',
@@ -99,7 +99,7 @@ const updateTaskRequest = async (taskId, completed) => {
 
 
 
-const deleteTaskRequest = async (taskId) => {
+const deleteTaskRequest = async (taskId) => {  // #work
     const res = await fetch(`http://192.168.1.101:3000/api/v1/tasks/${taskId}`, {
         method: 'DELETE',
         credentials: 'include',
@@ -120,7 +120,7 @@ const deleteTaskRequest = async (taskId) => {
 
 
 //
-const fetchEditTask = async (taskId) => {
+const fetchEditTask = async (taskId) => {  // #work
   const res = await fetch(`http://192.168.1.101:3000/api/v1/tasks/${taskId}`, {
     method: "GET",
     credentials: "include",
@@ -142,7 +142,7 @@ const fetchEditTask = async (taskId) => {
 
 
 
-const updateEditTask = async (task) => {
+const updateEditTask = async (task) => {  // #work
   const res = await fetch(`http://192.168.1.101:3000/api/v1/tasks/${task.id}`, {
     method: "PATCH",
     credentials: "include",
@@ -174,7 +174,7 @@ const updateEditTask = async (task) => {
 // }
 
 
-const fetchMessagesApi = async () => {
+const fetchMessagesApi = async () => {  // #work
   return fetch(`http://192.168.1.101:3000/messages`, {
     method: 'GET',
     credentials: 'include',
@@ -193,7 +193,7 @@ const fetchMessagesApi = async () => {
 
 
 
-const sendMessageRequest = async (msg, firstName) => {
+const sendMessageRequest = async (msg, firstName) => {  // #work
   return fetch(`http://192.168.1.101:3000/messages`, {
     method: 'POST',
     credentials: 'include',
@@ -219,7 +219,7 @@ const sendMessageRequest = async (msg, firstName) => {
 // }
 
 
-const deleteMessageRequest = async (messageId) => {
+const deleteMessageRequest = async (messageId) => {  // #work
   return fetch(`http://192.168.1.101:3000/messages/${messageId}`, {
     method: 'DELETE',
     credentials: 'include',

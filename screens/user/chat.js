@@ -104,6 +104,8 @@ const Messages = () => {
   const reversedMessages = [...messages].reverse();
 
 
+  console.log(user.avatar.url)
+
   return (
     <Container>
       <ChatHeader>
