@@ -104,7 +104,6 @@ const Messages = () => {
   const reversedMessages = [...messages].reverse();
 
 
-  console.log(user.avatar.url)
 
   return (
     <Container>
@@ -128,7 +127,7 @@ const Messages = () => {
                   <DeleteIcon name="delete" size={20} color="black"/>
                 </DeleteButton>
               )}
-              <Image source={{ uri: user.avatar.url }}
+              <Image source={{ uri: message.user.avatar.url }}
                      style={{
                        width: 40,
                        height: 40,
