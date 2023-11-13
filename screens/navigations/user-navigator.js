@@ -4,6 +4,7 @@ import {Text, View, StyleSheet} from 'react-native';
 import Dashboard from '../user/dashboard';
 import NewTask from '../user/new-task';
 import Chat from '../user/chat';
+import Weather from "../user/weather/weather";
 import {TouchableWithoutFeedback, Image} from 'react-native';
 import {logoutRequest} from "../reusable/requests/session/sessionRequest";
 import EditTask from "../user/edit-task";
@@ -61,7 +62,7 @@ const CustomDrawerContent = (props) => {
 
 const Root = () => {
   return (
-    <Drawer.Navigator initialRouteName="Chat" drawerContent={CustomDrawerContent}>
+    <Drawer.Navigator initialRouteName="Weather" drawerContent={CustomDrawerContent}>
 
       <Drawer.Screen
         name="Dashboard"
@@ -123,6 +124,23 @@ const Root = () => {
           drawerIcon: ({ color, size }) => (
             <MaterialIcons
               name="map"
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+
+      <Drawer.Screen
+        name="Weather"
+        component={Weather}
+        options={{
+          drawerLabelStyle: {
+            fontSize: 16,
+          },
+          drawerIcon: ({ color, size }) => (
+            <MaterialIcons
+              name="cloud"
               size={size}
               color={color}
             />
