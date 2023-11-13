@@ -116,8 +116,8 @@ const NewTask = (props) => {
 
 
   const postTask = async () => {
-    const res = await fetch('http://192.168.1.101:3000/api/v1/tasks', {
-    // const res = await fetch('http://192.168.1.112:3000/api/v1/tasks', {
+    // const res = await fetch('http://192.168.1.101:3000/api/v1/tasks', { // Work
+    const res = await fetch('http://192.168.1.112:3000/api/v1/tasks', { // Home
       method: 'POST',
       credentials: 'include',
       headers: {'Content-Type': 'application/json'},
@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
     top: -20,
   },
   buttonSave: {
-    backgroundColor: '#24da09',
+    backgroundColor: '#000000',
     width: 200,
     paddingVertical: 12,
     paddingHorizontal: 24,
@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
     top: 22,
   },
   buttonText: {
-    color: '#070707',
+    color: '#dad9d9',
     fontSize: 16,
     fontWeight: 'bold',
   },

@@ -237,6 +237,8 @@ const deleteMessageRequest = async (messageId) => { // Home
 };
 
 
+// Не забудь змінити адреса в "Чаті і в NewTask"
+
 export {
   createUserRequest,
   forgetPasswordRequest,

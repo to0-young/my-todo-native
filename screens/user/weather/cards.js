@@ -4,7 +4,8 @@ import {View, Text, ImageBackground, TouchableOpacity} from 'react-native';
 
 export function Cards({name, image}) {
   return (
-    <TouchableOpacity style={{marginHorizontal: 10,}}>
+    <TouchableOpacity onPress={() => {}}
+      style={{marginHorizontal: 10,}}>
       <ImageBackground
         source={image}
         style={{height: 150, width: 150}}

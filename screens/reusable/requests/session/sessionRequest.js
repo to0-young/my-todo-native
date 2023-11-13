@@ -66,6 +66,7 @@ const logoutRequest = async () => {
   });
 };
 
+// Не забудь змінити адреса в "Чаті і в NewTask"
 
 export  {
   fetchSessionRequest,

@@ -13,6 +13,7 @@ import {useDispatch, useSelector} from "react-redux";
 import actionCreator from "../store/action-creator";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Map from "../user/Map";
+import Details from "../user/weather/details";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -153,16 +154,19 @@ const Root = () => {
 
 const UserNavigator = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ headerShown: false}}>
       <Stack.Screen
         name="Drawer"
         component={Root}
         options={{ headerShown: false }}
       />
-
       <Stack.Screen
         name="EditTask"
         component={EditTask}
+      />
+      <Stack.Screen
+        name="Details"
+        component={Details}
       />
     </Stack.Navigator>
   )

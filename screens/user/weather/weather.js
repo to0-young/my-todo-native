@@ -6,7 +6,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import Cards from "./cards";
 
 
-const Weather = () => {
+const Weather = (props) => {
 
   const [city, setCity] = useState('')
 
@@ -48,15 +48,13 @@ const Weather = () => {
         <View style={styles.searchContainer}>
           <TextInput
             value={city}
-            // onChangeText={(text) => setCity(text)}
-            onChange={(val) => setCity(val)}
+            onChangeText={(text) => setCity(text)}
             style={styles.input}
             placeholder="Search City"
             placeholderTextColor="white"
           />
 
-          <TouchableOpacity onPress={() => {
-          }}>
+          <TouchableOpacity onPress={() => props.navigation.navigate('Details', {name: city})}>
             <Icon name='search' size={20} color='white'/>
           </TouchableOpacity>
         </View>
@@ -69,8 +67,6 @@ const Weather = () => {
             <Cards name={item.name} image={item.image} />
           )}
         />
-
-
       </View>
     </View>
   );
@@ -92,7 +88,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     paddingVertical: 30,
     paddingHorizontal: 20,
-    marginTop: 100,
+    marginTop: 1,
     // justifyContent: 'center',
     // alignItems: 'center',
     padding: 10,
@@ -115,7 +111,7 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     marginTop: 10,
     paddingHorizontal: 10,
-    width: 350,
+    width: 370,
   },
   input: {
     paddingHorizontal: 10,
@@ -124,9 +120,10 @@ const styles = StyleSheet.create({
   },
   locations: {
     color: 'white',
-    fontSize: 18,
+    fontWeight: 'bold',
+    fontSize: 24,
     paddingHorizontal: 10,
-    marginTop: 150,
+    marginTop: 260,
     marginBottom: 20,
   },
 });
