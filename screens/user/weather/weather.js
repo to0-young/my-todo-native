@@ -37,7 +37,7 @@ const Weather = (props) => {
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require('../../images/pexels-pierre-blach_-2834219.jpg')}
+        source={require('../../images/1631043.jpg')}
         style={styles.imageBackground}>
       </ImageBackground>
 
@@ -58,13 +58,14 @@ const Weather = (props) => {
             <Icon name='search' size={20} color='white'/>
           </TouchableOpacity>
         </View>
+
         <Text style={styles.locations}>My Locations</Text>
 
         <FlatList
           horizontal
           data={cities}
           renderItem={({ item }) => (
-            <Cards name={item.name} image={item.image} />
+            <Cards name={item.name} image={item.image} navigation={props.navigation}/>
           )}
         />
       </View>
@@ -123,7 +124,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 24,
     paddingHorizontal: 10,
-    marginTop: 260,
+    marginTop: 230,
     marginBottom: 20,
   },
 });
