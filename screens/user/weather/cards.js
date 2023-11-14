@@ -2,15 +2,21 @@ import React from 'react';
 import {View, Text, ImageBackground, TouchableOpacity} from 'react-native';
 
 
-export function Cards({name, image}) {
+export function Cards({name, image, navigation}) {
   return (
-    <TouchableOpacity style={{marginHorizontal: 10,}}>
+    <TouchableOpacity onPress={() => navigation.navigate('Details', {name})}
+      style={{marginHorizontal: 10,}}>
       <ImageBackground
         source={image}
         style={{height: 150, width: 150}}
         imageStyle={{borderRadius: 16}}
       />
-      <View style={{position: "absolute", height: '100%', width: '100%',}}>
+      <View
+        style={
+        {position: "absolute",
+          height: '100%',
+          width: '100%',}}
+      >
         <Text style={{
           fontSize: 28,
           width: '100%',
@@ -19,7 +25,9 @@ export function Cards({name, image}) {
           textAlignVertical: "center",
           color: "black",
           paddingBottom: 95,
-        }}>{name} </Text>
+        }}>
+          {name}
+        </Text>
       </View>
     </TouchableOpacity>
   );

@@ -119,7 +119,7 @@ const deleteTaskRequest = async (taskId) => { // Home
 };
 
 
-//
+
 // const fetchEditTask = async (taskId) => {  // #work
 //   const res = await fetch(`http://192.168.1.101:3000/api/v1/tasks/${taskId}`, {
 //     method: "GET",
@@ -236,6 +236,8 @@ const deleteMessageRequest = async (messageId) => { // Home
   });
 };
 
+
+// Не забудь змінити адреса в "Чаті і в NewTask"
 
 export {
   createUserRequest,

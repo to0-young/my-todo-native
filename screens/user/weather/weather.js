@@ -6,7 +6,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import Cards from "./cards";
 
 
-const Weather = () => {
+const Weather = (props) => {
 
   const [city, setCity] = useState('')
 
@@ -37,7 +37,7 @@ const Weather = () => {
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require('../../images/pexels-pierre-blach_-2834219.jpg')}
+        source={require('../../images/1631043.jpg')}
         style={styles.imageBackground}>
       </ImageBackground>
 
@@ -48,29 +48,26 @@ const Weather = () => {
         <View style={styles.searchContainer}>
           <TextInput
             value={city}
-            // onChangeText={(text) => setCity(text)}
-            onChange={(val) => setCity(val)}
+            onChangeText={(text) => setCity(text)}
             style={styles.input}
             placeholder="Search City"
             placeholderTextColor="white"
           />
 
-          <TouchableOpacity onPress={() => {
-          }}>
+          <TouchableOpacity onPress={() => props.navigation.navigate('Details', {name: city})}>
             <Icon name='search' size={20} color='white'/>
           </TouchableOpacity>
         </View>
+
         <Text style={styles.locations}>My Locations</Text>
 
         <FlatList
           horizontal
           data={cities}
           renderItem={({ item }) => (
-            <Cards name={item.name} image={item.image} />
+            <Cards name={item.name} image={item.image} navigation={props.navigation}/>
           )}
         />
-
-
       </View>
     </View>
   );
@@ -92,7 +89,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     paddingVertical: 30,
     paddingHorizontal: 20,
-    marginTop: 100,
+    marginTop: 1,
     // justifyContent: 'center',
     // alignItems: 'center',
     padding: 10,
@@ -115,7 +112,7 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     marginTop: 10,
     paddingHorizontal: 10,
-    width: 350,
+    width: 370,
   },
   input: {
     paddingHorizontal: 10,
@@ -124,9 +121,10 @@ const styles = StyleSheet.create({
   },
   locations: {
     color: 'white',
-    fontSize: 18,
+    fontWeight: 'bold',
+    fontSize: 24,
     paddingHorizontal: 10,
-    marginTop: 150,
+    marginTop: 230,
     marginBottom: 20,
   },
 });
