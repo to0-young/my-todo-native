@@ -1,5 +1,14 @@
 import React, {useState} from 'react';
-import {View, Text, ImageBackground, StyleSheet, TextInput, TouchableOpacity, FlatList} from 'react-native';
+import {
+  View,
+  Text,
+  ImageBackground,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  FlatList,
+  KeyboardAvoidingView, ScrollView
+} from 'react-native';
 import {connect} from "react-redux";
 import actionCreator from "../../store/action-creator";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -11,6 +20,10 @@ const Weather = (props) => {
   const [city, setCity] = useState('')
 
   const cities = [
+    {
+      name: 'Kyiv',
+      image: require('../../images/Kyiv.jpeg')
+    },
     {
       name: 'New Delhi',
       image: require('../../images/360_F_401315941_G0X03EqVjcPDh1ev7G2wEQpZgFyKDsdK.jpg')
@@ -27,48 +40,45 @@ const Weather = (props) => {
       name: 'Paris',
       image: require('../../images/Paris.jpg')
     },
-    {
-      name: 'Kyiv',
-      image: require('../../images/Kyiv.jpeg')
-    },
-  ]
 
+  ]
 
   return (
     <View style={styles.container}>
-      <ImageBackground
-        source={require('../../images/1631043.jpg')}
-        style={styles.imageBackground}>
-      </ImageBackground>
+      <KeyboardAvoidingView style={styles.container} behavior="hight" enabled>
+        <ImageBackground
+          source={require('../../images/1631043.jpg')}
+          style={styles.imageBackground}>
 
-      <View style={styles.contText}>
-        <Text style={styles.text}>Hello</Text>
-        <Text style={styles.textSearch}>Search the city by the name </Text>
+          <View style={styles.contText}>
+            <Text style={styles.text}>Hello</Text>
+            <Text style={styles.textSearch}>Search the city by the name </Text>
+            <Text style={styles.locations}>My Locations</Text>
 
-        <View style={styles.searchContainer}>
-          <TextInput
-            value={city}
-            onChangeText={(text) => setCity(text)}
-            style={styles.input}
-            placeholder="Search City"
-            placeholderTextColor="white"
-          />
+            <FlatList
+              horizontal
+              data={cities}
+              renderItem={({item}) => (
+                <Cards name={item.name} image={item.image} navigation={props.navigation}/>
+              )}
+            />
+          </View>
 
-          <TouchableOpacity onPress={() => props.navigation.navigate('Details', {name: city})}>
-            <Icon name='search' size={20} color='white'/>
-          </TouchableOpacity>
-        </View>
+          <View style={styles.searchContainer}>
+            <TextInput
+              value={city}
+              onChangeText={(text) => setCity(text)}
+              style={styles.input}
+              placeholder="Search City"
+              placeholderTextColor="white"
+            />
 
-        <Text style={styles.locations}>My Locations</Text>
-
-        <FlatList
-          horizontal
-          data={cities}
-          renderItem={({ item }) => (
-            <Cards name={item.name} image={item.image} navigation={props.navigation}/>
-          )}
-        />
-      </View>
+            <TouchableOpacity onPress={() => props.navigation.navigate('Details', {name: city})}>
+              <Icon name='search' size={20} color='white'/>
+            </TouchableOpacity>
+          </View>
+        </ImageBackground>
+      </KeyboardAvoidingView>
     </View>
   );
 };
@@ -87,17 +97,14 @@ const styles = StyleSheet.create({
   },
   contText: {
     position: "absolute",
-    paddingVertical: 30,
-    paddingHorizontal: 20,
-    marginTop: 1,
     // justifyContent: 'center',
-    // alignItems: 'center',
-    padding: 10,
+    padding: 5,
   },
   text: {
     color: 'white',
     fontSize: 30,
     fontWeight: 'bold',
+
   },
   textSearch: {
     color: 'white',
@@ -113,20 +120,22 @@ const styles = StyleSheet.create({
     marginTop: 10,
     paddingHorizontal: 10,
     width: 370,
+    marginBottom: 260,
   },
   input: {
     paddingHorizontal: 5,
     paddingVertical: 5,
     width: 320,
     color: 'white',
+
   },
   locations: {
     color: 'white',
     fontWeight: 'bold',
     fontSize: 24,
     paddingHorizontal: 10,
-    marginTop: 230,
-    marginBottom: 20,
+    paddingTop: 240,
+    marginBottom: 10,
   },
 });
 
