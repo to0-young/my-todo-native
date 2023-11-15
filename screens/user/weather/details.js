@@ -5,6 +5,7 @@ import {API_KEY} from "./constants";
 export default function Details(props) {
   const {name} = props.route.params
   const [data, setData] = useState()
+
   useEffect(() => {
     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${name}&appid=${API_KEY}`,
     )
