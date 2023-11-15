@@ -115,8 +115,9 @@ const styles = StyleSheet.create({
     width: 370,
   },
   input: {
-    paddingHorizontal: 10,
+    paddingHorizontal: 5,
     paddingVertical: 5,
+    width: 320,
     color: 'white',
   },
   locations: {
