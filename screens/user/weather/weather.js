@@ -26,6 +26,10 @@ const Weather = (props) => {
       image: require('../../images/Kyiv.jpeg')
     },
     {
+      name: 'Uman',
+      image: require('../../images/sofiivka.jpg')
+    },
+    {
       name: 'New Delhi',
       image: require('../../images/360_F_401315941_G0X03EqVjcPDh1ev7G2wEQpZgFyKDsdK.jpg')
     },
@@ -41,13 +45,23 @@ const Weather = (props) => {
       name: 'Paris',
       image: require('../../images/Paris.jpg')
     },
+
   ]
+
+
+
+  const isCityValid = (city) => {
+    // Перевірка, чи city не порожнє і складається тільки з букв та можливо пробілів
+    return /^[a-zA-Z\s]+$/.test(city.trim());
+  };
+
+
 
 
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require('../../images/1631043.jpg')}
+        source={require('../../images/1.jpg')}
         style={styles.imageBackground}
       >
         <KeyboardAvoidingView
@@ -70,27 +84,29 @@ const Weather = (props) => {
           />
 
 
+
           <View style={styles.searchContainer}>
             <TextInput
               value={city}
               onChangeText={(text) => setCity(text)}
               style={styles.input}
-              // placeholder="Search City"
-              // placeholderTextColor="white"
+              autoCompleteType="off"
             />
             <TouchableOpacity
               onPress={() => {
-                if (city.trim() !== "") {
-                  props.navigation.navigate('Details', {name: city});
+                if (isCityValid(city)) {
+                  props.navigation.navigate('Details', { name: city });
                   setError(null);
                 } else {
-                  setError("Поле для пошуку не може бути порожнім");
+                  setError('Please enter a valid city name');
                 }
               }}
             >
               <Icon name='search' size={30} color='white'/>
             </TouchableOpacity>
+            {error && <Text style={styles.errorText}>{error}</Text>}
           </View>
+
 
         </KeyboardAvoidingView>
       </ImageBackground>
@@ -131,7 +147,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     paddingHorizontal: 10,
     padding: 10,
-    marginTop: 170,
+    marginTop: 150,
   },
   searchContainer: {
     position: "absolute",
