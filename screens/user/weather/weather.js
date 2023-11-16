@@ -7,7 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
   FlatList,
-  KeyboardAvoidingView, ScrollView
+  KeyboardAvoidingView, ScrollView, SafeAreaView
 } from 'react-native';
 import {connect} from "react-redux";
 import actionCreator from "../../store/action-creator";
@@ -40,71 +40,81 @@ const Weather = (props) => {
       name: 'Paris',
       image: require('../../images/Paris.jpg')
     },
-
   ]
+
 
   return (
     <View style={styles.container}>
-      <KeyboardAvoidingView style={styles.container} behavior="hight" enabled>
-        <ImageBackground
-          source={require('../../images/1631043.jpg')}
-          style={styles.imageBackground}>
+      <ImageBackground
+        source={require('../../images/1631043.jpg')}
+        style={styles.imageBackground}
+      >
 
-          <View style={styles.contText}>
-            <Text style={styles.text}>Hello</Text>
-            <Text style={styles.textSearch}>Search the city by the name </Text>
-            <Text style={styles.locations}>My Locations</Text>
+        {/*/!*<SafeAreaView>*!/ // якщо треба буде використати скрол */}
+          <KeyboardAvoidingView
+            style={styles.container}
+            behavior="padding"
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : -200}
+            // style={{flex: 1, justifyContent: 'space-between'}}
+            enabled
+          >
 
-            <FlatList
-              horizontal
-              data={cities}
-              renderItem={({item}) => (
-                <Cards name={item.name} image={item.image} navigation={props.navigation}/>
-              )}
-            />
-          </View>
+            <View style={styles.contText}>
+              <Text style={styles.text}>Hello</Text>
+              <Text style={styles.textSearch}>Search the city by the name </Text>
+              <Text style={styles.locations}>My Locations</Text>
 
-          <View style={styles.searchContainer}>
-            <TextInput
-              value={city}
-              onChangeText={(text) => setCity(text)}
-              style={styles.input}
-              placeholder="Search City"
-              placeholderTextColor="white"
-            />
+              <FlatList
+                horizontal
+                data={cities}
+                renderItem={({item}) => (
+                  <Cards name={item.name} image={item.image} navigation={props.navigation}/>
+                )}
+              />
+            </View>
 
-            <TouchableOpacity onPress={() => props.navigation.navigate('Details', {name: city})}>
-              <Icon name='search' size={20} color='white'/>
-            </TouchableOpacity>
-          </View>
-        </ImageBackground>
-      </KeyboardAvoidingView>
+            <View style={styles.searchContainer}>
+              <TextInput
+                value={city}
+                onChangeText={(text) => setCity(text)}
+                style={styles.input}
+                placeholder="Search City"
+                placeholderTextColor="white"
+              />
+
+              <TouchableOpacity onPress={() => props.navigation.navigate('Details', {name: city})}>
+                <Icon name='search' size={30} color='white'/>
+              </TouchableOpacity>
+            </View>
+
+          </KeyboardAvoidingView>
+        {/*</SafeAreaView>*/}
+      </ImageBackground>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
   imageBackground: {
-    width: '100%',
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    opacity: 0.6,
+    height: 630,
     backgroundColor: "black",
+    padding: 5,
   },
   contText: {
     position: "absolute",
+    paddingVertical: 80,
     // justifyContent: 'center',
-    padding: 5,
+    // alignItems: 'center',
+    padding: 1,
   },
   text: {
     color: 'white',
     fontSize: 30,
     fontWeight: 'bold',
-
+    paddingBottom: 8,
   },
   textSearch: {
     color: 'white',
@@ -117,17 +127,17 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     borderWidth: 1,
     borderColor: 'white',
-    marginTop: 10,
+    marginTop: 160,
     paddingHorizontal: 10,
-    width: 370,
-    marginBottom: 260,
+    padding: 6,
+    width: 400,
   },
   input: {
-    paddingHorizontal: 5,
-    paddingVertical: 5,
-    width: 320,
+    // paddingHorizontal: 5,
+    // paddingVertical: 5,
+    width: 345,
     color: 'white',
-
+    fontSize: 20,
   },
   locations: {
     color: 'white',
