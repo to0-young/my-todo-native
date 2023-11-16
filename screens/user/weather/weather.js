@@ -18,6 +18,7 @@ import Cards from "./cards";
 const Weather = (props) => {
 
   const [city, setCity] = useState('')
+  const [error, setError] = useState(null)
 
   const cities = [
     {
@@ -49,65 +50,69 @@ const Weather = (props) => {
         source={require('../../images/1631043.jpg')}
         style={styles.imageBackground}
       >
+        <KeyboardAvoidingView
+          behavior="padding"
+          keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : -200}
+          enabled
+        >
+          <View style={styles.contText}>
+            <Text style={styles.text}>Hello</Text>
+            <Text style={styles.textSearch}>Search the city by the name </Text>
+          </View>
 
-        {/*/!*<SafeAreaView>*!/ // якщо треба буде використати скрол */}
-          <KeyboardAvoidingView
-            style={styles.container}
-            behavior="padding"
-            keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : -200}
-            // style={{flex: 1, justifyContent: 'space-between'}}
-            enabled
-          >
+          <Text style={styles.locations}>My Locations</Text>
+          <FlatList
+            horizontal
+            data={cities}
+            renderItem={({item}) => (
+              <Cards name={item.name} image={item.image} navigation={props.navigation}/>
+            )}
+          />
 
-            <View style={styles.contText}>
-              <Text style={styles.text}>Hello</Text>
-              <Text style={styles.textSearch}>Search the city by the name </Text>
-              <Text style={styles.locations}>My Locations</Text>
 
-              <FlatList
-                horizontal
-                data={cities}
-                renderItem={({item}) => (
-                  <Cards name={item.name} image={item.image} navigation={props.navigation}/>
-                )}
-              />
-            </View>
+          <View style={styles.searchContainer}>
+            <TextInput
+              value={city}
+              onChangeText={(text) => setCity(text)}
+              style={styles.input}
+              // placeholder="Search City"
+              // placeholderTextColor="white"
+            />
+            <TouchableOpacity
+              onPress={() => {
+                if (city.trim() !== "") {
+                  props.navigation.navigate('Details', {name: city});
+                  setError(null);
+                } else {
+                  setError("Поле для пошуку не може бути порожнім");
+                }
+              }}
+            >
+              <Icon name='search' size={30} color='white'/>
+            </TouchableOpacity>
+          </View>
 
-            <View style={styles.searchContainer}>
-              <TextInput
-                value={city}
-                onChangeText={(text) => setCity(text)}
-                style={styles.input}
-                placeholder="Search City"
-                placeholderTextColor="white"
-              />
-
-              <TouchableOpacity onPress={() => props.navigation.navigate('Details', {name: city})}>
-                <Icon name='search' size={30} color='white'/>
-              </TouchableOpacity>
-            </View>
-
-          </KeyboardAvoidingView>
-        {/*</SafeAreaView>*/}
+        </KeyboardAvoidingView>
       </ImageBackground>
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
   imageBackground: {
-    height: 630,
+    // flex: 1,
+    position: "absolute",
     backgroundColor: "black",
     padding: 5,
+    paddingBottom: 100,
   },
   contText: {
-    position: "absolute",
-    paddingVertical: 80,
-    // justifyContent: 'center',
-    // alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 80,
     padding: 1,
   },
   text: {
@@ -120,34 +125,34 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 20,
   },
+  locations: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 20,
+    paddingHorizontal: 10,
+    padding: 10,
+    marginTop: 170,
+  },
   searchContainer: {
+    position: "absolute",
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: "center",
     borderRadius: 50,
     borderWidth: 1,
     borderColor: 'white',
-    marginTop: 160,
+    marginTop: 170,
     paddingHorizontal: 10,
     padding: 6,
     width: 400,
   },
   input: {
-    // paddingHorizontal: 5,
-    // paddingVertical: 5,
     width: 345,
     color: 'white',
     fontSize: 20,
   },
-  locations: {
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 24,
-    paddingHorizontal: 10,
-    paddingTop: 240,
-    marginBottom: 10,
-  },
 });
+
 
 const ConnectedWeather = connect(null, actionCreator)(Weather);
 export default ConnectedWeather;
