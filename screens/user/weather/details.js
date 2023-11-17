@@ -79,8 +79,8 @@ const styles = StyleSheet.create({
   },
   contText: {
     position: 'absolute',
-    paddingVertical: 30,
-    paddingHorizontal: 20,
+    // paddingVertical: 10,
+    // paddingHorizontal: 5,
     marginTop: 1,
     padding: 10,
     width: '100%',
@@ -93,8 +93,8 @@ const styles = StyleSheet.create({
   },
   backButton: {
     position: 'absolute',
-    top: 5,
-    left: 5,
+    top: 10,
+    left: 1,
     zIndex: 1,
     color: 'black',
   },

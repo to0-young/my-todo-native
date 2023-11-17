@@ -1,6 +1,6 @@
 import React from 'react';
 import {createDrawerNavigator, DrawerContentScrollView, DrawerItemList} from '@react-navigation/drawer';
-import {Text, View, StyleSheet} from 'react-native';
+import {Text, View, StyleSheet, ImageBackground} from 'react-native';
 import Dashboard from '../user/dashboard';
 import NewTask from '../user/new-task';
 import Chat from '../user/chat';
@@ -35,18 +35,25 @@ const CustomDrawerContent = (props) => {
 
   return (
     <View style={styles.container}>
+
       <DrawerContentScrollView {...props} >
+
+        <ImageBackground source={require('../images/sun-summer-blue-sky.jpg')}
+          style={styles.imageBackground}>
+
         <View style={styles.userContainer}>
-          <Image
-            source={{ uri: user.avatar.url }}
-            style={{
-              width: 100,
-              height: 100,
-              borderRadius: 50,
-            }}
-          />
-          <Text style={styles.userName}>{user.first_name}</Text>
+
+            <Image
+              source={{ uri: user.avatar.url }}
+              style={{
+                width: 100,
+                height: 100,
+                borderRadius: 50,
+              }}
+            />
+            <Text style={styles.userName}>{user.first_name}</Text>
         </View>
+        </ImageBackground>
 
         <DrawerItemList {...props} />
       </DrawerContentScrollView>
@@ -70,13 +77,14 @@ const Root = () => {
         component={Dashboard}
         options={{
           drawerLabelStyle: {
-            fontSize: 16,
+            fontSize: 20,
+            color: "black",
           },
           drawerIcon: ({ color, size }) => (
             <MaterialIcons
               name="home"
               size={size}
-              color={color}
+              // color={color}
             />
           ),
         }}
@@ -148,6 +156,7 @@ const Root = () => {
           ),
         }}
       />
+
     </Drawer.Navigator>
   );
 }
@@ -186,7 +195,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     paddingVertical: 16,
-    backgroundColor: '#347b7c',
   },
 
   logoutContainer: {
@@ -203,10 +211,15 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
-
   userName: {
     color: '#000000',
     fontSize: 18,
     paddingVertical: 16,
-  }
+  },
+  imageBackground: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'black',
+  },
 });
