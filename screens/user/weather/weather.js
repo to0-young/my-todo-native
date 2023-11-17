@@ -7,12 +7,14 @@ import {
   TextInput,
   TouchableOpacity,
   FlatList,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Alert,
 } from 'react-native';
 import {connect} from "react-redux";
 import actionCreator from "../../store/action-creator";
 import Icon from "react-native-vector-icons/Ionicons";
 import Cards from "./cards";
+import {API_KEY} from "./constants";
 
 
 const Weather = (props) => {
@@ -48,6 +50,8 @@ const Weather = (props) => {
   ]
 
 
+
+
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -81,20 +85,32 @@ const Weather = (props) => {
               style={styles.input}
             />
             <TouchableOpacity
-              onPress={() => {
-                if (city) {
-                  props.navigation.navigate('Details', { name: city });
-                  setError(null);
+              onPress={async () => {
+                if (city.trim() !== "") {
+                  try {
+                    const response = await fetch(
+                      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}`
+                    );
+                    const data = await response.json();
+
+                    if (data.cod === 200) {
+                      props.navigation.navigate('Details', { name: city });
+                      setError(null);
+                    } else {
+                      Alert.alert('Error', 'City not found');
+                    }
+                  } catch (error) {
+                    console.error("Error checking city:", error);
+                    Alert.alert('Error', 'Error checking city');
+                  }
                 } else {
-                  setError('Please enter a valid city name');
+                  Alert.alert('Error', 'Please enter a city');
                 }
               }}
             >
               <Icon name='search' size={30} color='white'/>
             </TouchableOpacity>
           </View>
-
-
         </KeyboardAvoidingView>
       </ImageBackground>
     </View>
