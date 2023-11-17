@@ -7,7 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
   FlatList,
-  KeyboardAvoidingView, ScrollView, SafeAreaView
+  KeyboardAvoidingView
 } from 'react-native';
 import {connect} from "react-redux";
 import actionCreator from "../../store/action-creator";
@@ -45,23 +45,13 @@ const Weather = (props) => {
       name: 'Paris',
       image: require('../../images/Paris.jpg')
     },
-
   ]
-
-
-
-  const isCityValid = (city) => {
-    // Перевірка, чи city не порожнє і складається тільки з букв та можливо пробілів
-    return /^[a-zA-Z\s]+$/.test(city.trim());
-  };
-
-
 
 
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require('../../images/1.jpg')}
+        source={require('../../images/sun-summer-blue-sky.jpg')}
         style={styles.imageBackground}
       >
         <KeyboardAvoidingView
@@ -75,6 +65,7 @@ const Weather = (props) => {
           </View>
 
           <Text style={styles.locations}>My Locations</Text>
+
           <FlatList
             horizontal
             data={cities}
@@ -83,18 +74,15 @@ const Weather = (props) => {
             )}
           />
 
-
-
           <View style={styles.searchContainer}>
             <TextInput
               value={city}
               onChangeText={(text) => setCity(text)}
               style={styles.input}
-              autoCompleteType="off"
             />
             <TouchableOpacity
               onPress={() => {
-                if (isCityValid(city)) {
+                if (city) {
                   props.navigation.navigate('Details', { name: city });
                   setError(null);
                 } else {
@@ -104,7 +92,6 @@ const Weather = (props) => {
             >
               <Icon name='search' size={30} color='white'/>
             </TouchableOpacity>
-            {error && <Text style={styles.errorText}>{error}</Text>}
           </View>
 
 
