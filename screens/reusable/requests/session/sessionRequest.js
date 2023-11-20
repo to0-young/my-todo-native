@@ -1,4 +1,4 @@
-//
+
 const fetchSessionRequest = () => {  // #work
   return fetch('http://192.168.1.101:3000/api/v1/sessions', {
     method: 'GET',
@@ -10,7 +10,7 @@ const fetchSessionRequest = () => {  // #work
 }
 
 
-
+//
 // const fetchSessionRequest = () => {
 //   return fetch('http://192.168.31.101:3000/api/v1/sessions', { // Home
 //     method: 'GET',

@@ -108,7 +108,7 @@ const Weather = (props) => {
                 }
               }}
             >
-              <Icon name='search' size={30} color='white'/>
+              <Icon name='search' size={30} color='black'/>
             </TouchableOpacity>
           </View>
         </KeyboardAvoidingView>
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   locations: {
-    color: 'white',
+    color: '#000000',
     fontWeight: 'bold',
     fontSize: 20,
     paddingHorizontal: 10,
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 50,
     borderWidth: 1,
-    borderColor: 'white',
+    borderColor: 'black',
     marginTop: 170,
     paddingHorizontal: 10,
     padding: 6,

@@ -123,22 +123,22 @@ const Root = () => {
         }}
       />
 
-      <Drawer.Screen
-        name="Map"
-        component={Map}
-        options={{
-          drawerLabelStyle: {
-            fontSize: 16,
-          },
-          drawerIcon: ({ color, size }) => (
-            <MaterialIcons
-              name="map"
-              size={size}
-              color={color}
-            />
-          ),
-        }}
-      />
+      {/*<Drawer.Screen*/}
+      {/*  name="Map"*/}
+      {/*  component={Map}*/}
+      {/*  options={{*/}
+      {/*    drawerLabelStyle: {*/}
+      {/*      fontSize: 16,*/}
+      {/*    },*/}
+      {/*    drawerIcon: ({ color, size }) => (*/}
+      {/*      <MaterialIcons*/}
+      {/*        name="map"*/}
+      {/*        size={size}*/}
+      {/*        color={color}*/}
+      {/*      />*/}
+      {/*    ),*/}
+      {/*  }}*/}
+      {/*/>*/}
 
       <Drawer.Screen
         name="Weather"
