@@ -18,13 +18,14 @@ export function Cards({name, image, navigation}) {
           width: '100%',}}
       >
         <Text style={{
+          flex: 1,
           fontSize: 28,
-          width: '100%',
-          height: '100%',
+          // width: '100%',
+          // height: '100%',
           textAlign: "center",
           textAlignVertical: "center",
           color: "black",
-          paddingBottom: 95,
+          paddingBottom: 100,
         }}>
           {name}
         </Text>

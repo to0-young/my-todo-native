@@ -28,6 +28,7 @@ export default function Details(props) {
   </View>
 
 
+  console.log(data)
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -39,13 +40,13 @@ export default function Details(props) {
         {data ? (
           <View style={styles.centeredText}>
 
-            <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-              <Icon name="chevron-back" size={35}/>
+            <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
+              <Icon name="chevron-back" size={35} color={'#000000'}/>
             </TouchableOpacity>
-
 
             <Text style={{ color: 'white', fontSize: 55 }}>{name}</Text>
             <Text style={{ fontSize: 22, color: 'white' }}>{data['weather'][0]['main']}</Text>
+
             <Text style={{ color: 'white', fontSize: 60, paddingTop: 100 }}>
               {(data['main']['temp'] - 273).toFixed(2)}&deg; C{' '}
             </Text>
@@ -91,13 +92,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  backButton: {
+  backBtn: {
     position: 'absolute',
     top: 10,
     left: 1,
     zIndex: 1,
-    color: 'black',
   },
-
 });
 
