@@ -1,5 +1,5 @@
 import React from 'react'
-import {TextInput, View, StyleSheet, TouchableOpacity, Text, Alert, ImageBackground} from 'react-native'
+import {TextInput, View, StyleSheet, TouchableWithoutFeedback, Text, Alert, ImageBackground} from 'react-native'
 import {useNavigation} from '@react-navigation/native'
 import {createUserRequest} from '../reusable/requests/user/userRequest'
 import * as ImagePicker from 'expo-image-picker';
@@ -158,9 +158,9 @@ function SignUp() {
 
         <Text style={styles.title}>Sign up</Text>
 
-        <TouchableOpacity style={styles.imagePickerButton} onPress={selectImage}>
-          <Text style={styles.buttonText}>Avatar</Text>
-        </TouchableOpacity>
+        <TouchableWithoutFeedback  onPress={selectImage}>
+          <Text style={styles.avaText}>Avatar</Text>
+        </TouchableWithoutFeedback>
 
         {selectedImage && (
           <Image source={{uri: selectedImage.uri}} style={styles.selectedImage}/>
@@ -202,28 +202,27 @@ function SignUp() {
         {error.password ? <Text style={styles.error}>{error.password}</Text> : null}
 
 
-        <TouchableOpacity
-          style={styles.onSignUp}
+        <TouchableWithoutFeedback
           onPress={onSignUp}>
 
-          <Text style={styles.buttonText}>
+          <Text style={styles.createText}>
             Creates
           </Text>
-        </TouchableOpacity>
+        </TouchableWithoutFeedback>
 
         <View style={styles.loginContainer}>
           <Text
             style={styles.advice}>Have an account ? {''}
           </Text>
 
-          <TouchableOpacity
+          <TouchableWithoutFeedback
             onPress={() => navigation.navigate('SignIn')}
           >
             <Text
-              style={styles.link}>
+              style={styles.logIn}>
               Log in
             </Text>
-          </TouchableOpacity>
+          </TouchableWithoutFeedback>
         </View>
       </ImageBackground>
     </View>
@@ -237,48 +236,58 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    fontSize: 24,
+    fontSize: 30,
     fontWeight: 'bold',
     marginBottom: 20,
+    color: '#41e00e',
+    bottom: 30,
+    top: 10,
   },
   input: {
     textAlign: 'center',
     height: 45,
     width: 350,
-    borderColor: 'gray',
+    color: '#ffffff',
     borderWidth: 1,
     marginBottom: 25,
     fontSize: 18,
+    top: 40,
   },
   error: {
     color: 'red',
     marginBottom: 10,
   },
-  onSignUp: {
-    backgroundColor: '#041431',
-    borderRadius: 20,
-    padding: 10,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: 'white',
+  avaText: {
+    color: '#05f68a',
+    fontSize: 18,
     fontWeight: 'bold',
+    backgroundColor: '#000000',
+    borderRadius: 25,
+    width: 120,
     textAlign: 'center',
-    width: 100,
-    fontSize: 16,
+    paddingVertical: 15,
+    top: 20,
   },
   loginContainer: {
     flexDirection: 'row',
-    marginTop: 10,
     alignItems: 'center',
+    paddingTop: 50,
   },
   advice: {
     fontSize: 18,
+    top: 40,
+    color: '#ffffff',
   },
-  link: {
-    color: '#f10000',
+  logIn: {
+    color: '#ffffff',
     fontSize: 18,
     fontWeight: 'bold',
+    backgroundColor: '#000000',
+    width: 80,
+    textAlign: "center",
+    borderRadius: 25,
+    paddingVertical: 5,
+    top: 40,
   },
   imagePickerButton: {
     backgroundColor: '#7208da',
@@ -297,6 +306,17 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  createText: {
+    color: '#f80202',
+    fontSize: 18,
+    fontWeight: 'bold',
+    backgroundColor: '#000000',
+    width: 120,
+    textAlign: "center",
+    borderRadius: 25,
+    paddingVertical: 10,
+    top: 40,
   },
 });
 

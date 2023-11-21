@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, connect } from 'react-redux';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList,Alert } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import actionCreator from "../store/action-creator";
-import Spinner from "../reusable/spiner";
+import actionCreator from "../../../store/action-creator";
+import Spinner from "../../../reusable/spiner";
 import {
     deleteTaskRequest,
     getTasksRequest,
     updateTaskRequest,
-} from "../reusable/requests/user/userRequest"
+} from "../../../reusable/requests/user/userRequest"
 import { useNavigation } from '@react-navigation/native';
 
 const Dashboard = (props) => {

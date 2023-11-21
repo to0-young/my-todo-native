@@ -11,7 +11,7 @@ import {
   Alert,
 } from 'react-native';
 import {connect} from "react-redux";
-import actionCreator from "../../store/action-creator";
+import actionCreator from "../../../store/action-creator";
 import Icon from "react-native-vector-icons/Ionicons";
 import Cards from "./cards";
 import {API_KEY} from "./constants";
@@ -25,27 +25,27 @@ const Weather = (props) => {
   const cities = [
     {
       name: 'Kyiv',
-      image: require('../../images/Kyiv.jpeg')
+      image: require('../../../images/Kyiv.jpeg')
     },
     {
       name: 'Uman',
-      image: require('../../images/sofiivka.jpg')
+      image: require('../../../images/sofiivka.jpg')
     },
     {
       name: 'New Delhi',
-      image: require('../../images/360_F_401315941_G0X03EqVjcPDh1ev7G2wEQpZgFyKDsdK.jpg')
+      image: require('../../../images/360_F_401315941_G0X03EqVjcPDh1ev7G2wEQpZgFyKDsdK.jpg')
     },
     {
       name: 'New York',
-      image: require('../../images/NewYork.jpg')
+      image: require('../../../images/NewYork.jpg')
     },
     {
       name: 'London',
-      image: require('../../images/London.jpg')
+      image: require('../../../images/London.jpg')
     },
     {
       name: 'Paris',
-      image: require('../../images/Paris.jpg')
+      image: require('../../../images/Paris.jpg')
     },
   ]
 
@@ -55,7 +55,7 @@ const Weather = (props) => {
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require('../../images/sun-summer-blue-sky.jpg')}
+        source={require('../../../images/sun-summer-blue-sky.jpg')}
         style={styles.imageBackground}
       >
         <KeyboardAvoidingView

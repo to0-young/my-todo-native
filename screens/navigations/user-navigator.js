@@ -1,19 +1,19 @@
 import React from 'react';
 import {createDrawerNavigator, DrawerContentScrollView, DrawerItemList} from '@react-navigation/drawer';
 import {Text, View, StyleSheet, ImageBackground} from 'react-native';
-import Dashboard from '../user/dashboard';
-import NewTask from '../user/new-task';
-import Chat from '../user/chat';
-import Weather from "../user/weather/weather";
+import Dashboard from '../user/drawer/dashboard/dashboard';
+import NewTask from '../user/drawer/new-task/new-task';
+import Chat from '../user/drawer/chat/chat';
+import Weather from "../user/drawer/weather/weather";
 import {TouchableWithoutFeedback, Image} from 'react-native';
 import {logoutRequest} from "../reusable/requests/session/sessionRequest";
-import EditTask from "../user/edit-task";
+import EditTask from "../user/drawer/edit-task/edit-task";
 import {createStackNavigator} from "@react-navigation/stack";
 import {useDispatch, useSelector} from "react-redux";
 import actionCreator from "../store/action-creator";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Map from "../user/Map";
-import Details from "../user/weather/details";
+import Map from "../user/drawer/map/Map";
+import Details from "../user/drawer/weather/details";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
