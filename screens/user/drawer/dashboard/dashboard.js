@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, connect } from 'react-redux';
-import { View, Text, StyleSheet, TouchableOpacity, FlatList,Alert } from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, FlatList, Alert, ImageBackground} from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import actionCreator from "../../../store/action-creator";
 import Spinner from "../../../reusable/spiner";
@@ -112,6 +112,12 @@ const Dashboard = (props) => {
 
     return (
         <View style={styles.dashboard}>
+
+            <ImageBackground
+              source={require('../../.././images/1.jpg')}
+              style={styles.imageBackground}
+            >
+
             <View style={styles.table}>
                 <View style={styles.tableHeader}>
                     <TouchableOpacity style={styles.tableHeaderCell} onPress={sortByTitle}>
@@ -156,7 +162,7 @@ const Dashboard = (props) => {
                                         <MaterialIcons name="delete-forever" size={30} />
                                     </TouchableOpacity>
 
-                                    <TouchableOpacity onPress={() => navigation.navigate('EditTask', { taskId: item.id })}>
+                                    <TouchableOpacity  style={styles.editBtn} onPress={() => navigation.navigate('EditTask', { taskId: item.id })}>
                                         <MaterialIcons name="edit" size={30} />
                                     </TouchableOpacity>
 
@@ -183,6 +189,7 @@ const Dashboard = (props) => {
 
                 />
             </View>
+            </ImageBackground>
         </View>
     );
 };
@@ -191,17 +198,18 @@ const styles = StyleSheet.create({
     dashboard: {
         flex: 1,
     },
+    editBtn: {
+        padding: 10,
+    },
     table: {
         flex: 1,
-        padding: 10,
-        backgroundColor: '#8ce8e8',
-        marginBottom: 10,
+        paddingTop: 15,
     },
     tableHeader: {
         flexDirection: 'column',
         alignItems: 'center',
         borderBottomWidth: 4,
-        borderBottomColor: '#e52929',
+        borderBottomColor: '#e802f8',
         paddingBottom: 10,
     },
     tableHeaderText: {
@@ -217,9 +225,10 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         alignItems: 'center',
         borderBottomWidth: 2,
-        borderBottomColor: '#14298f',
+        borderBottomColor: '#ffffff',
         paddingVertical: 5,
         marginBottom: 5,
+        width: 390,
     },
     tableCell: {
         justifyContent: 'center',
@@ -228,18 +237,18 @@ const styles = StyleSheet.create({
     },
     tableCellTitle: {
         fontWeight: 'bold',
-        fontSize: 20,
+        fontSize: 36,
     },
     tableCellDesk: {
-        fontSize: 17,
+        fontSize: 24,
     },
     tableCellPriority: {
         fontWeight: 'bold',
-        fontSize: 18,
+        fontSize: 20,
     },
     tableCellDate: {
         fontWeight: 'bold',
-        fontSize: 14,
+        fontSize: 16,
     },
     taskActions: {
         flexDirection: 'row',
@@ -250,6 +259,12 @@ const styles = StyleSheet.create({
     },
     crossedCell: {
         textDecorationLine: 'line-through',
+    },
+    imageBackground: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 700,
     },
 });
 
