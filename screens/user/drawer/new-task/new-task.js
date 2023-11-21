@@ -1,5 +1,14 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, ScrollView, TextInput, SafeAreaView, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TextInput,
+  SafeAreaView,
+  TouchableOpacity,
+  ImageBackground
+} from 'react-native';
 import {connect} from "react-redux";
 import actionCreator from "../../../store/action-creator";
 import {DateTimePickerAndroid} from "@react-native-community/datetimepicker";
@@ -15,7 +24,7 @@ const NewTask = (props) => {
   const [task, setTask] = React.useState({
     title: '',
     description: '',
-    priority: 1,
+    priority: '',
     dueDate: new Date(),
   })
 
@@ -116,8 +125,8 @@ const NewTask = (props) => {
 
 
   const postTask = async () => {
-    // const res = await fetch('http://192.168.1.101:3000/api/v1/tasks', { // Work
-    const res = await fetch('http://192.168.1.112:3000/api/v1/tasks', { // Home
+    const res = await fetch('http://192.168.1.101:3000/api/v1/tasks', { // Work
+    // const res = await fetch('http://192.168.1.112:3000/api/v1/tasks', { // Home
       method: 'POST',
       credentials: 'include',
       headers: {'Content-Type': 'application/json'},
@@ -138,7 +147,15 @@ const NewTask = (props) => {
 
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContent}>
-      <View>
+
+      <ImageBackground
+        source={require('../../.././images/1.jpg')}
+        style={styles.imageBackground}
+      >
+
+        <Text style={styles.headerText}>You`re welcome </Text>
+        <Text style={styles.headerText}>Create your first tasks </Text>
+
         <View style={styles.form}>
 
           {error.title ? <Text style={styles.error}>{error.title}</Text> : null}
@@ -159,21 +176,21 @@ const NewTask = (props) => {
 
           <TextInput
             value={task.priority.toString()}
-            style={[styles.input, styles.priorityInput]}
+            style={[styles.input]}
             keyboardType={'numeric'}
             onChangeText={changePriority}
             type={'number'}
           />
 
           <TouchableOpacity
-            style={[styles.button, styles.showPickerButton]}
+            style={[styles.showPickerButton]}
             onPress={showTimepicker}
           >
             <Text style={styles.showPickerText}>Show time </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[styles.button, styles.showPickerButton]}
+            style={[ styles.showPickerButton]}
             onPress={showDatepicker}
           >
             <Text style={styles.showPickerText}>Show date </Text>
@@ -190,12 +207,11 @@ const NewTask = (props) => {
               onChange={onChange}
             />
           )}
-          <TouchableOpacity onPress={onNewTask} style={styles.buttonSave}>
+          <TouchableOpacity onPress={onNewTask} style={styles.saveBtn}>
             <Text style={styles.buttonText}>Create</Text>
           </TouchableOpacity>
-
         </View>
-      </View>
+      </ImageBackground>
     </ScrollView>
   )
 };
@@ -204,70 +220,64 @@ const NewTask = (props) => {
 const styles = StyleSheet.create({
   scrollViewContent: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   form: {
     width: 350,
   },
+  headerText: {
+    color: '#08caec',
+    fontSize: 30,
+    fontWeight: "bold",
+  },
   input: {
     textAlign: 'center',
     height: 45,
-    width: 350,
-    borderColor: 'gray',
     borderWidth: 1,
     marginBottom: 25,
     fontSize: 18,
+    top: 20,
   },
-  priorityInput: {
-    marginBottom: 53,
-  },
-  button: {
-    backgroundColor: 'rgba(24,131,208,0.75)',
-    width: 200,
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 4,
-    alignItems: 'center',
-    alignSelf: 'center',
-    top: -20,
-  },
-  buttonSave: {
+  saveBtn: {
     backgroundColor: '#000000',
-    width: 200,
+    width: 150,
     paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 4,
+    borderRadius: 25,
     alignItems: 'center',
     alignSelf: 'center',
-    top: 22,
+    top: 50,
   },
   buttonText: {
-    color: '#dad9d9',
-    fontSize: 16,
+    color: '#ffffff',
+    fontSize: 18,
     fontWeight: 'bold',
   },
   dateText: {
     fontSize: 20,
     fontWeight: 'bold',
-    marginTop: 10,
     textAlign: 'center',
-    top: -15
+    top: 35
   },
   showPickerButton: {
     backgroundColor: '#31d0bb',
-    width: 200,
+    width: 120,
     paddingVertical: 8,
     paddingHorizontal: 16,
     borderRadius: 4,
     alignItems: 'center',
     alignSelf: 'center',
     marginBottom: 10,
+    top: 10,
   },
   showPickerText: {
     color: '#0c0c0c',
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  imageBackground: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 700,
   },
 });
 
