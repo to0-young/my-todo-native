@@ -9,11 +9,11 @@ import {
   ScrollView
 } from 'react-native';
 import {connect, useSelector} from "react-redux";
-import actionCreator from "../store/action-creator";
-import Spinner from "../reusable/spiner";
+import actionCreator from "../../../store/action-creator";
+import Spinner from "../../../reusable/spiner";
 import {useRoute} from "@react-navigation/native";
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker'
-import {fetchEditTask, updateEditTask} from "../reusable/requests/user/userRequest";
+import {fetchEditTask, updateEditTask} from "../../../reusable/requests/user/userRequest";
 
 
 

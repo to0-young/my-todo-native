@@ -1,5 +1,5 @@
 import {connect} from "react-redux";
-import actionCreator from "../store/action-creator";
+import actionCreator from "../../../store/action-creator";
 import React, { useState, useEffect } from 'react';
 import { Platform, Text, View, StyleSheet } from 'react-native';
 import MapView from 'react-native-maps';

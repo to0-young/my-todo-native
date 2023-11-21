@@ -1,9 +1,9 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {useSelector, connect} from 'react-redux';
 import DeleteIcon from 'react-native-vector-icons/MaterialIcons';
-import actionCreator from "../store/action-creator";
+import actionCreator from "../../../store/action-creator";
 import {Button, Image} from 'react-native'
-import {deleteMessageRequest, fetchMessagesApi, sendMessageRequest} from "../reusable/requests/user/userRequest";
+import {deleteMessageRequest, fetchMessagesApi, sendMessageRequest} from "../../../reusable/requests/user/userRequest";
 import {
   MessageForm,
   ChatHeader,
@@ -16,7 +16,7 @@ import {
   MessageInput,
   MessageText,
   Container,
-} from '../styles/chat';
+} from '../../../styles/chat';
 
 const Messages = () => {
   const [msg, setMsg] = useState('');
@@ -38,9 +38,9 @@ const Messages = () => {
 
     fetchMessages();
 
-    // ws.current = new WebSocket(`http://192.168.31.101:3000/cable`); // Home
-    ws.current = new WebSocket(`http://192.168.1.101:3000/cable`); // Work
-
+    ws.current = new WebSocket(`http://192.168.31.101:3000/cable`); // Home
+    // ws.current = new WebSocket(`http://192.168.1.101:3000/cable`); // Work
+    //
     ws.current.onopen = () => {
       ws.current.send(
         JSON.stringify({

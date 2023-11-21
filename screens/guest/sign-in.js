@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {View, Text, TextInput, StyleSheet, TouchableOpacity, ImageBackground} from 'react-native'
+import {View, Text, TextInput, StyleSheet, TouchableOpacity, ImageBackground,TouchableWithoutFeedback} from 'react-native'
 import {useNavigation} from '@react-navigation/native'
 import {connect} from 'react-redux'
 import actionCreator from './../store/action-creator'
@@ -105,12 +105,12 @@ const SignIn = (props) => {
 
         {errorMsg ? <Text style={styles.errorMsg}>{errorMsg}</Text> : null}
 
-        <TouchableOpacity
+        <TouchableWithoutFeedback
           style={styles.signInBtn}
           onPress={onSignIn}
         >
           <Text style={styles.signInText}>Sign In</Text>
-        </TouchableOpacity>
+        </TouchableWithoutFeedback>
 
 
         <View style={styles.containerLink}>
@@ -118,17 +118,17 @@ const SignIn = (props) => {
             style={styles.dontHaveAccount}>Don't have an account ? {''}
           </Text>
 
-          <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+          <TouchableWithoutFeedback onPress={() => navigation.navigate('SignUp')}>
             <Text
               style={styles.createOne}>
               Create one
             </Text>
-          </TouchableOpacity>
+          </TouchableWithoutFeedback>
         </View>
 
-        <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
+        <TouchableWithoutFeedback   onPress={() => navigation.navigate('ForgotPassword')}>
           <Text style={styles.forgotText}>Forgot password?</Text>
-        </TouchableOpacity>
+        </TouchableWithoutFeedback>
       </ImageBackground>
     </View>
 
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
     color: '#41ff00',
-    top: -30,
+    bottom: 30,
   },
   input: {
     textAlign: 'center',
@@ -157,7 +157,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 25,
     fontSize: 18,
-
   },
   errorText: {
     color: 'red',
@@ -175,46 +174,49 @@ const styles = StyleSheet.create({
     padding: 10,
     alignItems: 'center',
     top: 10,
+    paddingVertical: 5,
   },
   signInText: {
-    color: '#f5efef',
+    color: '#f5f4f4',
     fontSize: 18,
     fontWeight: 'bold',
+    backgroundColor: '#000000',
+    borderRadius: 25,
+    width: 110,
+    textAlign: 'center',
+    paddingVertical: 10,
   },
   dontHaveAccount: {
     color: '#fff8f8',
     margin: 5,
     fontSize: 18,
+    top: 20,
   },
   createOne: {
     backgroundColor: '#000000',
     borderRadius: 20,
     color: '#ff0000',
     width: 100,
-    alignItems: 'center',
+    textAlign: 'center',
     margin: 10,
     fontSize: 15,
-    paddingHorizontal: 13,
     paddingVertical: 5,
+    top: 20,
   },
   containerLink: {
     flexDirection: 'row',
     alignItems: 'center',
-    top: 100,
+    top: 120,
   },
   forgotText: {
-    // color: '#ffffff',
-    // fontSize: 18,
-    top: 100,
     backgroundColor: '#000000',
     borderRadius: 20,
     color: '#3cff01',
     width: 150,
-    alignItems: 'center',
-    margin: 10,
+    textAlign: 'center',
     fontSize: 15,
-    paddingHorizontal: 13,
     paddingVertical: 5,
+    top: 143,
   },
   imageBackground: {
     flex: 1,

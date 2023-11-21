@@ -1,5 +1,5 @@
 import React from 'react'
-import {Text, TextInput, View, StyleSheet, TouchableOpacity, Alert, ImageBackground} from 'react-native'
+import {Text, TextInput, View, StyleSheet, TouchableWithoutFeedback, Alert, ImageBackground} from 'react-native'
 import {useNavigation} from '@react-navigation/native'
 import {connect} from "react-redux"
 import actionCreator from "../store/action-creator"
@@ -9,7 +9,7 @@ function ForgotPassword() {
   const navigation = useNavigation()
 
   const [user, setUser] = React.useState({
-    email: '74.boyko@gmail.com',
+    email: '',
   });
 
   const [error, setError] = React.useState({
@@ -82,17 +82,17 @@ function ForgotPassword() {
 
         {error.email !== '' && <Text style={styles.error}>{error.email}</Text>}
 
-        <TouchableOpacity style={styles.sendLogBtn} onPress={onForgot}>
-          <Text style={styles.buttonText}>Send login link</Text>
-        </TouchableOpacity>
+        <TouchableWithoutFeedback  onPress={onForgot}>
+          <Text style={styles.sendText}>Send login link</Text>
+        </TouchableWithoutFeedback>
 
-        <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+        <TouchableWithoutFeedback onPress={() => navigation.navigate('SignUp')}>
           <Text style={styles.linkCreate}>Create new account</Text>
-        </TouchableOpacity>
+        </TouchableWithoutFeedback>
 
-        <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
+        <TouchableWithoutFeedback onPress={() => navigation.navigate('SignIn')}>
           <Text style={styles.linkBack}>Back to login</Text>
-        </TouchableOpacity>
+        </TouchableWithoutFeedback>
       </ImageBackground>
     </View>
   )
@@ -104,10 +104,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    fontSize: 24,
+    fontSize: 30,
     fontWeight: 'bold',
     marginBottom: 20,
     color: '#41e00e',
+    bottom: 30,
   },
   description: {
     fontSize: 18,
@@ -128,33 +129,37 @@ const styles = StyleSheet.create({
     color: 'red',
     marginBottom: 10,
   },
-  sendLogBtn: {
-    backgroundColor: '#041431',
-    borderRadius: 20,
-    width: '40%',
-    padding: 10,
-    alignItems: 'center',
-    marginBottom: 30,
-  },
-  buttonText: {
-    color: 'white',
+  sendText: {
+    color: '#f5f4f4',
+    fontSize: 18,
     fontWeight: 'bold',
+    backgroundColor: '#000000',
+    borderRadius: 25,
+    width: 160,
     textAlign: 'center',
-    fontSize: 16,
-  },
-  createNew: {
-    fontSize: 14,
-    marginTop: 10,
+    paddingVertical: 15,
   },
   linkCreate: {
-    color: '#000000',
-    marginTop: 10,
-    fontSize: 17,
+    backgroundColor: '#000000',
+    borderRadius: 20,
+    color: '#f60101',
+    width: 180,
+    alignItems: 'center',
+    fontSize: 15,
+    paddingHorizontal: 22,
+    paddingVertical: 5,
+    top: 140,
   },
   linkBack: {
-    color: '#34f804',
-    marginTop: 10,
-    fontSize: 17,
+    backgroundColor: '#000000',
+    borderRadius: 20,
+    color: '#3ef602',
+    width: 120,
+    alignItems: 'center',
+    fontSize: 15,
+    paddingHorizontal: 16,
+    paddingVertical: 5,
+    top: 165,
   },
   imageBackground: {
     flex: 1,

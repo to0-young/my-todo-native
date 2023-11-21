@@ -32,7 +32,7 @@ export default function Details(props) {
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require('../../images/sun-summer-blue-sky.jpg')}
+        source={require('../../../images/sun-summer-blue-sky.jpg')}
         style={styles.imageBackground}
       ></ImageBackground>
 
