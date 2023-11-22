@@ -49,9 +49,6 @@ const Weather = (props) => {
     },
   ]
 
-
-
-
   return (
     <View style={styles.container}>
       <ImageBackground

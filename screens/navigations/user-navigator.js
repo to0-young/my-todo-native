@@ -14,6 +14,8 @@ import actionCreator from "../store/action-creator";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Map from "../user/drawer/map/Map";
 import Details from "../user/drawer/weather/details";
+import Help from "../user/drawer/help/help";
+import Settings from "../user/drawer/settings/settings";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -51,7 +53,9 @@ const CustomDrawerContent = (props) => {
                 borderRadius: 50,
               }}
             />
+
             <Text style={styles.userName}>{user.first_name}</Text>
+            <Text style={styles.userEmail}>{user.email}</Text>
         </View>
         </ImageBackground>
 
@@ -61,8 +65,10 @@ const CustomDrawerContent = (props) => {
       <TouchableWithoutFeedback onPress={onLogOut}>
         <View style={styles.logoutContainer}>
           <Text style={styles.logoutText}>Logout</Text>
+          <MaterialIcons name="logout" size={26} color="black" />
         </View>
       </TouchableWithoutFeedback>
+
     </View>
   )
 }
@@ -70,7 +76,7 @@ const CustomDrawerContent = (props) => {
 
 const Root = () => {
   return (
-    <Drawer.Navigator initialRouteName="Weather" drawerContent={CustomDrawerContent}>
+    <Drawer.Navigator initialRouteName="Dashboard" drawerContent={CustomDrawerContent}>
 
       <Drawer.Screen
         name="Dashboard"
@@ -107,7 +113,7 @@ const Root = () => {
         }}
       />
       <Drawer.Screen
-        name="Chat"
+        name="Message"
         component={Chat}
         options={{
           drawerLabelStyle: {
@@ -123,22 +129,22 @@ const Root = () => {
         }}
       />
 
-      {/*<Drawer.Screen*/}
-      {/*  name="Map"*/}
-      {/*  component={Map}*/}
-      {/*  options={{*/}
-      {/*    drawerLabelStyle: {*/}
-      {/*      fontSize: 16,*/}
-      {/*    },*/}
-      {/*    drawerIcon: ({ color, size }) => (*/}
-      {/*      <MaterialIcons*/}
-      {/*        name="map"*/}
-      {/*        size={size}*/}
-      {/*        color={color}*/}
-      {/*      />*/}
-      {/*    ),*/}
-      {/*  }}*/}
-      {/*/>*/}
+      <Drawer.Screen
+        name="Map"
+        component={Map}
+        options={{
+          drawerLabelStyle: {
+            fontSize: 16,
+          },
+          drawerIcon: ({ color, size }) => (
+            <MaterialIcons
+              name="map"
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
 
       <Drawer.Screen
         name="Weather"
@@ -150,6 +156,40 @@ const Root = () => {
           drawerIcon: ({ color, size }) => (
             <MaterialIcons
               name="cloud"
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+
+      <Drawer.Screen
+        name="Help"
+        component={Help}
+        options={{
+          drawerLabelStyle: {
+            fontSize: 16,
+          },
+          drawerIcon: ({ color, size }) => (
+            <MaterialIcons
+              name="help"
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+
+      <Drawer.Screen
+        name="Settings"
+        component={Settings}
+        options={{
+          drawerLabelStyle: {
+            fontSize: 16,
+          },
+          drawerIcon: ({ color, size }) => (
+            <MaterialIcons
+              name="settings"
               size={size}
               color={color}
             />
@@ -187,8 +227,8 @@ export default UserNavigator;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: -5,
     backgroundColor: 'rgb(255,255,255)',
+    marginTop: -5,
   },
 
   userContainer: {
@@ -198,23 +238,26 @@ const styles = StyleSheet.create({
   },
 
   logoutContainer: {
-    borderTopColor: 'lightgray',
-    paddingVertical: 16,
-    paddingHorizontal: 16,
-    backgroundColor: '#20c2c7',
+    flexDirection: 'row-reverse',
     alignItems: 'center',
-    justifyContent: 'center',
+    width: 130,
+    paddingHorizontal: 15,
+    margin: 12,
   },
-
   logoutText: {
     color: '#000000',
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
+    marginLeft: 18,
   },
   userName: {
     color: '#000000',
-    fontSize: 18,
+    fontSize: 22,
     paddingVertical: 16,
+  },
+  userEmail:{
+    color: '#000000',
+    fontSize: 16,
   },
   imageBackground: {
     flex: 1,
