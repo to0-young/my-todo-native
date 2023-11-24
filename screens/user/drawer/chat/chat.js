@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef} from 'react';
 import {useSelector, connect} from 'react-redux';
 import DeleteIcon from 'react-native-vector-icons/MaterialIcons';
 import actionCreator from "../../../store/action-creator";
-import {Button, Image} from 'react-native'
+import {Button, Image, ImageBackground, StyleSheet} from 'react-native'
 import {deleteMessageRequest, fetchMessagesApi, sendMessageRequest} from "../../../reusable/requests/user/userRequest";
 import {
   MessageForm,
@@ -103,13 +103,17 @@ const Messages = () => {
 
   const reversedMessages = [...messages].reverse();
 
-
-
   return (
     <Container>
       <ChatHeader>
         <HeaderText>Messages</HeaderText>
       </ChatHeader>
+
+
+      <ImageBackground
+        source={require('../../.././images/1.jpg')}
+        style={styles.imageBackground}
+      >
 
       <MessageList
         data={reversedMessages}
@@ -147,6 +151,7 @@ const Messages = () => {
           value={msg}
           onChangeText={handleMessageChange}
           placeholder="Write a message..."
+          style={{ color: 'white'}}
         />
         <Button
           title="Send"
@@ -154,9 +159,20 @@ const Messages = () => {
           disabled={!msg.trim()}
         />
       </MessageForm>
+      </ImageBackground>
     </Container>
   );
 }
+
+
+const styles = StyleSheet.create({
+  imageBackground: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 700,
+  },
+})
 
 
 const ConnectedMessages = connect(null, actionCreator)(Messages);

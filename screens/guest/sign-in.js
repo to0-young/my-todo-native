@@ -4,6 +4,7 @@ import {useNavigation} from '@react-navigation/native'
 import {connect} from 'react-redux'
 import actionCreator from './../store/action-creator'
 import {loginRequest} from "../reusable/requests/session/sessionRequest";
+import {FontAwesome} from "@expo/vector-icons";
 
 const SignIn = (props) => {
   const navigation = useNavigation()
@@ -84,7 +85,7 @@ const SignIn = (props) => {
         resizeMode="cover"
       >
 
-        <Text style={styles.heading}>Sign In</Text>
+        <FontAwesome name="lock" size={80} color="white" style={{ marginBottom: 40 }} />
 
         <TextInput
           value={user.email}
@@ -141,13 +142,7 @@ const styles = StyleSheet.create({
     flex: 1,
     // justifyContent: 'center',
     //   position: "absolute",
-  },
-  heading: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    color: '#41ff00',
-    bottom: 30,
+    marginBottom: 100,
   },
   input: {
     textAlign: 'center',

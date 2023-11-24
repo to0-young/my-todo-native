@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {createDrawerNavigator, DrawerContentScrollView, DrawerItemList} from '@react-navigation/drawer';
-import {Text, View, StyleSheet, ImageBackground} from 'react-native';
+import {Text, View, StyleSheet, ImageBackground, TouchableOpacity} from 'react-native';
 import Dashboard from '../user/drawer/dashboard/dashboard';
 import NewTask from '../user/drawer/new-task/new-task';
 import Chat from '../user/drawer/chat/chat';
@@ -14,6 +14,10 @@ import actionCreator from "../store/action-creator";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Map from "../user/drawer/map/Map";
 import Details from "../user/drawer/weather/details";
+import Help from "../user/drawer/help/help";
+import Settings from "../user/drawer/settings/settings";
+import * as ImagePicker from 'expo-image-picker';
+import {FontAwesome} from "@expo/vector-icons";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -21,6 +25,8 @@ const Stack = createStackNavigator();
 const CustomDrawerContent = (props) => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.session.details.user);
+  // const [avatarUri, setAvatarUri] = useState(user.avatar.url)
+  const [selectedImage, setSelectedImage] = React.useState(null);
 
   const onLogOut = async () => {
     const res = await logoutRequest()
@@ -32,6 +38,53 @@ const CustomDrawerContent = (props) => {
     return json
   }
 
+  // useEffect(() => {
+  //   console.log('Avatar URI:', avatarUri);
+  // }, [avatarUri]);
+  //
+  // const selectNewAvatar = async () => {
+  //   try {
+  //     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+  //     if (status !== 'granted') {
+  //       console.error('Permission to access media library was denied');
+  //       return;
+  //     }
+  //
+  //     const result = await ImagePicker.launchImageLibraryAsync({
+  //       mediaTypes: ImagePicker.MediaTypeOptions.Images,
+  //       allowsEditing: true,
+  //       aspect: [1, 1],
+  //       quality: 1,
+  //     });
+  //
+  //
+  //     if (result && !result.canceled) {
+  //       const newAvatarUri = result.assets[0].uri;
+  //       setAvatarUri(newAvatarUri);
+  //       console.log('Avatar URI after update:', avatarUri);
+  //
+  //     } else {
+  //       console.log('Image picker was canceled');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error during image picker:', error);
+  //   }
+  //
+  // };
+
+  const selectImage = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setSelectedImage(result)
+    }
+  }
+
 
   return (
     <View style={styles.container}>
@@ -41,8 +94,8 @@ const CustomDrawerContent = (props) => {
         <ImageBackground source={require('../images/sun-summer-blue-sky.jpg')}
           style={styles.imageBackground}>
 
-        <View style={styles.userContainer}>
 
+        <View style={styles.userContainer}>
             <Image
               source={{ uri: user.avatar.url }}
               style={{
@@ -51,7 +104,13 @@ const CustomDrawerContent = (props) => {
                 borderRadius: 50,
               }}
             />
+
+          <TouchableOpacity onPress={selectImage} >
+            <FontAwesome name="upload" size={20} color="white" />
+          </TouchableOpacity>
+
             <Text style={styles.userName}>{user.first_name}</Text>
+            <Text style={styles.userEmail}>{user.email}</Text>
         </View>
         </ImageBackground>
 
@@ -61,8 +120,10 @@ const CustomDrawerContent = (props) => {
       <TouchableWithoutFeedback onPress={onLogOut}>
         <View style={styles.logoutContainer}>
           <Text style={styles.logoutText}>Logout</Text>
+          <MaterialIcons name="logout" size={26} color="black" />
         </View>
       </TouchableWithoutFeedback>
+
     </View>
   )
 }
@@ -70,7 +131,7 @@ const CustomDrawerContent = (props) => {
 
 const Root = () => {
   return (
-    <Drawer.Navigator initialRouteName="Weather" drawerContent={CustomDrawerContent}>
+    <Drawer.Navigator initialRouteName="Dashboard" drawerContent={CustomDrawerContent}>
 
       <Drawer.Screen
         name="Dashboard"
@@ -107,7 +168,7 @@ const Root = () => {
         }}
       />
       <Drawer.Screen
-        name="Chat"
+        name="Message"
         component={Chat}
         options={{
           drawerLabelStyle: {
@@ -123,22 +184,22 @@ const Root = () => {
         }}
       />
 
-      {/*<Drawer.Screen*/}
-      {/*  name="Map"*/}
-      {/*  component={Map}*/}
-      {/*  options={{*/}
-      {/*    drawerLabelStyle: {*/}
-      {/*      fontSize: 16,*/}
-      {/*    },*/}
-      {/*    drawerIcon: ({ color, size }) => (*/}
-      {/*      <MaterialIcons*/}
-      {/*        name="map"*/}
-      {/*        size={size}*/}
-      {/*        color={color}*/}
-      {/*      />*/}
-      {/*    ),*/}
-      {/*  }}*/}
-      {/*/>*/}
+      <Drawer.Screen
+        name="Map"
+        component={Map}
+        options={{
+          drawerLabelStyle: {
+            fontSize: 16,
+          },
+          drawerIcon: ({ color, size }) => (
+            <MaterialIcons
+              name="map"
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
 
       <Drawer.Screen
         name="Weather"
@@ -150,6 +211,40 @@ const Root = () => {
           drawerIcon: ({ color, size }) => (
             <MaterialIcons
               name="cloud"
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+
+      <Drawer.Screen
+        name="Help"
+        component={Help}
+        options={{
+          drawerLabelStyle: {
+            fontSize: 16,
+          },
+          drawerIcon: ({ color, size }) => (
+            <MaterialIcons
+              name="help"
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+
+      <Drawer.Screen
+        name="Settings"
+        component={Settings}
+        options={{
+          drawerLabelStyle: {
+            fontSize: 16,
+          },
+          drawerIcon: ({ color, size }) => (
+            <MaterialIcons
+              name="settings"
               size={size}
               color={color}
             />
@@ -187,8 +282,8 @@ export default UserNavigator;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: -5,
     backgroundColor: 'rgb(255,255,255)',
+    marginTop: -5,
   },
 
   userContainer: {
@@ -198,23 +293,26 @@ const styles = StyleSheet.create({
   },
 
   logoutContainer: {
-    borderTopColor: 'lightgray',
-    paddingVertical: 16,
-    paddingHorizontal: 16,
-    backgroundColor: '#20c2c7',
+    flexDirection: 'row-reverse',
     alignItems: 'center',
-    justifyContent: 'center',
+    width: 130,
+    paddingHorizontal: 15,
+    margin: 12,
   },
-
   logoutText: {
     color: '#000000',
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
+    marginLeft: 18,
   },
   userName: {
     color: '#000000',
-    fontSize: 18,
+    fontSize: 22,
     paddingVertical: 16,
+  },
+  userEmail:{
+    color: '#000000',
+    fontSize: 16,
   },
   imageBackground: {
     flex: 1,
