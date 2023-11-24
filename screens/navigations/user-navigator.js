@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {createDrawerNavigator, DrawerContentScrollView, DrawerItemList} from '@react-navigation/drawer';
-import {Text, View, StyleSheet, ImageBackground} from 'react-native';
+import {Text, View, StyleSheet, ImageBackground, TouchableOpacity} from 'react-native';
 import Dashboard from '../user/drawer/dashboard/dashboard';
 import NewTask from '../user/drawer/new-task/new-task';
 import Chat from '../user/drawer/chat/chat';
@@ -16,6 +16,8 @@ import Map from "../user/drawer/map/Map";
 import Details from "../user/drawer/weather/details";
 import Help from "../user/drawer/help/help";
 import Settings from "../user/drawer/settings/settings";
+import * as ImagePicker from 'expo-image-picker';
+import {FontAwesome} from "@expo/vector-icons";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -23,6 +25,8 @@ const Stack = createStackNavigator();
 const CustomDrawerContent = (props) => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.session.details.user);
+  // const [avatarUri, setAvatarUri] = useState(user.avatar.url)
+  const [selectedImage, setSelectedImage] = React.useState(null);
 
   const onLogOut = async () => {
     const res = await logoutRequest()
@@ -34,6 +38,53 @@ const CustomDrawerContent = (props) => {
     return json
   }
 
+  // useEffect(() => {
+  //   console.log('Avatar URI:', avatarUri);
+  // }, [avatarUri]);
+  //
+  // const selectNewAvatar = async () => {
+  //   try {
+  //     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+  //     if (status !== 'granted') {
+  //       console.error('Permission to access media library was denied');
+  //       return;
+  //     }
+  //
+  //     const result = await ImagePicker.launchImageLibraryAsync({
+  //       mediaTypes: ImagePicker.MediaTypeOptions.Images,
+  //       allowsEditing: true,
+  //       aspect: [1, 1],
+  //       quality: 1,
+  //     });
+  //
+  //
+  //     if (result && !result.canceled) {
+  //       const newAvatarUri = result.assets[0].uri;
+  //       setAvatarUri(newAvatarUri);
+  //       console.log('Avatar URI after update:', avatarUri);
+  //
+  //     } else {
+  //       console.log('Image picker was canceled');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error during image picker:', error);
+  //   }
+  //
+  // };
+
+  const selectImage = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setSelectedImage(result)
+    }
+  }
+
 
   return (
     <View style={styles.container}>
@@ -43,8 +94,8 @@ const CustomDrawerContent = (props) => {
         <ImageBackground source={require('../images/sun-summer-blue-sky.jpg')}
           style={styles.imageBackground}>
 
-        <View style={styles.userContainer}>
 
+        <View style={styles.userContainer}>
             <Image
               source={{ uri: user.avatar.url }}
               style={{
@@ -53,6 +104,10 @@ const CustomDrawerContent = (props) => {
                 borderRadius: 50,
               }}
             />
+
+          <TouchableOpacity onPress={selectImage} >
+            <FontAwesome name="upload" size={20} color="white" />
+          </TouchableOpacity>
 
             <Text style={styles.userName}>{user.first_name}</Text>
             <Text style={styles.userEmail}>{user.email}</Text>

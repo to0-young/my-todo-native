@@ -142,7 +142,6 @@ function SignUp() {
         });
       }
     }
-
     return json;
   };
 

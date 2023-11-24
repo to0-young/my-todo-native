@@ -103,8 +103,6 @@ const Messages = () => {
 
   const reversedMessages = [...messages].reverse();
 
-
-
   return (
     <Container>
       <ChatHeader>
@@ -153,7 +151,7 @@ const Messages = () => {
           value={msg}
           onChangeText={handleMessageChange}
           placeholder="Write a message..."
-          style={{ color: 'white', placeholderTextColor: 'white' }}
+          style={{ color: 'white'}}
         />
         <Button
           title="Send"
