@@ -14,7 +14,7 @@ export const ChatHeader = styled(View)`
   align-items: center;
   //justify-content: center;
   padding: 16px;
-  background-color: rgba(171, 63, 80, 0.53);
+  background-color: rgba(68, 49, 52, 0.53);
 `;
 
 export const HeaderText = styled(Text)`
@@ -33,7 +33,7 @@ export const MessageList = styled(FlatList).attrs({
 export const MessageContainer = styled(View)`
   //flex-wrap: wrap;
   align-self: ${props => props.message.user.id === props.session.user.id ? 'flex-end' : 'flex-start'};
-  background-color: ${props => props.message.user.id === props.session.user.id ? 'rgba(178,51,51,0.24)' : 'rgba(54,152,123,0.35)'};
+  background-color: ${props => props.message.user.id === props.session.user.id ? 'rgba(86,44,44,0.6)' : 'rgba(61,114,225,0.85)'};
   border-radius: ${props => props.message.user.id === props.session.user.id ? '10px 10px 0px 10px' : '10px 10px 10px 0px'};
   padding: 5px 4px 5px 4px;
   margin-top: 10px;
