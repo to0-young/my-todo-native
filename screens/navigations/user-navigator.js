@@ -17,7 +17,6 @@ import Details from "../user/drawer/weather/details";
 import Help from "../user/drawer/help/help";
 import Settings from "../user/drawer/settings/settings";
 import * as ImagePicker from 'expo-image-picker';
-import {FontAwesome} from "@expo/vector-icons";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -25,8 +24,8 @@ const Stack = createStackNavigator();
 const CustomDrawerContent = (props) => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.session.details.user);
-  // const [avatarUri, setAvatarUri] = useState(user.avatar.url)
-  const [selectedImage, setSelectedImage] = React.useState(null);
+  const [avatarUri, setAvatarUri] = useState(user.avatar.url)
+
 
   const onLogOut = async () => {
     const res = await logoutRequest()
@@ -38,40 +37,29 @@ const CustomDrawerContent = (props) => {
     return json
   }
 
-  // useEffect(() => {
-  //   console.log('Avatar URI:', avatarUri);
-  // }, [avatarUri]);
-  //
-  // const selectNewAvatar = async () => {
-  //   try {
-  //     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-  //     if (status !== 'granted') {
-  //       console.error('Permission to access media library was denied');
-  //       return;
-  //     }
-  //
-  //     const result = await ImagePicker.launchImageLibraryAsync({
-  //       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-  //       allowsEditing: true,
-  //       aspect: [1, 1],
-  //       quality: 1,
-  //     });
-  //
-  //
-  //     if (result && !result.canceled) {
-  //       const newAvatarUri = result.assets[0].uri;
-  //       setAvatarUri(newAvatarUri);
-  //       console.log('Avatar URI after update:', avatarUri);
-  //
-  //     } else {
-  //       console.log('Image picker was canceled');
-  //     }
-  //   } catch (error) {
-  //     console.error('Error during image picker:', error);
-  //   }
-  //
-  // };
+  const updateAvatarRequest = async (newAvatarUri) => {
+    const formData = new FormData();
+    formData.append('avatar', {
+      uri: newAvatarUri,
+      type: 'image/jpeg',
+      name: 'avatar.jpg',
+    });
 
+    const res = await fetch(`http://192.168.1.101:3000/api/v1/users/update`, {
+      method: 'PATCH',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      body: formData,
+    });
+    const updatedUser = await res.json();
+    setAvatarUri(updatedUser.avatar.url)
+  };
+
+
+
+  
   const selectImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -81,10 +69,14 @@ const CustomDrawerContent = (props) => {
     });
 
     if (!result.canceled) {
-      setSelectedImage(result)
+      setAvatarUri(result.assets[0].uri);
+      await updateAvatarRequest(result.assets[0].uri);
     }
-  }
+  };
 
+  useEffect(() => {
+    setAvatarUri(user.avatar.url);
+  }, [user.avatar.url]);
 
   return (
     <View style={styles.container}>
@@ -96,22 +88,23 @@ const CustomDrawerContent = (props) => {
 
 
         <View style={styles.userContainer}>
-            <Image
-              source={{ uri: user.avatar.url }}
-              style={{
-                width: 100,
-                height: 100,
-                borderRadius: 50,
-              }}
-            />
+          <Image
+            source={{ uri: avatarUri }}
+            style={{
+              width: 100,
+              height: 100,
+              borderRadius: 50,
+            }}
+          />
 
           <TouchableOpacity onPress={selectImage} >
-            <FontAwesome name="upload" size={20} color="white" />
+            <MaterialIcons name="add-a-photo" size={26} color="black" />
           </TouchableOpacity>
 
             <Text style={styles.userName}>{user.first_name}</Text>
             <Text style={styles.userEmail}>{user.email}</Text>
         </View>
+
         </ImageBackground>
 
         <DrawerItemList {...props} />
@@ -131,7 +124,7 @@ const CustomDrawerContent = (props) => {
 
 const Root = () => {
   return (
-    <Drawer.Navigator initialRouteName="Dashboard" drawerContent={CustomDrawerContent}>
+    <Drawer.Navigator initialRouteName="Message" drawerContent={CustomDrawerContent}>
 
       <Drawer.Screen
         name="Dashboard"
@@ -139,13 +132,13 @@ const Root = () => {
         options={{
           drawerLabelStyle: {
             fontSize: 20,
-            color: "black",
+            // color: "black",
           },
           drawerIcon: ({ color, size }) => (
             <MaterialIcons
               name="home"
               size={size}
-              // color={color}
+              color={color}
             />
           ),
         }}
@@ -218,22 +211,22 @@ const Root = () => {
         }}
       />
 
-      <Drawer.Screen
-        name="Help"
-        component={Help}
-        options={{
-          drawerLabelStyle: {
-            fontSize: 16,
-          },
-          drawerIcon: ({ color, size }) => (
-            <MaterialIcons
-              name="help"
-              size={size}
-              color={color}
-            />
-          ),
-        }}
-      />
+      {/*<Drawer.Screen*/}
+      {/*  name="Help"*/}
+      {/*  component={Help}*/}
+      {/*  options={{*/}
+      {/*    drawerLabelStyle: {*/}
+      {/*      fontSize: 16,*/}
+      {/*    },*/}
+      {/*    drawerIcon: ({ color, size }) => (*/}
+      {/*      <MaterialIcons*/}
+      {/*        name="help"*/}
+      {/*        size={size}*/}
+      {/*        color={color}*/}
+      {/*      />*/}
+      {/*    ),*/}
+      {/*  }}*/}
+      {/*/>*/}
 
       <Drawer.Screen
         name="Settings"
