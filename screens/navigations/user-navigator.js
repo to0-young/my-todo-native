@@ -42,10 +42,10 @@ const CustomDrawerContent = (props) => {
     formData.append('avatar', {
       uri: newAvatarUri,
       type: 'image/jpeg',
-      name: 'avatar.jpg',
+      name: '',
     });
 
-    const res = await fetch(`http://192.168.1.101:3000/api/v1/users/update`, {
+    const res = await fetch(`http://192.168.31.101:3000/api/v1/users/update`, {
       method: 'PATCH',
       credentials: 'include',
       headers: {
@@ -54,12 +54,10 @@ const CustomDrawerContent = (props) => {
       body: formData,
     });
     const updatedUser = await res.json();
-    setAvatarUri(updatedUser.avatar.url)
+    dispatch(actionCreator.updateUserAvatar(updatedUser.avatar.url));
+    setAvatarUri(updatedUser.avatar.url);
   };
 
-
-
-  
   const selectImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -68,19 +66,17 @@ const CustomDrawerContent = (props) => {
       quality: 1,
     });
 
+
     if (!result.canceled) {
       setAvatarUri(result.assets[0].uri);
+      dispatch(actionCreator.updateUserAvatar(result.assets[0].uri));
       await updateAvatarRequest(result.assets[0].uri);
     }
   };
 
-  useEffect(() => {
-    setAvatarUri(user.avatar.url);
-  }, [user.avatar.url]);
 
   return (
     <View style={styles.container}>
-
       <DrawerContentScrollView {...props} >
 
         <ImageBackground source={require('../images/sun-summer-blue-sky.jpg')}
@@ -89,7 +85,7 @@ const CustomDrawerContent = (props) => {
 
         <View style={styles.userContainer}>
           <Image
-            source={{ uri: avatarUri }}
+            source={{ uri: user.avatar.url }}
             style={{
               width: 100,
               height: 100,
