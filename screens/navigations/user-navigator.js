@@ -14,7 +14,6 @@ import actionCreator from "../store/action-creator";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Map from "../user/drawer/map/Map";
 import Details from "../user/drawer/weather/details";
-import Help from "../user/drawer/help/help";
 import Settings from "../user/drawer/settings/settings";
 import * as ImagePicker from 'expo-image-picker';
 
@@ -74,9 +73,6 @@ const CustomDrawerContent = (props) => {
     }
   };
 
-  useEffect(() => {
-    setAvatarUri(user.avatar.url);
-  }, [user.avatar.url]);
 
   return (
     <View style={styles.container}>
