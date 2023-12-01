@@ -40,10 +40,10 @@ const CustomDrawerContent = (props) => {
     formData.append('avatar', {
       uri: newAvatarUri,
       type: 'image/jpeg',
-      name: 'avatar.jpg',
+      name: '',
     });
 
-    const res = await fetch(`http://192.168.1.101:3000/api/v1/users/update`, {
+    const res = await fetch(`http://192.168.31.101:3000/api/v1/users/update`, {
       method: 'PATCH',
       credentials: 'include',
       headers: {
@@ -52,7 +52,8 @@ const CustomDrawerContent = (props) => {
       body: formData,
     });
     const updatedUser = await res.json();
-    setAvatarUri(updatedUser.avatar.url)
+    dispatch(actionCreator.updateUserAvatar(updatedUser.avatar.url));
+    setAvatarUri(updatedUser.avatar.url);
   };
 
 
@@ -64,8 +65,10 @@ const CustomDrawerContent = (props) => {
       quality: 1,
     });
 
+
     if (!result.canceled) {
       setAvatarUri(result.assets[0].uri);
+      dispatch(actionCreator.updateUserAvatar(result.assets[0].uri));
       await updateAvatarRequest(result.assets[0].uri);
     }
   };
@@ -73,7 +76,6 @@ const CustomDrawerContent = (props) => {
 
   return (
     <View style={styles.container}>
-
       <DrawerContentScrollView {...props} >
 
         <ImageBackground source={require('../images/sun-summer-blue-sky.jpg')}
