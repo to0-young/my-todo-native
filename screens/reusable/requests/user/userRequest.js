@@ -21,6 +21,9 @@ const createUserRequest = async (formData) => {
 //   return fetch('http://192.168.1.101:3000/api/v1/forget_passwords', {
 //     method: 'POST',
 //     credentials: 'include',
+//     body: formData,
+//   })
+// }
 //     headers: { 'Content-Type': 'application/json' },
 //     body: JSON.stringify({
 //       email

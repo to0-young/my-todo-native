@@ -25,7 +25,6 @@ const CustomDrawerContent = (props) => {
   const user = useSelector((state) => state.session.details.user);
   const [avatarUri, setAvatarUri] = useState(user.avatar.url)
 
-
   const onLogOut = async () => {
     const res = await logoutRequest()
     const json = await res.json()
@@ -57,6 +56,7 @@ const CustomDrawerContent = (props) => {
     setAvatarUri(updatedUser.avatar.url);
   };
 
+
   const selectImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -80,7 +80,6 @@ const CustomDrawerContent = (props) => {
 
         <ImageBackground source={require('../images/sun-summer-blue-sky.jpg')}
           style={styles.imageBackground}>
-
 
         <View style={styles.userContainer}>
           <Image
