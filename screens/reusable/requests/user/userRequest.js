@@ -17,13 +17,6 @@ const createUserRequest = async (formData) => {  // #work
 // }
 
 
-// const updateAvatarRequest = async (formData) => {  // #work
-//   return fetch('http://192.168.1.101:3000/api/v1/users', {
-//     method: 'PATCH',
-//     credentials: 'include',
-//     body: formData,
-//   })
-// }
 
 
 const forgetPasswordRequest = async (email) => {  // #work
@@ -247,7 +240,6 @@ const deleteMessageRequest = async (messageId) => {  // #work
 
 export {
   createUserRequest,
-  // updateAvatarRequest,
   forgetPasswordRequest,
   getTasksRequest,
     updateTaskRequest,
