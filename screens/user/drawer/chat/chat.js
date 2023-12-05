@@ -111,33 +111,36 @@ const Messages = () => {
       <MessageList
         data={reversedMessages}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item: message }) => (
-          <MessageContainer message={message} session={session}>
-            <MessageContent>
-              {message.user?.id === session.user?.id && (
-                <DeleteButton onPress={() => handleMessageDelete(message.id)}>
-                  <DeleteIcon name="delete" size={20} color="black" />
-                </DeleteButton>
-              )}
-              {message.user && (
-                <>
-                  <Image
-                    source={{ uri: message.user.avatar?.url }}
-                    style={{
-                      width: 40,
-                      height: 40,
-                      borderRadius: 20,
-                    }}
-                  />
-                  <UserName>{message.user.first_name}</UserName>
-                </>
-              )}
-              <MessageText>{message.body}</MessageText>
-            </MessageContent>
-          </MessageContainer>
-        )}
+        renderItem={({ item: message }) => {
+          if (!message.user) {
+            return null; // Skip rendering if user information is missing
+          }
+
+          return (
+            <MessageContainer message={message} session={session}>
+              <MessageContent>
+                {message.user.id === session.user?.id && (
+                  <DeleteButton onPress={() => handleMessageDelete(message.id)}>
+                    <DeleteIcon name="delete" size={20} color="black" />
+                  </DeleteButton>
+                )}
+                <Image
+                  source={{ uri: message.user.avatar?.url }}
+                  style={{
+                    width: 40,
+                    height: 40,
+                    borderRadius: 20,
+                  }}
+                />
+                <UserName>{message.user.first_name}</UserName>
+                <MessageText>{message.body}</MessageText>
+              </MessageContent>
+            </MessageContainer>
+          );
+        }}
         ref={bottomRef}
       />
+
 
 
       <MessageForm>
