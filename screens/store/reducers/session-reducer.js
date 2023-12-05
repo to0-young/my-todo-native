@@ -10,14 +10,15 @@ const defaultState = {
 export const sessionReducer = (state = defaultState, action) => {
     switch (action.type) {
         case actionTypes.getSessionSuccess:
-            return { ...state, fetched: true, loading: false, details: action.payload }
+            return { ...state, fetched: true, loading: false, details: action.payload };
         case actionTypes.getSessionError:
-            return { ...state, fetched: true, loading: false, details: null }
+            return { ...state, fetched: true, loading: false, details: null };
         case actionTypes.deleteSessionSuccess:
-            return { ...state, fetched: true, loading: false, details: null }
+            return { ...state, fetched: true, loading: false, details: null };
         case actionTypes.updateSessionSuccess:
-            return { ...state, details: action.payload }
+            return { ...state, details: { ...state.details, ...action.payload } };
+
         default:
-            return state
+            return state;
     }
-}
+};

@@ -32,10 +32,11 @@ export const MessageList = styled(FlatList).attrs({
 `;
 
 export const MessageContainer = styled(View)`
-  align-self: ${props => props.message?.user?.id === props.session?.user?.id ? 'flex-end' : 'flex-start'};
-  background-color: ${props => props.message?.user?.id === props.session?.user?.id ? 'rgba(86, 44, 44, 0.6)' : 'rgba(61, 114, 225, 0.85)'};
-  border-radius: ${props => props.message?.user?.id === props.session?.user?.id ? '10px 10px 0px 10px' : '10px 10px 10px 0px'};
-  padding: 5px 4px;
+  //flex-wrap: wrap;
+  align-self: ${props => props.message.user.id === props.session.user.id ? 'flex-end' : 'flex-start'};
+  background-color: ${props => props.message.user.id === props.session.user.id ? 'rgba(86,44,44,0.6)' : 'rgba(61,114,225,0.85)'};
+  border-radius: ${props => props.message.user.id === props.session.user.id ? '10px 10px 0px 10px' : '10px 10px 10px 0px'};
+  padding: 5px 4px 5px 4px;
   margin-top: 10px;
 `;
 

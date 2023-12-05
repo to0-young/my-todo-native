@@ -21,26 +21,27 @@ const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
 const CustomDrawerContent = (props) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.session.details.user);
-  const [avatarUri, setAvatarUri] = useState(user.avatar.url)
 
   const onLogOut = async () => {
-    const res = await logoutRequest()
-    const json = await res.json()
+    const res = await logoutRequest();
+    const json = await res.json();
 
     if (res.ok) {
-      dispatch(actionCreator.deleteSessionSuccess())
+      dispatch(actionCreator.deleteSessionSuccess());
     }
-    return json
-  }
+    return json;
+  };
 
   const updateAvatarRequest = async (newAvatarUri) => {
     const formData = new FormData();
+    const key = `avatar_${Date.now()}.jpg`;
+
     formData.append('avatar', {
       uri: newAvatarUri,
       type: 'image/jpeg',
-      name: 'avatar.jpg',
+      name: key,
     });
 
     const res = await fetch(`http://192.168.1.101:3000/api/v1/users/update`, {
@@ -51,8 +52,13 @@ const CustomDrawerContent = (props) => {
       },
       body: formData,
     });
+
+    if (!res.ok) {
+      throw new Error('Failed to update avatar');
+    }
+
     const updatedUser = await res.json();
-    setAvatarUri(updatedUser.avatar.url)
+    dispatch(actionCreator.updateSessionSuccess(updatedUser));
   };
 
 
@@ -64,39 +70,36 @@ const CustomDrawerContent = (props) => {
       quality: 1,
     });
 
-    if (!result.canceled) {
-      setAvatarUri(result.assets[0].uri);
-      await updateAvatarRequest(result.assets[0].uri);
+    if (!result.canceled && result.assets.length > 0) {
+      const selectedImage = result.assets[0];
+      await updateAvatarRequest(selectedImage.uri);
     }
   };
 
 
+
   return (
     <View style={styles.container}>
+      <DrawerContentScrollView {...props}>
+        <ImageBackground source={require('../images/sun-summer-blue-sky.jpg')} style={styles.imageBackground}>
+          <View style={styles.userContainer}>
+            <Image
+              key={user.id}
+              source={{ uri: user.avatar.url }}
+              style={{
+                width: 100,
+                height: 100,
+                borderRadius: 50,
+              }}
+            />
 
-      <DrawerContentScrollView {...props} >
-
-        <ImageBackground source={require('../images/sun-summer-blue-sky.jpg')}
-          style={styles.imageBackground}>
-
-        <View style={styles.userContainer}>
-          <Image
-            source={{ uri: user.avatar.url }}
-            style={{
-              width: 100,
-              height: 100,
-              borderRadius: 50,
-            }}
-          />
-
-          <TouchableOpacity onPress={selectImage} >
-            <MaterialIcons name="add-a-photo" size={26} color="black" />
-          </TouchableOpacity>
+            <TouchableOpacity onPress={selectImage}>
+              <MaterialIcons name="add-a-photo" size={26} color="black" />
+            </TouchableOpacity>
 
             <Text style={styles.userName}>{user.first_name}</Text>
             <Text style={styles.userEmail}>{user.email}</Text>
-        </View>
-
+          </View>
         </ImageBackground>
 
         <DrawerItemList {...props} />
@@ -108,10 +111,9 @@ const CustomDrawerContent = (props) => {
           <MaterialIcons name="logout" size={26} color="black" />
         </View>
       </TouchableWithoutFeedback>
-
     </View>
-  )
-}
+  );
+};
 
 
 const Root = () => {
