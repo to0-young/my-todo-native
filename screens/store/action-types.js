@@ -8,6 +8,8 @@ const actionTypes = {
     deleteTaskSuccess: 'DELETE_TASK_SUCCESS',
     getTaskSuccess: 'GET_TASK_SUCCESS',
     updateTaskSuccess: 'UPDATE_TASK_SUCCESS',
+
+    updateUserAvatar: 'UPDATE_USER_AVATAR',
 }
 
 export default actionTypes

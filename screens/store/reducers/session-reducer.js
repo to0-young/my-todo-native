@@ -5,6 +5,9 @@ const defaultState = {
     fetched: false,
     details: null,
     list: null,
+    user: {
+        avatarUri: '',
+    },
 }
 
 export const sessionReducer = (state = defaultState, action) => {
@@ -17,7 +20,6 @@ export const sessionReducer = (state = defaultState, action) => {
             return { ...state, fetched: true, loading: false, details: null };
         case actionTypes.updateSessionSuccess:
             return { ...state, details: { ...state.details, ...action.payload } };
-
         default:
             return state;
     }
