@@ -45,6 +45,7 @@ const CustomDrawerContent = (props) => {
     });
 
     const res = await fetch(`http://192.168.1.101:3000/api/v1/users/update`, {
+    // const res = await fetch(`http://192.161.101:3000/api/v1/users/update`, {
       method: 'PATCH',
       credentials: 'include',
       headers: {
@@ -76,7 +77,6 @@ const CustomDrawerContent = (props) => {
 
     }
   };
-
 
 
   return (
