@@ -16,7 +16,19 @@ export const sessionReducer = (state = defaultState, action) => {
         case actionTypes.deleteSessionSuccess:
             return { ...state, fetched: true, loading: false, details: null };
         case actionTypes.updateSessionSuccess:
-            return { ...state, details: { ...state.details, ...action.payload } };
+            return {
+                ...state,
+                details: {
+                    ...state.details,
+                    user: {
+                        ...state.details.user,
+                        avatar: {
+                            ...state.details.user.avatar,
+                            ...action.payload.avatar,
+                        },
+                    },
+                },
+            };
 
         default:
             return state;
