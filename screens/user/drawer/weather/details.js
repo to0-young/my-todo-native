@@ -27,8 +27,6 @@ export default function Details(props) {
     <Text style={{color: 'white', fontSize: 22, paddingHorizontal: 100}}>{value}</Text>
   </View>
 
-
-  console.log(data)
   return (
     <View style={styles.container}>
       <ImageBackground
