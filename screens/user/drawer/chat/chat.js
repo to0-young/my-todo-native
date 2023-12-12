@@ -38,9 +38,12 @@ const Messages = () => {
 
     fetchMessages();
 
-    // ws.current = new WebSocket(`http://192.168.31.101:3000/cable`); // Home
-    ws.current = new WebSocket(`http://192.168.1.101:3000/cable`); // Work
+    ws.current = new WebSocket(`http://192.168.31.101:3000/cable`); // Home
+    // ws.current = new WebSocket(`http://192.168.1.101:3000/cable`); // Work
+
+
     //
+ 
     ws.current.onopen = () => {
       ws.current.send(
         JSON.stringify({
