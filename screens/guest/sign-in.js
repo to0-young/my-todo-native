@@ -1,10 +1,22 @@
 import React, {useState} from 'react'
-import {View, Text, TextInput, StyleSheet, TouchableOpacity, ImageBackground,TouchableWithoutFeedback} from 'react-native'
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  ImageBackground,
+  TouchableWithoutFeedback,
+  Button
+} from 'react-native'
 import {useNavigation} from '@react-navigation/native'
 import {connect} from 'react-redux'
 import actionCreator from './../store/action-creator'
 import {loginRequest} from "../reusable/requests/session/sessionRequest";
 import {FontAwesome} from "@expo/vector-icons";
+// import {
+//   GoogleSignin,
+//   statusCodes,
+// } from '@react-native-google-signin/google-signin';
 
 const SignIn = (props) => {
   const navigation = useNavigation()
@@ -130,6 +142,24 @@ const SignIn = (props) => {
         <TouchableWithoutFeedback   onPress={() => navigation.navigate('ForgotPassword')}>
           <Text style={styles.forgotText}>Forgot password?</Text>
         </TouchableWithoutFeedback>
+
+        {/*<Button title={'Sign in with Google'} onPress={() =>  {*/}
+        {/*  GoogleSignin.configure({*/}
+        {/*    androidClientId: 'ADD_YOUR_ANDROID_CLIENT_ID_HERE',*/}
+        {/*    iosClientId: 'ADD_YOUR_iOS_CLIENT_ID_HERE',*/}
+        {/*  });*/}
+        {/*  GoogleSignin.hasPlayServices().then((hasPlayService) => {*/}
+        {/*    if (hasPlayService) {*/}
+        {/*      GoogleSignin.signIn().then((userInfo) => {*/}
+        {/*        console.log(JSON.stringify(userInfo))*/}
+        {/*      }).catch((e) => {*/}
+        {/*        console.log("ERROR IS: " + JSON.stringify(e));*/}
+        {/*      })*/}
+        {/*    }*/}
+        {/*  }).catch((e) => {*/}
+        {/*    console.log("ERROR IS: " + JSON.stringify(e));*/}
+        {/*  })*/}
+        {/*}} />*/}
       </ImageBackground>
     </View>
 
