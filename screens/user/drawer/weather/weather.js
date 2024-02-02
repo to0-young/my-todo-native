@@ -9,16 +9,15 @@ import {
   FlatList,
   KeyboardAvoidingView,
   Alert,
+  Platform,
 } from 'react-native';
-import {connect} from "react-redux";
-import actionCreator from "../../../store/action-creator";
-import Icon from "react-native-vector-icons/Ionicons";
-import Cards from "./cards";
-import {API_KEY} from "./constants";
-
+import {connect} from "react-redux"
+import actionCreator from "../../../store/action-creator"
+import Icon from "react-native-vector-icons/Ionicons"
+import Cards from "./cards"
+import {API_KEY} from "./constants"
 
 const Weather = (props) => {
-
   const [city, setCity] = useState('')
   const [error, setError] = useState(null)
 
@@ -74,7 +73,6 @@ const Weather = (props) => {
               <Cards name={item.name} image={item.image} navigation={props.navigation}/>
             )}
           />
-
           <View style={styles.searchContainer}>
             <TextInput
               value={city}
@@ -113,7 +111,6 @@ const Weather = (props) => {
     </View>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -168,7 +165,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
 });
-
 
 const ConnectedWeather = connect(null, actionCreator)(Weather);
 export default ConnectedWeather;
