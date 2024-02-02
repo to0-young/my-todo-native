@@ -8,18 +8,8 @@
 // }
 
 
-
-const createUserRequest = async (formData) => {
-  return fetch('http://192.168.31.101:3000/api/v1/users', { // Home
-    method: 'POST',
-    credentials: 'include',
-    body: formData,
-  })
-}
-
-
-// const forgetPasswordRequest = async (email) => {  // #work
-//   return fetch('http://192.168.1.101:3000/api/v1/forget_passwords', 
+// const createUserRequest = async (formData) => {  // #work
+//   return fetch('http://192.168.1.101:3000/api/v1/users', {
 //     method: 'POST',
 //     credentials: 'include',
 //     body: formData,
@@ -31,7 +21,6 @@ const createUserRequest = async (formData) => {
 //     }),
 //   })
 // }
-
 
 
 const createUserRequest = async (formData) => {
@@ -55,6 +44,21 @@ const createUserRequest = async (formData) => {
 //     }),
 //   })
 // }
+//
+
+const forgetPasswordRequest = async (email) => {
+  return fetch('http://192.168.31.101:3000/api/v1/forget_passwords', { // Home
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+    email
+    }),
+  })
+}
+
+//
+
 
 
 const forgetPasswordRequest = async (email) => {
@@ -148,13 +152,6 @@ const getTasksRequest = async (page, orderAsc, fieldType) => { // Home
     );
 }
 
-
-
-
-// const updateTaskRequest = async (taskId, completed) => {  // #work
-//     const res = await fetch(`http://192.168.1.101:3000/api/v1/tasks/${taskId}`, {
-//         method: 'PATCH',
-
 const updateTaskRequest = async (taskId, completed) => { // Home
     const res = await fetch(`http://192.168.31.101:3000/api/v1/tasks/${taskId}`, {
         method: 'PATCH',
@@ -186,7 +183,6 @@ const updateTaskRequest = async (taskId, completed) => { // Home
 const deleteTaskRequest = async (taskId) => { // Home
     const res = await fetch(`http://192.168.31.101:3000/api/v1/tasks/${taskId}`, {
         method: 'DELETE',
-
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -195,7 +191,6 @@ const deleteTaskRequest = async (taskId) => { // Home
     });
     return await res.json();
 };
-
 
 
 // const deleteTaskRequest = async (taskId) => {  // #work
@@ -209,6 +204,7 @@ const deleteTaskRequest = async (taskId) => { // Home
 
 
 
+
 // const fetchEditTask = async (taskId) => {  // #work
 //   const res = await fetch(`http://192.168.1.101:3000/api/v1/tasks/${taskId}`, {
 //     method: "GET",
@@ -217,7 +213,6 @@ const deleteTaskRequest = async (taskId) => { // Home
 //   });
 //   return await res.json();
 // };
-
 
 const deleteTaskRequest = async (taskId) => { // Home
     const res = await fetch(`http://192.168.31.101:3000/api/v1/tasks/${taskId}`, {
@@ -273,15 +268,11 @@ const fetchEditTask = async (taskId) => { // Home
 const updateEditTask = async (task) => { // Home
   const res = await fetch(`http://192.168.31.101:3000/api/v1/tasks/${task.id}`, {
     method: "PATCH",
-
     credentials: "include",
     headers: { "Content-Type": "application/json" },
   });
   return await res.json();
 };
-
-
-
 
 
 // const updateEditTask = async (task) => {  // #work
@@ -304,7 +295,7 @@ const updateEditTask = async (task) => { // Home
 
 //   });
 // }
-
+  
 const updateEditTask = async (task) => { // Home
   const res = await fetch(`http://192.168.31.101:3000/api/v1/tasks/${task.id}`, {
     method: "PATCH",
@@ -337,6 +328,14 @@ const fetchMessagesApi = async () => { // Home
     });
 }
 
+
+const fetchMessagesApi = async () => { // Home
+   return  fetch(`http://192.168.31.101:3000/messages`, {
+      method: 'GET',
+      credentials: 'include',
+      headers: {'Content-Type': 'application/json'},
+    });
+}
 
 
 
@@ -405,7 +404,6 @@ const sendMessageRequest = async (msg, firstName) => { // Home
 const deleteMessageRequest = async (messageId) => { // Home
   return fetch(`http://192.168.31.101:3000/messages/${messageId}`, {
     method: 'DELETE',
-
     credentials: 'include',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({

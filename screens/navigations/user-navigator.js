@@ -63,7 +63,6 @@ const CustomDrawerContent = (props) => {
 
   };
 
-
   const selectImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -77,7 +76,6 @@ const CustomDrawerContent = (props) => {
 
     }
   };
-
 
 
   return (
@@ -118,7 +116,6 @@ const CustomDrawerContent = (props) => {
   );
 };
 
-
 const Root = () => {
   return (
     <Drawer.Navigator initialRouteName="Message" drawerContent={CustomDrawerContent}>
@@ -129,7 +126,6 @@ const Root = () => {
         options={{
           drawerLabelStyle: {
             fontSize: 20,
-            // color: "black",
           },
           drawerIcon: ({ color, size }) => (
             <MaterialIcons
@@ -140,7 +136,6 @@ const Root = () => {
           ),
         }}
       />
-
       <Drawer.Screen
         name="NewTask"
         component={NewTask}
@@ -173,7 +168,6 @@ const Root = () => {
           ),
         }}
       />
-
       <Drawer.Screen
         name="Map"
         component={Map}
@@ -208,23 +202,6 @@ const Root = () => {
         }}
       />
 
-      {/*<Drawer.Screen*/}
-      {/*  name="Help"*/}
-      {/*  component={Help}*/}
-      {/*  options={{*/}
-      {/*    drawerLabelStyle: {*/}
-      {/*      fontSize: 16,*/}
-      {/*    },*/}
-      {/*    drawerIcon: ({ color, size }) => (*/}
-      {/*      <MaterialIcons*/}
-      {/*        name="help"*/}
-      {/*        size={size}*/}
-      {/*        color={color}*/}
-      {/*      />*/}
-      {/*    ),*/}
-      {/*  }}*/}
-      {/*/>*/}
-
       <Drawer.Screen
         name="Settings"
         component={Settings}
@@ -241,7 +218,6 @@ const Root = () => {
           ),
         }}
       />
-
     </Drawer.Navigator>
   );
 }
@@ -265,7 +241,6 @@ const UserNavigator = () => {
     </Stack.Navigator>
   )
 };
-
 
 export default UserNavigator;
 
