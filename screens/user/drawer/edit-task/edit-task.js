@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -12,16 +12,12 @@ import {connect, useSelector} from "react-redux";
 import actionCreator from "../../../store/action-creator";
 import Spinner from "../../../reusable/spiner";
 import {useRoute} from "@react-navigation/native";
-import { DateTimePickerAndroid } from '@react-native-community/datetimepicker'
+import {DateTimePickerAndroid} from '@react-native-community/datetimepicker'
 import {fetchEditTask, updateEditTask} from "../../../reusable/requests/user/userRequest";
 
-
-
 const EditTask = (props) => {
-
   const route = useRoute();
   const {taskId} = route.params;
-
   const received = useSelector((state) => state.task.received)
   const [currentMode, setCurrentMode] = useState('date')
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -39,7 +35,6 @@ const EditTask = (props) => {
     priority: '',
     dueDate: '',
   })
-
 
   const onValidation = () => {
     let valid = true
@@ -61,7 +56,6 @@ const EditTask = (props) => {
     }
     return valid
   }
-
 
   const onEditTask = async (e) => {
     e.preventDefault();
@@ -115,11 +109,9 @@ const EditTask = (props) => {
     showMode('time');
   };
 
-
   useEffect(() => {
     getTask();
   }, []);
-
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || task.dueDate;
@@ -153,28 +145,23 @@ const EditTask = (props) => {
 
   if (received === false) return <Spinner/>
 
-
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContent}>
       <View>
         <View style={styles.form}>
-
           {error.title ? <Text style={styles.error}>{error.title}</Text> : null}
-
           <TextInput
             value={task.title}
             placeholder='Title'
             onChangeText={changeTitle}
             style={styles.input}
           />
-
           <TextInput
             value={task.description}
             onChangeText={changeDescription}
             placeholder='Description'
             style={styles.input}
           />
-
           <TextInput
             value={task.priority.toString()}
             style={[styles.input, styles.priorityInput]}
@@ -182,36 +169,31 @@ const EditTask = (props) => {
             onChangeText={changePriority}
             type={'number'}
           />
-
-            <TouchableOpacity
-              style={[styles.button, styles.showPickerButton]}
-              onPress={showTimepicker}
-            >
-              <Text style={styles.showPickerText}>Show time </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={[styles.button, styles.showPickerButton]}
-              onPress={showDatepicker}
-            >
-              <Text style={styles.showPickerText}>Show date </Text>
-            </TouchableOpacity>
-
-            <Text style={styles.dateText}>{task.dueDate.toLocaleString()}</Text>
-
-            {showDatePicker && (
-              <DateTimePickerAndroid
-                value={task.dueDate}
-                mode={currentMode}
-                is24Hour={true}
-                display="default"
-                onChange={onChange}
-              />
-            )}
+          <TouchableOpacity
+            style={[styles.button, styles.showPickerButton]}
+            onPress={showTimepicker}
+          >
+            <Text style={styles.showPickerText}>Show time </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.button, styles.showPickerButton]}
+            onPress={showDatepicker}
+          >
+            <Text style={styles.showPickerText}>Show date </Text>
+          </TouchableOpacity>
+          <Text style={styles.dateText}>{task.dueDate.toLocaleString()}</Text>
+          {showDatePicker && (
+            <DateTimePickerAndroid
+              value={task.dueDate}
+              mode={currentMode}
+              is24Hour={true}
+              display="default"
+              onChange={onChange}
+            />
+          )}
           <TouchableOpacity onPress={onEditTask} style={styles.buttonSave}>
             <Text style={styles.buttonText}>Save</Text>
           </TouchableOpacity>
-
         </View>
       </View>
     </ScrollView>

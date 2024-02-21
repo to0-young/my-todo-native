@@ -1,7 +1,6 @@
 import React from 'react';
 import {View, Text, ImageBackground, TouchableOpacity} from 'react-native';
 
-
 export function Cards({name, image, navigation}) {
   return (
     <TouchableOpacity onPress={() => navigation.navigate('Details', {name})}

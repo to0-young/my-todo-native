@@ -40,7 +40,6 @@ export const MessageContainer = styled(View)`
   margin-top: 10px;
 `;
 
-
 export const MessageContent = styled(View)` 
   flex-direction: row;
   width: 69%;
@@ -59,7 +58,6 @@ export const DeleteButton = styled(TouchableOpacity)`
 export const UserName = styled(Text)`
   padding: 10px 0px 0px 10px;
 `;
-
 
 export const MessageInput = styled(TextInput)`
   flex: 1;

@@ -9,7 +9,6 @@ const defaultState = {
         avatarUri: '',
     },
 }
-
 export const sessionReducer = (state = defaultState, action) => {
     switch (action.type) {
         case actionTypes.getSessionSuccess:
