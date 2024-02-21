@@ -44,8 +44,8 @@ const CustomDrawerContent = (props) => {
       name: key,
     });
 
-    const res = await fetch(`http://192.168.1.101:3000/api/v1/users/update`, {
-    // const res = await fetch(`http://192.161.101:3000/api/v1/users/update`, {
+    // const res = await fetch(`http://192.168.1.101:3000/api/v1/users/update`, {
+    const res = await fetch(`http://192.168.31.101:3000/api/v1/users/update`, {
       method: 'PATCH',
       credentials: 'include',
       headers: {
@@ -59,7 +59,8 @@ const CustomDrawerContent = (props) => {
     }
 
     const updatedUser = await res.json();
-    dispatch(actionCreator.updateSessionSuccess(updatedUser));
+    dispatch(actionCreator.updateSessionSuccess(updatedUser))
+
   };
 
   const selectImage = async () => {
@@ -69,15 +70,16 @@ const CustomDrawerContent = (props) => {
       aspect: [4, 3],
       quality: 1,
     });
-
     if (!result.canceled && result.assets.length > 0) {
       const selectedImage = result.assets[0];
       await updateAvatarRequest(selectedImage.uri);
+
     }
   };
 
+
   return (
-    <View style={styles.container}>
+    <View style={styles.container
       <DrawerContentScrollView {...props}>
         <ImageBackground source={require('../images/sun-summer-blue-sky.jpg')} style={styles.imageBackground}>
           <View style={styles.userContainer}>
@@ -94,6 +96,7 @@ const CustomDrawerContent = (props) => {
             <TouchableOpacity onPress={selectImage}>
               <MaterialIcons name="add-a-photo" size={26} color="black" />
             </TouchableOpacity>
+
 
             <Text style={styles.userName}>{user.first_name}</Text>
             <Text style={styles.userEmail}>{user.email}</Text>
