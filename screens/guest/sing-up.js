@@ -4,27 +4,21 @@ import {useNavigation} from '@react-navigation/native'
 import {createUserRequest} from '../reusable/requests/user/userRequest'
 import * as ImagePicker from 'expo-image-picker';
 
-
 function SignUp() {
-
   const navigation = useNavigation()
   const [selectedImage, setSelectedImage] = React.useState(null);
-
-
   const [user, changeUser] = React.useState({
     firstName: '',
     lastName: '',
     email: '',
     password: '',
   })
-
   const [error, changeError] = React.useState({
     firstName: '',
     lastName: '',
     email: '',
     password: '',
   })
-
 
   const onValidate = () => {
     return () => {
@@ -39,29 +33,24 @@ function SignUp() {
         valid = false
         newError.firstName = 'Your first name should be between 3 and 15 characters'
       }
-
       if (user.lastName.length < 3 || user.lastName.length > 15) {
         valid = false
         newError.lastName = 'Your last name should be between 3 and 15 characters'
       }
-
       if (user.email.length < 8 || user.email.length > 30) {
         valid = false
         newError.email = 'Your email should be between 8 and 30 characters'
       }
-
       if (user.password.length < 1) {
         valid = false
         newError.password = 'Sorry your password is too short'
       }
-
       if (!valid) {
         changeError(newError)
       }
       return valid
     }
   }
-
 
   const onSignUp = async (e) => {
     e.preventDefault()
@@ -98,7 +87,6 @@ function SignUp() {
     })
   }
 
-
   const selectImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -106,16 +94,13 @@ function SignUp() {
       aspect: [4, 3],
       quality: 1,
     });
-
     if (!result.canceled) {
       setSelectedImage(result)
     }
   }
 
-
   const createUser = async () => {
     const formData = new FormData()
-
     formData.append('avatar', selectedImage)
     formData.append('first_name', user.firstName);
     formData.append('last_name', user.lastName);
@@ -145,7 +130,6 @@ function SignUp() {
     return json;
   };
 
-
   return (
     <View style={styles.container}>
 
@@ -154,9 +138,7 @@ function SignUp() {
         style={styles.imageBackground}
         resizeMode="cover"
       >
-
         <Text style={styles.title}>Sign up</Text>
-
         <TouchableWithoutFeedback  onPress={selectImage}>
           <Text style={styles.avaText}>Avatar</Text>
         </TouchableWithoutFeedback>
@@ -164,7 +146,6 @@ function SignUp() {
         {selectedImage && (
           <Image source={{uri: selectedImage.uri}} style={styles.selectedImage}/>
         )}
-
         <TextInput
           style={styles.input}
           placeholder="First name"
@@ -181,7 +162,6 @@ function SignUp() {
         />
         {error.lastName ? <Text style={styles.error}>{error.lastName}</Text> : null}
 
-
         <TextInput
           style={styles.input}
           placeholder="Email"
@@ -189,7 +169,6 @@ function SignUp() {
           onChangeText={onChangeEmail}
         />
         {error.email ? <Text style={styles.error}>{error.email}</Text> : null}
-
 
         <TextInput
           style={styles.input}
@@ -200,10 +179,8 @@ function SignUp() {
         />
         {error.password ? <Text style={styles.error}>{error.password}</Text> : null}
 
-
         <TouchableWithoutFeedback
           onPress={onSignUp}>
-
           <Text style={styles.createText}>
             Creates
           </Text>

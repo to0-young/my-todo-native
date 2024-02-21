@@ -5,5 +5,4 @@ const actionCreator = {
     ...sessionActions,
     ...taskActions,
 }
-
 export default actionCreator

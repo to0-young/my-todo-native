@@ -6,17 +6,12 @@ import {
   StyleSheet,
   ImageBackground,
   TouchableWithoutFeedback,
-  Button
 } from 'react-native'
 import {useNavigation} from '@react-navigation/native'
 import {connect} from 'react-redux'
 import actionCreator from './../store/action-creator'
 import {loginRequest} from "../reusable/requests/session/sessionRequest";
 import {FontAwesome} from "@expo/vector-icons";
-// import {
-//   GoogleSignin,
-//   statusCodes,
-// } from '@react-native-google-signin/google-signin';
 
 const SignIn = (props) => {
   const navigation = useNavigation()
@@ -39,21 +34,17 @@ const SignIn = (props) => {
       email: '',
       password: '',
     }
-
     if (user.email.length < 8) {
       valid = false;
       appError.email = 'Sorry your email is too short'
     }
-
     if (user.password.length < 1) {
       valid = false;
       appError.password = 'Sorry your password is too short'
     }
-
     if (!valid) {
       setError(appError)
     }
-
     return valid
   }
 
@@ -78,16 +69,13 @@ const SignIn = (props) => {
     })
   }
 
-
   const onLogIn = async () => {
     const res = await loginRequest(user.email, user.password);
-
     if (res.ok) {
       const data = await res.json()
       props.getSessionSuccess(data)
     }
   };
-
 
   return (
     <View style={styles.container}>
@@ -96,9 +84,7 @@ const SignIn = (props) => {
         style={styles.imageBackground}
         resizeMode="cover"
       >
-
         <FontAwesome name="lock" size={80} color="white" style={{ marginBottom: 40 }} />
-
         <TextInput
           value={user.email}
           onChangeText={onChangeEmail}
@@ -124,13 +110,10 @@ const SignIn = (props) => {
         >
           <Text style={styles.signInText}>Sign In</Text>
         </TouchableWithoutFeedback>
-
-
         <View style={styles.containerLink}>
           <Text
             style={styles.dontHaveAccount}>Don't have an account ? {''}
           </Text>
-
           <TouchableWithoutFeedback onPress={() => navigation.navigate('SignUp')}>
             <Text
               style={styles.createOne}>
@@ -138,32 +121,11 @@ const SignIn = (props) => {
             </Text>
           </TouchableWithoutFeedback>
         </View>
-
         <TouchableWithoutFeedback   onPress={() => navigation.navigate('ForgotPassword')}>
           <Text style={styles.forgotText}>Forgot password?</Text>
         </TouchableWithoutFeedback>
-
-        {/*<Button title={'Sign in with Google'} onPress={() =>  {*/}
-        {/*  GoogleSignin.configure({*/}
-        {/*    androidClientId: 'ADD_YOUR_ANDROID_CLIENT_ID_HERE',*/}
-        {/*    iosClientId: 'ADD_YOUR_iOS_CLIENT_ID_HERE',*/}
-        {/*  });*/}
-        {/*  GoogleSignin.hasPlayServices().then((hasPlayService) => {*/}
-        {/*    if (hasPlayService) {*/}
-        {/*      GoogleSignin.signIn().then((userInfo) => {*/}
-        {/*        console.log(JSON.stringify(userInfo))*/}
-        {/*      }).catch((e) => {*/}
-        {/*        console.log("ERROR IS: " + JSON.stringify(e));*/}
-        {/*      })*/}
-        {/*    }*/}
-        {/*  }).catch((e) => {*/}
-        {/*    console.log("ERROR IS: " + JSON.stringify(e));*/}
-        {/*  })*/}
-        {/*}} />*/}
       </ImageBackground>
     </View>
-
-
   )
 }
 

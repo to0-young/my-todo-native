@@ -1,18 +1,16 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
   StyleSheet,
   ScrollView,
   TextInput,
-  SafeAreaView,
   TouchableOpacity,
   ImageBackground
 } from 'react-native';
 import {connect} from "react-redux";
 import actionCreator from "../../../store/action-creator";
 import {DateTimePickerAndroid} from "@react-native-community/datetimepicker";
-// import {useRoute} from "@react-navigation/native";
 
 const NewTask = (props) => {
   // const route = useRoute();
@@ -28,14 +26,12 @@ const NewTask = (props) => {
     dueDate: new Date(),
   })
 
-
   const [error, setError] = React.useState({
     title: '',
     description: '',
     priority: '',
     dueDate: '',
   })
-
 
   const onValidation = () => {
     let valid = true
@@ -58,14 +54,12 @@ const NewTask = (props) => {
     return valid
   }
 
-
   const onChangeTitle = (title) => {
     setTask({
       ...task,
       title: title,
     });
   };
-
 
   const changeDescription = (description) => {
     setTask({
@@ -105,7 +99,6 @@ const NewTask = (props) => {
     showMode('time');
   };
 
-
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || task.dueDate;
     setShowDatePicker(false);
@@ -122,7 +115,6 @@ const NewTask = (props) => {
       await postTask();
     }
   };
-
 
   const postTask = async () => {
     // const res = await fetch('http://192.168.1.101:3000/api/v1/tasks', { // Work
@@ -144,22 +136,17 @@ const NewTask = (props) => {
     return json
   }
 
-
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContent}>
-
       <ImageBackground
         source={require('../../.././images/1.jpg')}
         style={styles.imageBackground}
       >
-
         <Text style={styles.headerText}>You`re welcome </Text>
         <Text style={styles.headerText}>Create your first tasks </Text>
 
         <View style={styles.form}>
-
           {error.title ? <Text style={styles.error}>{error.title}</Text> : null}
-
           <TextInput
             value={task.title}
             placeholder='Title'
@@ -215,7 +202,6 @@ const NewTask = (props) => {
     </ScrollView>
   )
 };
-
 
 const styles = StyleSheet.create({
   scrollViewContent: {

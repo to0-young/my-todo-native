@@ -27,10 +27,9 @@ export default function Details(props) {
     <Text style={{color: 'white', fontSize: 22, paddingHorizontal: 100}}>{value}</Text>
   </View>
 
-
-  console.log(data)
   return (
     <View style={styles.container}>
+
       <ImageBackground
         source={require('../../../images/sun-summer-blue-sky.jpg')}
         style={styles.imageBackground}
@@ -39,7 +38,6 @@ export default function Details(props) {
       <View style={styles.contText}>
         {data ? (
           <View style={styles.centeredText}>
-
             <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
               <Icon name="chevron-back" size={35} color={'#000000'}/>
             </TouchableOpacity>

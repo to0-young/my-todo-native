@@ -82,7 +82,6 @@ const Messages = () => {
     };
   }, []);
 
-
   const handleMessageChange = (text) => {
     setMsg(text);
   }
@@ -107,7 +106,6 @@ const Messages = () => {
       <ChatHeader>
         <HeaderText>Messages</HeaderText>
       </ChatHeader>
-
       <MessageList
         data={reversedMessages}
         keyExtractor={(item) => item.id.toString()}
@@ -115,7 +113,6 @@ const Messages = () => {
           if (!message.user) {
             return null; // Skip rendering if user information is missing
           }
-
           return (
             <MessageContainer message={message} session={session}>
               <MessageContent>
@@ -140,9 +137,6 @@ const Messages = () => {
         }}
         ref={bottomRef}
       />
-
-
-
       <MessageForm>
         <MessageInput
           value={msg}
@@ -159,7 +153,6 @@ const Messages = () => {
     </Container>
   );
 }
-
 
 const ConnectedMessages = connect(null, actionCreator)(Messages);
 export default ConnectedMessages;

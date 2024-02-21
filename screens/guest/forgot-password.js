@@ -57,7 +57,6 @@ function ForgotPassword() {
     }
   };
 
-
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -65,7 +64,6 @@ function ForgotPassword() {
         style={styles.imageBackground}
         resizeMode="cover"
       >
-
         <Text style={styles.title}>Trouble logging in?</Text>
         <Text style={styles.description}>
           Enter your email, and we'll send you a link to get back into your account.
@@ -78,7 +76,6 @@ function ForgotPassword() {
           placeholder="Email"
           keyboardType="email-address"
         />
-
 
         {error.email !== '' && <Text style={styles.error}>{error.email}</Text>}
 
